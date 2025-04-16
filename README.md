@@ -1,86 +1,54 @@
-# Pabs HQ
+# React + TypeScript + Vite
 
-Crypto’s First Chain-Centric Utility Hub — Built for Abstract Chain
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Building the most useful and unfiltered hub in crypto — something no other chain has.
-Part intel desk, part tool stack, part degen playground — all powered by $PABS.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🔧 Core Features of Pabs HQ
+## Expanding the ESLint configuration
 
-- Real-time alpha & chain intel  
-- Research tools & dashboards  
-- Abstract AI chatbot  
-- Onchain leaderboards & profiles  
-- Coin-specific forums & threads  
-- XP rewards for engaging  
-- Thesis publishing & tipping  
-- Community challenges & comps  
-- Project collabs & pre-launch perks  
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-**All powered by $PABS**
-
----
-
-## ⚙️ Tech Stack
-- React / Next.js (Framer UI)
-- Vercel for hosting
-- GitHub for version control
-- Markdown / MDX for content (maybe)
-- AI Tools & Telegram integration planned
-
----
-
-## 🧪 How to Run Locally
-
-Clone the repo and start the dev server:
-
-```bash
-git clone https://github.com/pabshq/pabs-hq.git
-cd pabs-hq
-npm install
-npm run dev
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-Then open `http://localhost:3000` in your browser.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-> Make sure you have **Node.js v18+** installed.
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
----
-
-## 🤝 Contributing
-
-We’re building Pabs HQ in public — and if you’ve got ideas, code, or feedback, we’re keen to hear it.
-
-### 🧷 How to Contribute
-
-1. **Fork** this repo  
-2. **Clone** your fork locally  
-3. Create a new branch:  
-   ```
-   git checkout -b your-feature-name
-   ```
-4. Make your changes and **commit** them:  
-   ```
-   git commit -m "Add your message here"
-   ```
-5. **Push** to your fork:  
-   ```
-   git push origin your-feature-name
-   ```
-6. Submit a **Pull Request** and describe what you added or changed
-
----
-
-### 📬 Suggestions & Feedback
-
-If you’ve got a feature idea or bug report, open a GitHub **Issue**. Use tags like `feature request`, `bug`, or `question` to help us sort through it.
-
----
-
-### 🛠 Devs Welcome
-
-Pabs HQ is being built by degens, for degens. Whether you're into front-end, back-end, or meme-fueled design systems — if you're keen to build, reach out or just start pushing code.
-
-All contributions are powered by $PABS.
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
