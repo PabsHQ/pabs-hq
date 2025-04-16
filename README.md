@@ -32,9 +32,12 @@ Building the most useful and unfiltered hub in crypto — something no other cha
 ---
 
 ## 🧪 How to Run Locally
-> _Once live code is added, insert setup steps like:_
+
+Clone the repo and start the dev server:
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/pabs-hq.git
+git clone https://github.com/pabshq/pabs-hq.git
 cd pabs-hq
 npm install
 npm run dev
+
