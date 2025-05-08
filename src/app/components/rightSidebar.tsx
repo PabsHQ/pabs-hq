@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import Image from "next/image";
+import Avatar from "./avatar";
 
 export default function RightSidebar() {
   const { login } = useLoginWithAbstract();
   const { address, isConnected, isConnecting } = useAccount();
   return (
-    <div className="flex-[0.3] h-full">
+    <div className="flex-[0.3] h-full min-w-[297px]">
       <div className="flex flex-col h-full w-full gap-[12px]">
         <div
-          className={`flex-[0.1] max-h-[62px] w-full bg-[#2B3342] rounded-[8px] p-[9px] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${
+          className={`flex-[0.1] max-h-[62px] w-full bg-[#2B3342] rounded-[8px] p-[12px] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${
             isConnected ? "justify-start" : "justify-center"
           } items-center text-center cursor-pointer flex`}
           onClick={() => {
@@ -44,7 +46,7 @@ export default function RightSidebar() {
           {!isConnected && !isConnecting && <span>Connect Wallet</span>}
           {isConnected && (
             <div className="flex flex-col w-full h-full gap-[6px] items-start justify-start">
-              <span className="text-[#A9A9A9] font-bold text-[14px] text-start">
+              <span className="text-[#A9A9A9] font-bold text-[12px] text-start">
                 Wallet Connected
               </span>
               <div className="flex w-full h-full gap-[10px] items-center text-[12px]">
@@ -64,12 +66,12 @@ export default function RightSidebar() {
             </div>
           )}
         </div>
-        <div className="flex-[1] w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
-          <div className="flex w-full justify-between items-center">
+        <div className="flex-[1] overflow-y-auto w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
+          <div className="flex w-full flex-col gap-[4px] justify-between items-center">
             <span className="text-[18px] font-semibold text-[#000] text-[16px]">
               YUP NFT IS LIVE!
             </span>
-            <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[10px] cursor-pointer">
+            <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[12px] cursor-pointer text-white transition-all duration-300 hover:scale-105">
               LEARN MORE
             </span>
           </div>
@@ -80,11 +82,57 @@ export default function RightSidebar() {
             height={400}
             alt="Sidebar placeholder"
           />
-          <div className="flex w-full h-full flex-col gap-[12px]">
+          <div className="flex w-full h-full flex-col gap-[20px]">
             <span className="text-[19px] font-semibold text-[#000]">
               Staff Picks
             </span>
-            <div className="flex flex-col w-full gap-[16px]">test</div>
+            <div className="flex flex-col w-full gap-[16px]">
+              {Array(4)
+                .fill(0)
+                .map((_item: any, index: number) => {
+                  return (
+                    <>
+                      <Avatar
+                        small={true}
+                        key={index}
+                        image={"/images/avatarPlaceholder.png"}
+                        headerText="Who TF is Retsba?"
+                        subText="Software developer"
+                      />
+                      {index < 3 && <hr className="w-full h-[1px]" />}
+                    </>
+                  );
+                })}
+            </div>
+            <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
+              See All
+            </span>
+          </div>
+          <div className="flex w-full h-full flex-col gap-[20px]">
+            <span className="text-[19px] font-semibold text-[#000]">
+              Staff Picks
+            </span>
+            <div className="flex flex-col w-full gap-[16px]">
+              {Array(4)
+                .fill(0)
+                .map((_item: any, index: number) => {
+                  return (
+                    <>
+                      <Avatar
+                        small={true}
+                        key={index}
+                        image={"/images/avatarPlaceholder.png"}
+                        headerText="Who TF is Retsba?"
+                        subText="Software developer"
+                      />
+                      {index < 3 && <hr className="w-full h-[1px]" />}
+                    </>
+                  );
+                })}
+            </div>
+            <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
+              See All
+            </span>
           </div>
         </div>
       </div>
