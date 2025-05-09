@@ -66,73 +66,75 @@ export default function RightSidebar() {
             </div>
           )}
         </div>
-        <div className="flex-[1] overflow-y-auto w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
-          <div className="flex w-full flex-col gap-[4px] justify-between items-center">
-            <span className="text-[18px] font-semibold text-[#000] text-[16px]">
-              YUP NFT IS LIVE!
-            </span>
-            <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[12px] cursor-pointer text-white transition-all duration-300 hover:scale-105">
-              LEARN MORE
-            </span>
-          </div>
-          <Image
-            src="/images/placeholder1sidebar.png"
-            layout="responsive"
-            width={700}
-            height={400}
-            alt="Sidebar placeholder"
-          />
-          <div className="flex w-full h-full flex-col gap-[20px]">
-            <span className="text-[19px] font-semibold text-[#000]">
-              Staff Picks
-            </span>
-            <div className="flex flex-col w-full gap-[16px]">
-              {Array(4)
-                .fill(0)
-                .map((_item: any, index: number) => {
-                  return (
-                    <>
-                      <Avatar
-                        small={true}
-                        key={index}
-                        image={"/images/avatarPlaceholder.png"}
-                        headerText="Who TF is Retsba?"
-                        subText="Software developer"
-                      />
-                      {index < 3 && <hr className="w-full h-[1px]" />}
-                    </>
-                  );
-                })}
+        <div className="flex-[1] overflow-y-hidden w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)]">
+          <div className="flex flex-col gap-[20px] overflow-y-auto w-full pr-[4px]">
+            <div className="flex w-full flex-col gap-[4px] justify-between items-center">
+              <span className="text-[18px] font-semibold text-[#000] text-[16px]">
+                YUP NFT IS LIVE!
+              </span>
+              <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[12px] cursor-pointer text-white transition-all duration-300 hover:scale-105">
+                LEARN MORE
+              </span>
             </div>
-            <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
-              See All
-            </span>
-          </div>
-          <div className="flex w-full h-full flex-col gap-[20px]">
-            <span className="text-[19px] font-semibold text-[#000]">
-              Staff Picks
-            </span>
-            <div className="flex flex-col w-full gap-[16px]">
-              {Array(4)
-                .fill(0)
-                .map((_item: any, index: number) => {
-                  return (
-                    <>
-                      <Avatar
-                        small={true}
-                        key={index}
-                        image={"/images/avatarPlaceholder.png"}
-                        headerText="Who TF is Retsba?"
-                        subText="Software developer"
-                      />
-                      {index < 3 && <hr className="w-full h-[1px]" />}
-                    </>
-                  );
-                })}
+            <Image
+              src="/images/placeholder1sidebar.png"
+              layout="responsive"
+              width={700}
+              height={400}
+              alt="Sidebar placeholder"
+            />
+            <div className="flex w-full h-full flex-col gap-[20px]">
+              <span className="text-[19px] font-semibold text-[#000]">
+                Staff Picks
+              </span>
+              <div className="flex flex-col w-full gap-[16px]">
+                {Array(3)
+                  .fill(0)
+                  .map((_item: any, index: number) => {
+                    return (
+                      <>
+                        <Avatar
+                          small={true}
+                          key={index}
+                          image={"/images/avatarPlaceholder.png"}
+                          headerText="Who TF is Retsba?"
+                          subText="Software developer"
+                        />
+                        {index < 3 && <hr className="w-full h-[1px]" />}
+                      </>
+                    );
+                  })}
+              </div>
+              <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
+                See All
+              </span>
             </div>
-            <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
-              See All
-            </span>
+            <div className="flex w-full h-full flex-col gap-[20px]">
+              <span className="text-[19px] font-semibold text-[#000]">
+                Staff Picks
+              </span>
+              <div className="flex flex-col w-full gap-[16px]">
+                {Array(3)
+                  .fill(0)
+                  .map((_item: any, index: number) => {
+                    return (
+                      <>
+                        <Avatar
+                          small={true}
+                          key={index}
+                          image={"/images/avatarPlaceholder.png"}
+                          headerText="Who TF is Retsba?"
+                          subText="Software developer"
+                        />
+                        {index < 3 && <hr className="w-full h-[1px]" />}
+                      </>
+                    );
+                  })}
+              </div>
+              <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
+                See All
+              </span>
+            </div>
           </div>
         </div>
       </div>

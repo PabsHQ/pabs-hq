@@ -27,10 +27,6 @@ export default function PresaleBanner() {
           Buy Presale
         </button>
       </div>
-
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 opacity-30">
-        <Image src="/sparkles.svg" alt="sparkles" width={96} height={96} />
-      </div>
     </div>
   );
 }
