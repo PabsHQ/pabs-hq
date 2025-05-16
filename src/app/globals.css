@@ -71,3 +71,76 @@ body {
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+blockquote {
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-left: 4px solid #ccc; /* Customize the color as needed */
+  font-style: italic;
+  color: #000;
+}
+
+blockquote p {
+  margin: 0;
+  padding-left: 10px;
+}
+
+code {
+  padding: 2px 4px;
+  background-color: #f5f5f5;
+  color: #d6336c; /* You can change this to any color you like */
+  border-radius: 4px;
+  font-size: 0.9rem; /* Adjust font size as needed */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Style for unordered lists */
+ul {
+  padding-left: 20px;
+  list-style-type: disc; /* You can change this to circle, square, or another value */
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+/* Style for ordered lists */
+ol {
+  padding-left: 20px;
+  list-style-type: decimal; /* Change this if you prefer Roman numerals, etc. */
+}
+
+ol li {
+  margin-bottom: 5px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-active {
+  background-color: grey; /* Highlight active state */
+  color: white;
+  border-color: grey;
+}
