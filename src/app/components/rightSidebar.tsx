@@ -43,7 +43,7 @@ export default function RightSidebar() {
               ></path>
             </svg>
           )}
-          {!isConnected && !isConnecting && <span>Connect Wallet</span>}
+          {!isConnected && !isConnecting && <span className="text-[#fff]">Connect Wallet</span>}
           {isConnected && (
             <div className="flex flex-col w-full h-full gap-[6px] items-start justify-start">
               <span className="text-[#A9A9A9] font-bold text-[12px] text-start">
