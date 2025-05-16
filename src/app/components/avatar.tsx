@@ -24,6 +24,7 @@ export default function Avatar({
       <Image
         height={small ? 30 : 48}
         width={small ? 30 : 48}
+        className="rounded-full object-cover"
         src={image}
         alt="avatar"
       />

@@ -4,10 +4,36 @@ import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import Avatar from "./avatar";
+import { useEffect, useState } from "react";
+import { NewsItem } from "../interfaces/newsDto.model";
+import Spinner from "./spinner";
+import Link from "next/link";
 
 export default function RightSidebar() {
   const { login } = useLoginWithAbstract();
   const { address, isConnected, isConnecting } = useAccount();
+
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchNews() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/getNews?limit=4");
+        if (!res.ok) throw new Error("Failed to fetch news");
+        const data = await res.json();
+        console.log(data, "lol");
+        setNews(data.news || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNews();
+  }, []);
+
   return (
     <div className="flex-[0.3] h-full min-w-[297px]">
       <div className="flex flex-col h-full w-full gap-[12px]">
@@ -21,29 +47,10 @@ export default function RightSidebar() {
             }
           }}
         >
-          {isConnecting && !isConnected && (
-            <svg
-              className="animate-spin h-4 w-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-              ></path>
-            </svg>
+          {isConnecting && !isConnected && <Spinner />}
+          {!isConnected && !isConnecting && (
+            <span className="text-[#fff]">Connect Wallet</span>
           )}
-          {!isConnected && !isConnecting && <span className="text-[#fff]">Connect Wallet</span>}
           {isConnected && (
             <div className="flex flex-col w-full h-full gap-[6px] items-start justify-start">
               <span className="text-[#A9A9A9] font-bold text-[12px] text-start">
@@ -67,7 +74,7 @@ export default function RightSidebar() {
           )}
         </div>
         <div className="flex-[1] overflow-y-hidden w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)]">
-          <div className="flex flex-col gap-[20px] overflow-y-auto w-full pr-[4px]">
+          <div className="flex flex-col gap-[20px] overflow-y-auto w-full pr-[4px] h-full">
             <div className="flex w-full flex-col gap-[4px] justify-between items-center">
               <span className="text-[18px] font-semibold text-[#000] text-[16px]">
                 YUP NFT IS LIVE!
@@ -88,7 +95,7 @@ export default function RightSidebar() {
                 Staff Picks
               </span>
               <div className="flex flex-col w-full gap-[16px]">
-                {Array(3)
+                {Array(4)
                   .fill(0)
                   .map((_item: any, index: number) => {
                     return (
@@ -105,35 +112,35 @@ export default function RightSidebar() {
                     );
                   })}
               </div>
-              <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
+              {/* <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
                 See All
-              </span>
+              </span> */}
             </div>
             <div className="flex w-full h-full flex-col gap-[20px]">
               <span className="text-[19px] font-semibold text-[#000]">
-                Staff Picks
+                Latst Articles
               </span>
               <div className="flex flex-col w-full gap-[16px]">
-                {Array(3)
-                  .fill(0)
-                  .map((_item: any, index: number) => {
+                {loading && <Spinner />}
+                {!loading &&
+                  news.map((item: NewsItem, index: number) => {
                     return (
-                      <>
+                      <Link
+                        key={index}
+                        href={`/news/${item.id}`}
+                        className="flex flex-col gap-[8px]"
+                      >
                         <Avatar
                           small={true}
-                          key={index}
-                          image={"/images/avatarPlaceholder.png"}
-                          headerText="Who TF is Retsba?"
-                          subText="Software developer"
+                          image={item.editor.avatarUrl}
+                          headerText={item.title}
+                          subText={item.editor.usernameSubtitle}
                         />
                         {index < 3 && <hr className="w-full h-[1px]" />}
-                      </>
+                      </Link>
                     );
                   })}
               </div>
-              <span className="flex justify-center items-center mx-[8px] px-[16px] py-[8px] bg-[#6A8DFF] rounded-full font-semibold cursor-pointer text-white transition-all duration-300 hover:scale-105">
-                See All
-              </span>
             </div>
           </div>
         </div>

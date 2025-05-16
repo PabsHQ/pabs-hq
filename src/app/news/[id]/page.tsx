@@ -4,17 +4,18 @@ import LeftSidebar from "@/app/components/leftSidebar";
 import RightSidebar from "@/app/components/rightSidebar";
 import { NewsItem } from "@/app/interfaces/newsDto.model";
 import { Metadata } from "next";
+import PresaleBanner from "@/app/components/banner";
+import Image from "next/image";
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, ""); // remove all HTML tags
 }
 
 type Props = {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}
-export async function generateMetadata( { params }: Props
-): Promise<Metadata> {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const doc = await firestore.collection("news").doc(id).get();
 
@@ -56,12 +57,27 @@ export default async function NewsPage({ params }: Props) {
     <div className="h-screen w-screen p-[20px]">
       <div className="lg:flex gap-[16px] flex-row w-full h-full hidden">
         <LeftSidebar />
+        <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
+          <PresaleBanner />
 
-        <div
-          className="flex-1 overflow-y-auto pr-4 text-[#000]"
-          dangerouslySetInnerHTML={{ __html: newsItem?.content }}
-        />
-
+          <div className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0">
+            <h1 className="font-bold text-black text-center">
+              {newsItem?.title}
+            </h1>
+            <div className="relative w-full rounded-[40px] overflow-hidden p-[20px] my-[20px]" style={{height: '311px'}}>
+              <Image
+                src={newsItem.banner}
+                layout="fill"
+                objectFit="cover" // optional but usually desired with fill
+                alt="banner"
+              />
+            </div>
+            <div
+              className="flex-1 overflow-y-auto pr-4 text-[#000]"
+              dangerouslySetInnerHTML={{ __html: newsItem?.content }}
+            />
+          </div>
+        </div>
         <RightSidebar />
       </div>
 
