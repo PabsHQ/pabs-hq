@@ -18,6 +18,7 @@ export default function MainContent() {
       try {
         const res = await fetch("/api/getNews");
         const data = await res.json();
+        console.log(data, "lol");
         if (res.ok) {
           setNewsItems(data.news);
         } else {
@@ -73,8 +74,26 @@ export default function MainContent() {
                     )}
                   </div>
                   <div className="flex flex-col gap-[10px] justify-start items-start mt-[10px]">
-                    <span className="inline-block text-[10px] px-[8px] py-[4px] font-semibold bg-orange-100 text-orange-700 rounded-full uppercase">
-                      {item.newsType}
+                    <span
+                      className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
+                        item.newsType === "lore"
+                          ? "bg-[#FF937A]"
+                          : item.newsType === "theBuzz"
+                          ? "bg-[#FFD46F]"
+                          : item.newsType === "chainNews"
+                          ? "bg-[#1BFE90]"
+                          : "bg-[#FF937A]"
+                      } text-white rounded-full uppercase`}
+                    >
+                      {item.newsType === "chainNews"
+                        ? "chain news"
+                        : item.newsType === "theBuzz"
+                        ? "the buzz"
+                        : item.newsType === "trenches"
+                        ? "trenches"
+                        : item.newsType === "lore"
+                        ? "lore"
+                        : "playbook"}
                     </span>
                     <span className="font-semibold text-black text-[18px] line-clamp-2">
                       {item.title}
