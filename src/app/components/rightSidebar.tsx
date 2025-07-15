@@ -23,7 +23,6 @@ export default function RightSidebar() {
         const res = await fetch("/api/getNews?limit=4");
         if (!res.ok) throw new Error("Failed to fetch news");
         const data = await res.json();
-        console.log(data, "lol");
         setNews(data.news || []);
       } catch (err) {
         console.error(err);
@@ -84,10 +83,11 @@ export default function RightSidebar() {
               </span>
             </div>
             <Image
-              src="/images/placeholder1sidebar.png"
+              src="/images/banner2.jpeg"
               layout="responsive"
               width={700}
               height={400}
+              className="rounded-[8px]"
               alt="Sidebar placeholder"
             />
             <div className="flex w-full h-full flex-col gap-[20px]">
