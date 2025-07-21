@@ -44,7 +44,7 @@ export default function Home() {
       setCanView(true);
       fetchEditorData();
     }
-  }, [address]);
+  }, [address, ALLOWED_WALLET_LIST]);
 
   const fetchEditorData = async () => {
     try {

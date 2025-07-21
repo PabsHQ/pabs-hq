@@ -4,7 +4,6 @@ import LeftSidebar from "@/app/components/leftSidebar";
 import RightSidebar from "@/app/components/rightSidebar";
 import { NewsItem } from "@/app/interfaces/newsDto.model";
 import { Metadata } from "next";
-import PresaleBanner from "@/app/components/banner";
 import Image from "next/image";
 
 function stripHtml(html: string) {
