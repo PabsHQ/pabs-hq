@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function PresaleBanner() {
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden flex items-center px-6 bg-black text-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] min-h-[197px]">
+    <div className="relative aspect-[690/311] w-full rounded-2xl overflow-hidden flex items-center px-6 bg-black text-white drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
       <Image
         src="/images/banner.jpeg"
         alt="Wizard Presale"

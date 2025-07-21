@@ -47,9 +47,7 @@ export default function RightSidebar() {
           }}
         >
           {isConnecting && !isConnected && <Spinner />}
-          {!isConnected && !isConnecting && (
-            <span>Connect Wallet</span>
-          )}
+          {!isConnected && !isConnecting && <span>Connect Wallet</span>}
           {isConnected && (
             <div className="flex flex-col w-full h-full gap-[6px] items-start justify-start">
               <span className="text-[#A9A9A9] font-bold text-[12px] text-start">
@@ -76,7 +74,7 @@ export default function RightSidebar() {
           <div className="flex flex-col gap-[20px] overflow-y-auto w-full pr-[4px] h-full">
             <div className="flex w-full flex-col gap-[4px] justify-between items-center">
               <span className="text-[18px] font-semibold text-[#000] text-[16px]">
-                YUP NFT IS LIVE!
+                SKIP NFT&apos;S ARE LIVE!
               </span>
               <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[12px] cursor-pointer text-white transition-all duration-300 hover:scale-105">
                 LEARN MORE

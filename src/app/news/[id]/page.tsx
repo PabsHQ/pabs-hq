@@ -58,34 +58,32 @@ export default async function NewsPage({ params }: Props) {
       <div className="lg:flex gap-[16px] flex-row w-full h-full hidden">
         <LeftSidebar />
         <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
-          <PresaleBanner />
-
           <div className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0">
             <h1 className="font-bold text-black text-center">
               {newsItem?.title}
             </h1>
-            <div className="relative w-full rounded-[40px] overflow-hidden p-[20px] my-[20px]" style={{height: '311px'}}>
-              <Image
-                src={newsItem.banner}
-                layout="fill"
-                objectFit="cover" // optional but usually desired with fill
-                alt="banner"
-              />
+
+            <div className="flex-1 overflow-y-auto pr-4 text-[#000]">
+              <div className="relative w-full aspect-[764/280] rounded-[40px] overflow-hidden my-[20px]">
+                <Image
+                  src={newsItem.banner}
+                  fill
+                  className="object-cover"
+                  alt="banner"
+                />
+              </div>
+              <div
+                className=""
+                dangerouslySetInnerHTML={{ __html: newsItem?.content }}
+              ></div>
             </div>
-            <div
-              className="flex-1 overflow-y-auto pr-4 text-[#000]"
-              dangerouslySetInnerHTML={{ __html: newsItem?.content }}
-            />
           </div>
         </div>
         <RightSidebar />
       </div>
 
       {/* Mobile display */}
-      <div className="lg:hidden gap-[16px] flex-row w-full h-full flex">
-        {/* Main Content (Middle) */}
-        <div className="flex-1">Test</div>
-      </div>
+      <div className="lg:hidden gap-[16px] flex-row w-full h-full flex">Yo</div>
     </div>
   );
 }
