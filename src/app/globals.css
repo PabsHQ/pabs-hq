@@ -144,3 +144,7 @@ ol li {
   color: white;
   border-color: grey;
 }
+
+.swiper-wrapper {
+  padding: 8px 0;
+}

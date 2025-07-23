@@ -4,10 +4,11 @@
 import Image from "next/image";
 import PresaleBanner from "./banner";
 import Avatar from "./avatar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
+import FilterSwiper from "./filterSwiper";
 
 export default function MainContent() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
@@ -16,6 +17,8 @@ export default function MainContent() {
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
   const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -39,6 +42,21 @@ export default function MainContent() {
       }
     };
     fetchNews();
+  }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    return () => {
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,21 +85,6 @@ export default function MainContent() {
     e.nativeEvent.preventDefault();
   };
 
-  const displayText = (text: string) => {
-    switch (text) {
-      case "chainNews":
-        return "Chain News";
-      case "theBuzz":
-        return "The Buzz";
-      case "trenches":
-        return "Trenches";
-      case "lore":
-        return "lore";
-      default:
-        return "Playbook";
-    }
-  };
-
   const selectNewsType = (text: string) => {
     if (selectedNewsType === text) setSelectedNewsType("");
     else setSelectedNewsType(text);
@@ -92,43 +95,34 @@ export default function MainContent() {
       <PresaleBanner />
       {/* White box layout */}
       <div className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]">
-        {categories && categories.length > 0 && (
-          <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
-            {categories.map((item: string, id: number) => (
-              <div
-                onClick={() => selectNewsType(item)}
-                className={`${
-                  selectedNewsType === item
-                    ? "bg-[#3EEE99] text-white hover:bg-green-300"
-                    : "bg-white text-black hover:bg-gray-100"
-                } rounded-[12px] w-full h-[40px] flex justify-center items-center font-semibold cursor-pointer  hover:shadow-md transition-all duration-300 `}
-                key={id}
-                style={{ boxShadow: "2px 2px 5px rgba(8, 15, 52, 0.18)" }}
-              >
-                {displayText(item)}
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="flex w-full" ref={containerRef}>
+          <FilterSwiper
+            categories={categories}
+            selectedNewsType={selectedNewsType}
+            selectNewsType={(e: string) => selectNewsType(e)}
+            containerWidth={containerWidth}
+          />
+        </div>
+
         {newsItems.length < 1 && <Spinner />}
         {/* Grid container with scrolling */}
         {newsItems.length > 0 && (
-          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(280px,1fr))] w-full overflow-y-auto min-h-0">
+          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(252px,1fr))] w-full overflow-y-auto min-h-0">
             {(selectedNewsType === "" ? newsItems : filteredNews).map(
               (item: NewsItem, id: number) => (
                 <div
                   onClick={() => handleTileClick(item.id)}
                   key={item.id}
-                  className="bg-white rounded-xl overflow-hidden shadow-md p-[12px] min-h-[250px] cursor-pointer"
+                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md p-[12px] min-h-[310px] xl:min-h-[250px] cursor-pointer"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
-                  <div className="w-full h-[143px] xl:h-[160px] relative">
+                  <div className="w-full h-[160px] xl:h-[120px] relative">
                     <Image
                       src={item.banner}
                       alt="Article preview"
-                      fill
-                      className="object-cover rounded-[8px] object-center"
+                      layout="fill"
+                      className="rounded-[8px] block relative"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
@@ -151,7 +145,7 @@ export default function MainContent() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-[10px] justify-start items-start mt-[10px]">
+                  <div className="flex flex-col gap-[7px] justify-start items-start mt-[10px]">
                     <span
                       className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
                         item.newsType === "lore"
@@ -173,7 +167,7 @@ export default function MainContent() {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <span className="font-semibold text-black text-[18px] line-clamp-2">
+                    <span className="font-semibold text-black text-[17px] relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
                       {item.title}
                     </span>
                     <Avatar
