@@ -34,7 +34,7 @@ export default function RightSidebar() {
   }, []);
 
   return (
-    <div className="flex-[0.3] h-full min-w-[297px]">
+    <div className="flex-[0.2] h-full min-w-[297px]">
       <div className="flex flex-col h-full w-full gap-[12px]">
         <div
           className={`flex-[0.1] text-black duration-500 hover:text-white hover:shadow-lg max-h-[62px] w-full bg-[linear-gradient(104deg,_#74ffde_1.18%,_#00de73_25.31%,_#41f09c_49.78%,_#03d26e_74.75%,_#00c466_96.83%)] rounded-[8px] p-[12px] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${

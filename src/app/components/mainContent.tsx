@@ -122,7 +122,7 @@ export default function MainContent() {
                       src={item.banner}
                       alt="Article preview"
                       layout="fill"
-                      className="rounded-[8px] block relative"
+                      className="rounded-[8px] block relative object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />

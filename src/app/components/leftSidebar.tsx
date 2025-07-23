@@ -47,7 +47,7 @@ export default function LeftSidebar() {
   const { logout } = useLoginWithAbstract();
   const { isConnected } = useAccount();
   return (
-    <div className="flex-[0.3] h-full min-w-[255px]">
+    <div className="flex-[0.2] h-full min-w-[255px]">
       <div className="flex flex-col h-full w-full gap-[12px]">
         <div className="flex-[1] overflow-y-auto w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-between items-center pl-[8%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
           <Link href="/" className="self-start">
