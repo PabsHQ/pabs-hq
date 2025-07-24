@@ -104,6 +104,7 @@ export default function RightSidebar() {
                           image={"/images/avatarPlaceholder.png"}
                           headerText="Who TF is Retsba?"
                           subText="Software developer"
+                          banner={false}
                         />
                         {index < 3 && <hr className="w-full h-[1px]" />}
                       </>
@@ -116,7 +117,7 @@ export default function RightSidebar() {
             </div>
             <div className="flex w-full h-full flex-col gap-[20px]">
               <span className="text-[19px] font-semibold text-[#000]">
-                Latst Articles
+                Latest Articles
               </span>
               <div className="flex flex-col w-full gap-[16px]">
                 {loading && <Spinner />}
@@ -130,9 +131,10 @@ export default function RightSidebar() {
                       >
                         <Avatar
                           small={true}
-                          image={item.editor.avatarUrl}
+                          image={item.banner}
                           headerText={item.title}
                           subText={item.editor.usernameSubtitle}
+                          banner={true}
                         />
                         {index < 3 && <hr className="w-full h-[1px]" />}
                       </Link>

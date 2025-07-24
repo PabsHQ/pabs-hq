@@ -94,8 +94,11 @@ export default function MainContent() {
     <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
       <PresaleBanner />
       {/* White box layout */}
-      <div className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]">
-        <div className="flex w-full" ref={containerRef}>
+      <div
+        className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]"
+        ref={containerRef}
+      >
+        <div className="flex w-full">
           <FilterSwiper
             categories={categories}
             selectedNewsType={selectedNewsType}
@@ -174,7 +177,7 @@ export default function MainContent() {
                       small
                       image={item.editor.avatarUrl}
                       headerText={item.editor.username}
-                      subText={item.editor.usernameSubtitle}
+                      banner={false}
                     />
                   </div>
                 </div>

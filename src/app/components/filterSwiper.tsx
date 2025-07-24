@@ -35,7 +35,9 @@ export default function FilterSwiper({
     <div className="w-full overflow-hidden px-4">
       <div
         className=" mx-auto"
-        style={{ width: containerWidth ? `calc(${containerWidth}px - 100px)` : "100%" }}
+        style={{
+          width: containerWidth ? `calc(${containerWidth}px - 100px)` : "100%",
+        }}
       >
         <Swiper
           speed={200}
@@ -59,7 +61,7 @@ export default function FilterSwiper({
                     selectedNewsType === categoryName
                       ? "bg-[#3EEE99] text-white hover:bg-green-300"
                       : "bg-white text-black hover:bg-gray-100 rounded-[12px] w-full h-[40px] flex justify-center items-center font-semibold cursor-pointer  hover:shadow-md transition-all duration-300 "
-                  } rounded-[12px] w-full min-w-[160px] h-[40px] flex justify-center items-center font-semibold cursor-pointer shadow-md hover:shadow-md transition-all duration-300 `}
+                  } rounded-[12px] w-full min-w-[190px] h-[40px] flex justify-center items-center font-semibold cursor-pointer shadow-md hover:shadow-md transition-all duration-300`}
                 >
                   {displayText(categoryName)}
                 </div>
