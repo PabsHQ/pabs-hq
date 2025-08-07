@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { firestore } from "../../../../lib/firebaseAdmin";
 import LeftSidebar from "@/app/components/leftSidebar";
-import RightSidebar from "@/app/components/rightSidebar";
 import { NewsItem } from "@/app/interfaces/newsDto.model";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -78,7 +77,7 @@ export default async function NewsPage({ params }: Props) {
             </div>
           </div>
         </div>
-        <RightSidebar />
+        {/* <RightSidebar /> */}
       </div>
 
       {/* Mobile display */}

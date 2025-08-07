@@ -37,13 +37,15 @@ export async function POST(req: Request) {
     await fileUpload.makePublic();
 
     // Generate the public URL for the file
-    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+    const publicUrl = `https://storage.googleapis.com/${
+      bucket.name
+    }/${fileName}?t=${Date.now()}`;
 
     const docRef = firestore.collection("editors").doc(walletAddress);
     await docRef.set({
       avatarUrl: publicUrl,
       username: username,
-      usernameSubtitle: usernameSubtitle
+      usernameSubtitle: usernameSubtitle,
     });
 
     // Return the response with the file URL
@@ -68,7 +70,10 @@ export async function GET(req: Request) {
   try {
     // Check if the walletAddress is provided in the query parameters
     if (!walletAddress) {
-      return NextResponse.json({ error: "walletAddress is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "walletAddress is required" },
+        { status: 400 }
+      );
     }
 
     // Fetch the editor document from Firestore
@@ -89,6 +94,9 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Failed to fetch the editor" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch the editor" },
+      { status: 500 }
+    );
   }
 }

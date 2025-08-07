@@ -4,34 +4,19 @@ import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import Avatar from "./avatar";
-import { useEffect, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import Link from "next/link";
+interface NewsPageProps {
+  news: NewsItem[];
+}
 
-export default function RightSidebar() {
+export default function RightSidebar({ news }: NewsPageProps) {
   const { login } = useLoginWithAbstract();
   const { address, isConnected, isConnecting } = useAccount();
 
-  const [news, setNews] = useState<NewsItem[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchNews() {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/getNews?limit=4");
-        if (!res.ok) throw new Error("Failed to fetch news");
-        const data = await res.json();
-        setNews(data.news || []);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchNews();
-  }, []);
+  // const newsSpliced = news.splice(0,4);
+  // console.log(newsSpliced, 'lol')
 
   return (
     <div className="flex-[0.2] h-full min-w-[297px]">
@@ -97,17 +82,19 @@ export default function RightSidebar() {
                   .fill(0)
                   .map((_item: any, index: number) => {
                     return (
-                      <>
+                      <div
+                        key={index}
+                        className="flex flex-col gap-[4px] w-full"
+                      >
                         <Avatar
                           small={true}
-                          key={index}
                           image={"/images/avatarPlaceholder.png"}
                           headerText="Who TF is Retsba?"
                           subText="Software developer"
                           banner={false}
                         />
                         {index < 3 && <hr className="w-full h-[1px]" />}
-                      </>
+                      </div>
                     );
                   })}
               </div>
@@ -120,9 +107,9 @@ export default function RightSidebar() {
                 Latest Articles
               </span>
               <div className="flex flex-col w-full gap-[16px]">
-                {loading && <Spinner />}
-                {!loading &&
-                  news.map((item: NewsItem, index: number) => {
+                {news.length < 1 && <Spinner />}
+                {news.length > 0 &&
+                  news.slice(0, 4).map((item: NewsItem, index: number) => {
                     return (
                       <Link
                         key={index}

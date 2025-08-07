@@ -6,43 +6,31 @@ import PresaleBanner from "./banner";
 import Avatar from "./avatar";
 import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
-import { useRouter } from "next/navigation";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
+import Link from "next/link";
+interface NewsPageProps {
+  news: NewsItem[];
+  banner: string;
+}
 
-export default function MainContent() {
+export default function MainContent({ news, banner }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
-  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const res = await fetch("/api/getNews");
-        const data = await res.json();
-        if (res.ok) {
-          const news: NewsItem[] = data.news;
-          setNewsItems(news);
-          const categoriesArray: string[] = [];
-          news.forEach((element) => {
-            categoriesArray.push(element.newsType);
-          });
-          const uniqueCategories = [...new Set(categoriesArray)];
-          setCategories(uniqueCategories);
-        } else {
-          console.error("❌ Error fetching news:", data.error);
-        }
-      } catch (err) {
-        console.error("❌ Fetch failed:", err);
-      }
-    };
-    fetchNews();
-  }, []);
+    if (!news) return;
+    setNewsItems(news);
+    const uniqueCategories = [
+      ...new Set(news.map((element) => element.newsType)),
+    ];
+    setCategories(uniqueCategories);
+  }, [news]);
 
   useEffect(() => {
     const measure = () => {
@@ -74,10 +62,6 @@ export default function MainContent() {
     setShowLikeButton(id);
   };
 
-  const handleTileClick = (id: string) => {
-    router.push(`/news/${id}`);
-  };
-
   const handleLikeClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,7 +76,7 @@ export default function MainContent() {
 
   return (
     <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
-      <PresaleBanner />
+      <PresaleBanner banner={banner} />
       {/* White box layout */}
       <div
         className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]"
@@ -110,17 +94,17 @@ export default function MainContent() {
         {newsItems.length < 1 && <Spinner />}
         {/* Grid container with scrolling */}
         {newsItems.length > 0 && (
-          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(252px,1fr))] w-full overflow-y-auto min-h-0">
+          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] w-full overflow-y-auto min-h-0">
             {(selectedNewsType === "" ? newsItems : filteredNews).map(
               (item: NewsItem, id: number) => (
-                <div
-                  onClick={() => handleTileClick(item.id)}
+                <Link
+                  href={`/news/${item.id}`}
                   key={item.id}
-                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md p-[12px] min-h-[310px] xl:min-h-[250px] cursor-pointer"
+                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md min-h-[310px] xl:min-h-[250px] cursor-pointer flex flex-col gap-[8px]"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
-                  <div className="w-full h-[160px] xl:h-[120px] relative">
+                  <div className="w-full relative flex-grow">
                     <Image
                       src={item.banner}
                       alt="Article preview"
@@ -148,7 +132,7 @@ export default function MainContent() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-[7px] justify-start items-start mt-[10px]">
+                  <div className="flex flex-col gap-[7px] justify-start items-start p-[8px]">
                     <span
                       className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
                         item.newsType === "lore"
@@ -180,7 +164,7 @@ export default function MainContent() {
                       banner={false}
                     />
                   </div>
-                </div>
+                </Link>
               )
             )}
           </div>

@@ -37,13 +37,19 @@ export default function Avatar({
           />
         </div>
       ) : (
-        <Image
-          height={small ? 30 : 48}
-          width={small ? 30 : 48}
-          className="rounded-full object-cover"
-          src={image}
-          alt="avatar"
-        />
+        <div
+          className={`rounded-full overflow-hidden ${
+            small ? "w-8 h-8" : "w-12 h-12"
+          }`}
+        >
+          <Image
+            src={image}
+            alt="avatar"
+            width={small ? 32 : 48}
+            height={small ? 32 : 48}
+            className="object-cover"
+          />
+        </div>
       )}
       <div className="flex flex-col gap-[4px] justify-start items-start max-w-[80%]">
         <span

@@ -6,12 +6,20 @@ import AvatarUpload from "../components/avatarUpload";
 import { useAccount } from "wagmi";
 import NewsBanner from "../components/bannerUpload";
 
+const ALLOWED_WALLET_LIST = [
+  "0xDD0c431bf168eAC19ED23a338429F32261B787A0", // jorganite
+  "0x7C3C6Fb006F630F400676bfd73998B9F69aa3b98", // ikleman
+  "0x2B6F42915844d827563547da951cBaAA4e753939", // mirco
+  "0x78D81911643c2D076Dfd1468Cd9a81b44c16F114", //0xnecro
+];
+
 export default function Home() {
   const { address } = useAccount();
   const [canView, setCanView] = useState<boolean>(false);
   const [post, setPost] = useState("");
   const [adminAvatar, setAdminAvatar] = useState<any>(null);
   const [newsBanner, setNewsBanner] = useState<any>(null);
+  const [homepageBanner, setHomepageBanner] = useState<any>(null);
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("");
   const [usernameSubtitle, setUsernameSubtitle] = useState("");
@@ -23,19 +31,26 @@ export default function Home() {
     setSelectedNewsType(e.target.value);
   };
 
-  const ALLOWED_WALLET_LIST = [
-    "0xDD0c431bf168eAC19ED23a338429F32261B787A0", // jorganite
-    "0x7C3C6Fb006F630F400676bfd73998B9F69aa3b98", // ikleman
-    "0x2B6F42915844d827563547da951cBaAA4e753939", // mirco
-    "0x78D81911643c2D076Dfd1468Cd9a81b44c16F114", //0xnecro
-  ];
-
   useEffect(() => {
-    if (!adminAvatar || !newsBanner || !title || !username || !selectedNewsType || !usernameSubtitle)
+    if (
+      !adminAvatar ||
+      !newsBanner ||
+      !title ||
+      !username ||
+      !selectedNewsType ||
+      !usernameSubtitle
+    )
       return;
 
     setDisabled(false);
-  }, [adminAvatar, newsBanner, title, username, usernameSubtitle, selectedNewsType]);
+  }, [
+    adminAvatar,
+    newsBanner,
+    title,
+    username,
+    usernameSubtitle,
+    selectedNewsType,
+  ]);
 
   useEffect(() => {
     if (!address) return;
@@ -43,8 +58,20 @@ export default function Home() {
     if (ALLOWED_WALLET_LIST.includes(address)) {
       setCanView(true);
       fetchEditorData();
+      fetchHomepageBanner();
     }
   }, [address, ALLOWED_WALLET_LIST]);
+
+  const fetchHomepageBanner = async () => {
+    try {
+      const res = await fetch("/api/uploadHomepageBanner");
+      const data = await res.json();
+      console.log(data, "lol");
+      setHomepageBanner(data.url);
+    } catch (err) {
+      console.error("❌ Error fetching homepage banner:", err);
+    }
+  };
 
   const fetchEditorData = async () => {
     try {
@@ -54,7 +81,7 @@ export default function Home() {
       const data = await res.json();
 
       if (res.ok) {
-        setUsernameSubtitle(data.usernameSubtitle)
+        setUsernameSubtitle(data.usernameSubtitle);
         setUsername(data.username);
         setAdminAvatar(data.avatarUrl);
       } else {
@@ -146,7 +173,22 @@ export default function Home() {
 
   return (
     <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
-      <h2>Profile</h2>
+      <div className="flex flex-col">
+        <AvatarUpload
+          title="Homepage banner"
+          avatarUrl={homepageBanner}
+          handleImageChange={(e) => setHomepageBanner(e)}
+          isBanner={true}
+          flexStyle="flex-col"
+        ></AvatarUpload>
+      </div>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <h1>Create a news</h1>
       <h3>Username</h3>
       <input
         type="text"
@@ -165,8 +207,11 @@ export default function Home() {
         />
       </div>
       <AvatarUpload
+        title="Your profile avatar"
         handleImageChange={(e: any) => setAdminAvatar(e)}
         avatarUrl={adminAvatar}
+        isBanner={false}
+        flexStyle=""
       />
       <NewsBanner handleImageChange={(e: any) => setNewsBanner(e)} />
       <div className="flex gap-[24px] w-full justify-start items-center">
@@ -203,7 +248,7 @@ export default function Home() {
       </div>
       <button
         type="submit"
-        disabled={disabled}
+        disabled={disabled || isUploading}
         onClick={uploadAvatar}
         className="cursor-pointer"
       >
