@@ -11,6 +11,7 @@ const ALLOWED_WALLET_LIST = [
   "0x7C3C6Fb006F630F400676bfd73998B9F69aa3b98", // ikleman
   "0x2B6F42915844d827563547da951cBaAA4e753939", // mirco
   "0x78D81911643c2D076Dfd1468Cd9a81b44c16F114", //0xnecro
+  "8MTX2JNhxSnCG7vFZoJxrVy13weUE1fvWtCCk3ovaWf5" // woboo
 ];
 
 export default function Home() {
