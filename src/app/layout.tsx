@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import App from "./app";
-import { Alata } from "next/font/google";
+import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   },
 };
 
-const alata = Alata({
+const inter = Inter({
   weight: "400",
-  variable: "--font-alata",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${alata.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`}>
         <NextTopLoader
           height={8}
           showSpinner={true}

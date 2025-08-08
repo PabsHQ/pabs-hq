@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-alata: var(--font-alata);
+  --font-inter: var(--font-inter);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,7 +21,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-alata), sans-serif;
+  font-family: var(--font-inter), sans-serif;
 }
 
 /* Custom scrollbar - sexy, thin, no arrows */

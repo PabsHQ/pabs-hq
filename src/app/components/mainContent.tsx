@@ -109,7 +109,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       src={item.banner}
                       alt="Article preview"
                       layout="fill"
-                      className="rounded-[8px] block relative object-cover"
+                      className="rounded-[24px] p-[8px] block relative object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
@@ -154,7 +154,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <span className="font-semibold text-black text-[17px] relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
+                    <span className="font-semibold text-black relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
                       {item.title}
                     </span>
                     <Avatar
