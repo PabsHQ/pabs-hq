@@ -1,19 +1,16 @@
+import { NextResponse } from "next/server";
 
-import type { NextApiRequest, NextApiResponse } from "next";
+export async function POST(req: Request) {
+  const key = "pabsxabs1541235)346436123";
+  const apiKey = req.headers.get("api-key");
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const allowedDomain = "pabsonabs.app.n8n.cloud";
-
-  const origin = req.headers.host || "";
-  if (origin !== allowedDomain) {
-    return res.status(403).json({ error: "Forbidden" });
+  if (apiKey !== key) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  const body = await req.json();
 
-  console.log("📩 Payload from n8n:", req.body);
+  console.log("📩 Payload from n8n:", body);
 
-  return res.status(200).json({ success: true });
+  return NextResponse.json({ success: true });
 }
