@@ -231,7 +231,8 @@ export default function Home() {
         className="cursor-pointer bg-black text-white py-2 px-4 rounded hover:opacity-90 disabled:opacity-50"
       >
         Upload
-      </button>
-    </div>
-  );
-}
+        </button>
+      </div>
+    </main>
+  </>
+);
