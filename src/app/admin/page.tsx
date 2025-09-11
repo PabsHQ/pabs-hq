@@ -251,7 +251,7 @@ export default function Home() {
         type="submit"
         disabled={disabled || isUploading}
         onClick={uploadAvatar}
-        className="cursor-pointer"
+        className="cursor-pointer bg-black text-white py-2 px-4 rounded hover:opacity-90 disabled:opacity-50"
       >
         Upload
       </button>
