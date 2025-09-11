@@ -5,7 +5,6 @@ import Tiptap from "../components/editor";
 import AvatarUpload from "../components/avatarUpload";
 import { useAccount } from "wagmi";
 import NewsBanner from "../components/bannerUpload";
-
 const ALLOWED_WALLET_LIST = [
   "0xDD0c431bf168eAC19ED23a338429F32261B787A0", // jorganite
   "0x7C3C6Fb006F630F400676bfd73998B9F69aa3b98", // ikleman
@@ -13,7 +12,6 @@ const ALLOWED_WALLET_LIST = [
   "0x78D81911643c2D076Dfd1468Cd9a81b44c16F114", //0xnecro
   "8MTX2JNhxSnCG7vFZoJxrVy13weUE1fvWtCCk3ovaWf5" // woboo
 ];
-
 export default function Home() {
   const { address } = useAccount();
   const [canView, setCanView] = useState<boolean>(false);
@@ -27,11 +25,9 @@ export default function Home() {
   const [selectedNewsType, setSelectedNewsType] = useState("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-
   const handleChange = (e: any) => {
     setSelectedNewsType(e.target.value);
   };
-
   useEffect(() => {
     if (
       !adminAvatar ||
@@ -42,7 +38,6 @@ export default function Home() {
       !usernameSubtitle
     )
       return;
-
     setDisabled(false);
   }, [
     adminAvatar,
@@ -52,17 +47,14 @@ export default function Home() {
     usernameSubtitle,
     selectedNewsType,
   ]);
-
   useEffect(() => {
     if (!address) return;
-
     if (ALLOWED_WALLET_LIST.includes(address)) {
       setCanView(true);
       fetchEditorData();
       fetchHomepageBanner();
     }
   }, [address, ALLOWED_WALLET_LIST]);
-
   const fetchHomepageBanner = async () => {
     try {
       const res = await fetch("/api/uploadHomepageBanner");
@@ -73,14 +65,12 @@ export default function Home() {
       console.error("❌ Error fetching homepage banner:", err);
     }
   };
-
   const fetchEditorData = async () => {
     try {
       const res = await fetch(
         `/api/uploadAvatar?walletAddress=${address!.toLowerCase()}`
       );
       const data = await res.json();
-
       if (res.ok) {
         setUsernameSubtitle(data.usernameSubtitle);
         setUsername(data.username);
@@ -92,18 +82,14 @@ export default function Home() {
       console.error("❌ Error fetching editor data:", err);
     }
   };
-
   const onChange = (content: string) => {
     setPost(content);
   };
-
   const uploadAvatar = async () => {
     if (isUploading) return;
     setIsUploading(true);
     const skipAvatarUpload = typeof adminAvatar === "string";
-
     let editorAvatar = adminAvatar;
-
     if (!adminAvatar) return;
     // admin avatar
     try {
@@ -117,26 +103,19 @@ export default function Home() {
           method: "POST",
           body: formData,
         });
-
         const avatarData = await avatarRes.json();
-
         if (!avatarRes.ok) throw new Error("Error uploading avatar");
-
         editorAvatar = avatarData.url;
       }
-
       const bannerFormData = new FormData();
       bannerFormData.append("file", newsBanner, newsBanner.name);
       const bannerRes = await fetch("/api/uploadBanner", {
         method: "POST",
         body: bannerFormData,
       });
-
       const bannerData = await bannerRes.json();
       if (!bannerRes.ok) throw new Error("Error uploading banner");
-
       const bannerUrl = bannerData.url;
-
       const newsFormData = new FormData();
       newsFormData.append("title", title);
       newsFormData.append("content", post);
@@ -148,14 +127,11 @@ export default function Home() {
         avatarUrl: editorAvatar,
       };
       newsFormData.append("editor", JSON.stringify(editor));
-
       const newsRes = await fetch("/api/uploadNews", {
         method: "POST",
         body: newsFormData,
       });
-
       if (!newsRes.ok) throw new Error("Error uploading news");
-
       alert("Upload successfull!");
       window.location.reload();
     } catch (err: any) {
@@ -167,11 +143,12 @@ export default function Home() {
       setIsUploading(false);
     }
   };
-
   if (!canView) {
     return null;
   }
 
+  return (
+    <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
  return (
   <>
     <header className="fixed top-0 inset-x-0 z-50 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -204,7 +181,6 @@ export default function Home() {
           flexStyle="flex-col"
         ></AvatarUpload>
       </div>
-
       <br></br>
       <br></br>
       <br></br>
@@ -218,7 +194,6 @@ export default function Home() {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-
       <div className="flex gap-[24px] w-full justify-start items-center">
         <h2>Username Subtitle (for example: chief waddler)</h2>
         <input
@@ -245,7 +220,6 @@ export default function Home() {
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-
       <div className="flex gap-[24px] w-full justify-start items-center">
         <label htmlFor="fruit-select">Choose a news type: </label>
         <select
@@ -261,7 +235,6 @@ export default function Home() {
           <option value="playbook">playbook</option>
         </select>
       </div>
-
       <Tiptap content={post} onChange={onChange} />
       {/* Preview the HTML content */}
       <div className="mt-4">
@@ -272,6 +245,7 @@ export default function Home() {
         type="submit"
         disabled={disabled || isUploading}
         onClick={uploadAvatar}
+        className="cursor-pointer"
         className="cursor-pointer bg-black text-white py-2 px-4 rounded hover:opacity-90 disabled:opacity-50"
       >
         Upload
