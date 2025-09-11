@@ -147,8 +147,7 @@ export default function Home() {
     return null;
   }
 
-  return (
-    <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
+
  return (
   <>
 <header className="sticky top-0 w-full h-12 bg-[#03fc7b] z-50" />
