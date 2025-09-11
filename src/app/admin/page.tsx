@@ -151,24 +151,7 @@ export default function Home() {
     <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
  return (
   <>
-    <header className="fixed top-0 inset-x-0 z-50 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="mx-auto max-w-7xl h-14 sm:h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <img src="/pabshq-logo.svg" alt="PabsHQ" className="h-6 w-auto" />
-          <span className="sr-only">PabsHQ</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <img
-            src={adminAvatar || "/avatar-placeholder.png"}
-            alt="User avatar"
-            className="h-8 w-8 rounded-lg border"
-          />
-          <span className="text-sm font-medium text-gray-900">
-            {username || "User"}
-          </span>
-        </div>
-      </div>
-    </header>
+<header className="sticky top-0 w-full h-12 bg-[#03fc7b] z-50" />
 
     <main className="pt-20">
       <div className="h-auto w-screen px-[20px] pb-[20px] flex flex-col gap-[30px] text-black">
