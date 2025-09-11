@@ -171,30 +171,10 @@ export default function Home() {
 
   return (
     <>
-       <header className="sticky top-0 w-full h-12 bg-[#03fc7b] z-50">
-        <div className="h-full w-full px-4 flex items-center justify-between">
-          <div className="flex items-center gap-3 min-w-0">
-            {adminAvatar && (
-              <img
-                src={
-                  typeof adminAvatar === "string"
-                    ? adminAvatar
-                    : URL.createObjectURL(adminAvatar)
-                }
-                alt={username ? `${username} avatar` : "Admin avatar"}
-                className="h-8 w-8 rounded-full object-cover border border-black/10"
-              />
-            )}
-            <span className="text-black font-medium truncate">
-              {username || address}
-            </span>
-          </div>
-        </div>
-      </header>
-
-    
-    <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
-      <div className="flex flex-col">
+      <header className="sticky top-0 w-full h-12 bg-[#03fc7b] z-50" />
+      <main className="pt-20">
+        <div className="h-auto w-screen px-[20px] pb-[20px] flex flex-col gap-[30px] text-black">
+          <div className="flex flex-col">
             <AvatarUpload
               title="Homepage banner"
               avatarUrl={homepageBanner}
