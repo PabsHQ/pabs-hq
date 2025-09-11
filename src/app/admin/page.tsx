@@ -129,3 +129,11 @@ export default function Home() {
       newsFormData.append("banner", bannerData.url);
       newsFormData.append("newsType", selectedNewsType);
       newsFormData.append(
+  "editor",
+  JSON.stringify({
+    username,
+    usernameSubtitle,
+    avatarUrl: editorAvatar,
+  })
+);
+
