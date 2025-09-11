@@ -194,7 +194,7 @@ export default function Home() {
       </header>
 
       <main className="pt-20">
-        <div className="h-auto w-screen px-[20px] pb-[20px] flex flex-col gap-[30px] text-black">
+        <div className="h-auto max-w-[800px] w-full mx-auto px-[20px] pb-[20px] flex flex-col gap-[30px] text-black">
           <div className="flex flex-col">
             <AvatarUpload
               title="Homepage banner"
