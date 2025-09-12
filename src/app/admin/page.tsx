@@ -192,7 +192,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Compact Header */}
-      <header className="sticky top-0 w-full bg-green-50 backdrop-blur-sm shadow-sm border-b border-green-200 z-50">
+      <header className="sticky top-0 w-full backdrop-blur-sm shadow-sm border-b border-gray-200 z-50" style={{ backgroundColor: '#15e382' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-3">
@@ -208,15 +208,15 @@ export default function Home() {
                 />
               )}
               <div>
-                <h1 className="text-sm font-semibold text-gray-900">
+                <h1 className="text-sm font-semibold text-white">
                   {username || "Admin"}
                 </h1>
-                <p className="text-xs text-gray-500">News Editor</p>
+                <p className="text-xs text-white/80">News Editor</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full">
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-              <span className="text-xs font-medium text-green-700">Connected</span>
+            <div className="flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full">
+              <div className="h-2 w-2 bg-white rounded-full"></div>
+              <span className="text-xs font-medium text-white">Connected</span>
             </div>
           </div>
         </div>
@@ -272,10 +272,10 @@ export default function Home() {
           </div>
 
           {/* Top Row: Homepage Banner and Author Profile */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             {/* Homepage Banner Section - Reduced width */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 bg-blue-500 rounded-full"></div>
                   <h2 className="text-lg font-semibold text-gray-900">Homepage Banner</h2>
@@ -292,7 +292,7 @@ export default function Home() {
 
             {/* Author Profile Section */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 bg-green-500 rounded-full"></div>
                   <h3 className="text-lg font-semibold text-gray-900">Author Profile</h3>
