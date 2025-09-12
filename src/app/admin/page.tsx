@@ -208,9 +208,9 @@ export default function Home() {
                 />
               )}
               <div>
-                <h1 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-white">
                   {username || "Admin"}
-                </h1>
+                </h3>
                 <p className="text-xs text-white/80">News Editor</p>
               </div>
             </div>
@@ -272,33 +272,48 @@ export default function Home() {
           </div>
 
           {/* Top Row: Homepage Banner and Author Profile */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-            {/* Homepage Banner Section - Reduced width */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            {/* Homepage Banner Section */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 bg-blue-500 rounded-full"></div>
                   <h2 className="text-lg font-semibold text-gray-900">Homepage Banner</h2>
                 </div>
-                <AvatarUpload
-                  title="Homepage banner"
-                  avatarUrl={homepageBanner}
-                  handleImageChange={(e: any) => setHomepageBanner(e)}
-                  isBanner={true}
-                  flexStyle="flex-col"
-                />
+                
+                {/* Banner Image Display */}
+                {homepageBanner && (
+                  <div className="mb-4">
+                    <img
+                      src={homepageBanner}
+                      alt="Homepage banner preview"
+                      className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                    />
+                  </div>
+                )}
+                
+                {/* File Upload Controls */}
+                <div className="flex gap-2">
+                  <AvatarUpload
+                    title=""
+                    avatarUrl={homepageBanner}
+                    handleImageChange={(e: any) => setHomepageBanner(e)}
+                    isBanner={true}
+                    flexStyle="flex-row"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Author Profile Section */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 bg-green-500 rounded-full"></div>
                   <h3 className="text-lg font-semibold text-gray-900">Author Profile</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Username
@@ -324,9 +339,7 @@ export default function Home() {
                       placeholder="e.g., Chief Waddler"
                     />
                   </div>
-                </div>
 
-                <div className="mt-4">
                   <AvatarUpload
                     title="Profile Avatar"
                     handleImageChange={(e: any) => setAdminAvatar(e)}
@@ -338,6 +351,27 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Banner Image Display above Article Details */}
+          {newsBanner && (
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-8 w-1 bg-purple-500 rounded-full"></div>
+                <h3 className="text-lg font-semibold text-gray-900">Banner Image Preview</h3>
+              </div>
+              <div className="w-full">
+                <img
+                  src={
+                    typeof newsBanner === "string"
+                      ? newsBanner
+                      : URL.createObjectURL(newsBanner)
+                  }
+                  alt="Article banner preview"
+                  className="w-full h-48 object-cover rounded-lg border border-gray-200"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Article Details Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
