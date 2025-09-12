@@ -52,17 +52,17 @@ export default async function NewsPage({ params }: Props) {
 
   const newsItem = { id: doc.id, ...doc.data() } as NewsItem;
   return (
-    <div className="h-screen w-screen p-[20px]">
-      <div className="lg:flex gap-[16px] flex-row w-full h-full hidden">
+    <div className="h-screen w-screen p-5">
+      <div className="lg:flex gap-4 flex-row w-full h-full hidden">
         <LeftSidebar />
-        <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
-          <div className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0">
+        <div className="flex flex-col gap-4 w-full h-full min-h-0">
+          <div className="sidebar-card p-[2%] flex flex-col w-full h-full min-h-0">
             <h1 className="font-bold text-black text-center">
               {newsItem?.title}
             </h1>
 
-            <div className="flex-1 overflow-y-auto pr-4 text-[#000]">
-              <div className="relative w-full aspect-[764/280] rounded-[40px] overflow-hidden my-[20px]">
+            <div className="flex-1 overflow-y-auto pr-4 text-black">
+              <div className="relative w-full aspect-[764/280] rounded-3xl overflow-hidden my-5 shadow-lg">
                 <Image
                   src={newsItem.banner}
                   fill
@@ -81,7 +81,7 @@ export default async function NewsPage({ params }: Props) {
       </div>
 
       {/* Mobile display */}
-      <div className="lg:hidden gap-[16px] flex-row w-full h-full flex">Yo</div>
+      <div className="lg:hidden gap-4 flex-row w-full h-full flex">Yo</div>
     </div>
   );
 }

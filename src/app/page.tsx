@@ -10,9 +10,9 @@ export default async function Home() {
   const news: NewsItem[] = ((await getNews()) as NewsItem[]) || [];
   const homepageBanner: string = (await getHomepageBanner()) as string;
   return (
-    <div className="h-screen w-screen p-[20px]">
+    <div className="h-screen w-screen p-5">
       {/* Desktop display */}
-      <div className="lg:flex gap-[16px] flex-row w-full h-full hidden">
+      <div className="lg:flex gap-4 flex-row w-full h-full hidden">
         {/* Left Sidebar */}
         <LeftSidebar />
 
@@ -26,7 +26,7 @@ export default async function Home() {
       </div>
 
       {/* Mobile display */}
-      <div className="lg:hidden gap-[16px] flex-row w-full h-full flex">
+      <div className="lg:hidden gap-4 flex-row w-full h-full flex">
         {/* Main Content (Middle) */}
         <div className="flex-1">
           <MainContent news={news} banner={homepageBanner} />

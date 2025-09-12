@@ -51,7 +51,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
 
   return (
     <div
-      className={`flex ${flexStyle} w-full gap-[24px] justify-start items-center`}
+      className={`flex ${flexStyle} w-full gap-6 justify-start items-center`}
     >
       <h3>{title}</h3>
       <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -71,7 +71,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       )}
       {isBanner && (
         <button
-          className="border border-solid border-black p-[4px] cursor-pointer hover:bg-green-500"
+          className="btn btn-primary px-3 py-2"
           onClick={() => setHomepageBanner()}
         >
           Change homepage banner!

@@ -57,11 +57,11 @@ export default function FilterSwiper({
                 onClick={() => selectNewsType(categoryName)}
               >
                 <div
-                  className={`${
+                  className={`rounded-xl w-full min-w-[190px] h-10 flex justify-center items-center font-semibold cursor-pointer shadow-md hover-lift transition-all duration-300 ${
                     selectedNewsType === categoryName
-                      ? "bg-[#3EEE99] text-white hover:bg-green-300"
-                      : "bg-white text-black hover:bg-gray-100 rounded-[12px] w-full h-[40px] flex justify-center items-center font-semibold cursor-pointer  hover:shadow-md transition-all duration-300 "
-                  } rounded-[12px] w-full min-w-[190px] h-[40px] flex justify-center items-center font-semibold cursor-pointer shadow-md hover:shadow-md transition-all duration-300`}
+                      ? "bg-gradient-to-r from-green-400 to-emerald-400 text-white"
+                      : "bg-white text-black hover:bg-gray-50"
+                  }`}
                 >
                   {displayText(categoryName)}
                 </div>

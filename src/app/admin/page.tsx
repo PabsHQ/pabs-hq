@@ -173,7 +173,7 @@ export default function Home() {
   }
 
   return (
-    <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
+    <div className="h-auto w-screen p-5 flex flex-col gap-8 text-black">
       <div className="flex flex-col">
         <AvatarUpload
           title="Homepage banner"
@@ -193,12 +193,12 @@ export default function Home() {
       <h3>Username</h3>
       <input
         type="text"
-        className="bg-white border border-solid border-[#000]"
+        className="form-input"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
 
-      <div className="flex gap-[24px] w-full justify-start items-center">
+      <div className="flex gap-6 w-full justify-start items-center">
         <h2>Username Subtitle (for example: chief waddler)</h2>
         <input
           type="text"
@@ -215,7 +215,7 @@ export default function Home() {
         flexStyle=""
       />
       <NewsBanner handleImageChange={(e: any) => setNewsBanner(e)} />
-      <div className="flex gap-[24px] w-full justify-start items-center">
+      <div className="flex gap-6 w-full justify-start items-center">
         <h2>Article title</h2>
         <input
           type="text"
@@ -225,10 +225,11 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex gap-[24px] w-full justify-start items-center">
+      <div className="flex gap-6 w-full justify-start items-center">
         <label htmlFor="fruit-select">Choose a news type: </label>
         <select
           id="fruit-select"
+          className="form-select"
           value={selectedNewsType}
           onChange={handleChange}
         >
@@ -251,9 +252,11 @@ export default function Home() {
         type="submit"
         disabled={disabled || isUploading}
         onClick={uploadAvatar}
-        className="cursor-pointer"
+        className={`btn btn-primary px-8 py-3 text-lg font-semibold ${
+          disabled || isUploading ? 'opacity-50 cursor-not-allowed' : 'hover-lift'
+        }`}
       >
-        Upload
+        {isUploading ? 'Uploading...' : 'Upload Article'}
       </button>
     </div>
   );

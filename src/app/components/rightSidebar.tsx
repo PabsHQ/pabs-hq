@@ -20,9 +20,9 @@ export default function RightSidebar({ news }: NewsPageProps) {
 
   return (
     <div className="flex-[0.2] h-full min-w-[297px]">
-      <div className="flex flex-col h-full w-full gap-[12px]">
+      <div className="flex flex-col h-full w-full gap-3">
         <div
-          className={`flex-[0.1] text-black duration-500 hover:text-white hover:shadow-lg max-h-[62px] w-full bg-[linear-gradient(104deg,_#74ffde_1.18%,_#00de73_25.31%,_#41f09c_49.78%,_#03d26e_74.75%,_#00c466_96.83%)] rounded-[8px] p-[12px] drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] ${
+          className={`flex-[0.1] text-black hover:text-white max-h-16 w-full bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg p-3 shadow-lg hover-lift transition-all duration-500 ${
             isConnected ? "justify-start" : "justify-center"
           } items-center text-center cursor-pointer flex`}
           onClick={() => {
@@ -34,11 +34,11 @@ export default function RightSidebar({ news }: NewsPageProps) {
           {isConnecting && !isConnected && <Spinner />}
           {!isConnected && !isConnecting && <span>Connect Wallet</span>}
           {isConnected && (
-            <div className="flex flex-col w-full h-full gap-[6px] items-start justify-start">
-              <span className="text-[#A9A9A9] font-bold text-[12px] text-start">
+            <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
+              <span className="text-gray-600 font-bold text-xs text-start">
                 Wallet Connected
               </span>
-              <div className="flex w-full h-full gap-[10px] items-center text-[12px]">
+              <div className="flex w-full h-full gap-2 items-center text-xs">
                 <Image
                   src="/images/abstract.png"
                   height={21}
@@ -55,13 +55,13 @@ export default function RightSidebar({ news }: NewsPageProps) {
             </div>
           )}
         </div>
-        <div className="flex-[1] overflow-y-hidden w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-evenly items-center px-[10%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)]">
-          <div className="flex flex-col gap-[20px] overflow-y-auto w-full pr-[4px] h-full">
-            <div className="flex w-full flex-col gap-[4px] justify-between items-center">
-              <span className="text-[18px] font-semibold text-[#000] text-[16px]">
+        <div className="sidebar-card flex-[1] overflow-y-hidden w-full flex flex-col h-full w-full justify-evenly items-center px-[10%] py-7">
+          <div className="flex flex-col gap-5 overflow-y-auto w-full pr-1 h-full">
+            <div className="flex w-full flex-col gap-1 justify-between items-center">
+              <span className="text-lg font-semibold text-black">
                 SKIP NFT&apos;S ARE LIVE!
               </span>
-              <span className="flex justify-center items-center px-[16px] py-[4px] bg-black rounded-full text-[12px] cursor-pointer text-white transition-all duration-300 hover:scale-105">
+              <span className="flex justify-center items-center px-4 py-1 bg-black rounded-full text-xs cursor-pointer text-white hover-scale font-medium">
                 LEARN MORE
               </span>
             </div>
@@ -73,18 +73,18 @@ export default function RightSidebar({ news }: NewsPageProps) {
               className="rounded-[8px]"
               alt="Sidebar placeholder"
             />
-            <div className="flex w-full h-full flex-col gap-[20px]">
-              <span className="text-[19px] font-semibold text-[#000]">
+            <div className="flex w-full h-full flex-col gap-5">
+              <span className="text-lg font-semibold text-black">
                 Staff Picks
               </span>
-              <div className="flex flex-col w-full gap-[16px]">
+              <div className="flex flex-col w-full gap-4">
                 {Array(4)
                   .fill(0)
                   .map((_item: any, index: number) => {
                     return (
                       <div
                         key={index}
-                        className="flex flex-col gap-[4px] w-full"
+                        className="flex flex-col gap-1 w-full"
                       >
                         <Avatar
                           small={true}
@@ -102,11 +102,11 @@ export default function RightSidebar({ news }: NewsPageProps) {
                 See All
               </span> */}
             </div>
-            <div className="flex w-full h-full flex-col gap-[20px]">
-              <span className="text-[19px] font-semibold text-[#000]">
+            <div className="flex w-full h-full flex-col gap-5">
+              <span className="text-lg font-semibold text-black">
                 Latest Articles
               </span>
-              <div className="flex flex-col w-full gap-[16px]">
+              <div className="flex flex-col w-full gap-4">
                 {news.length < 1 && <Spinner />}
                 {news.length > 0 &&
                   news.slice(0, 4).map((item: NewsItem, index: number) => {
@@ -114,7 +114,7 @@ export default function RightSidebar({ news }: NewsPageProps) {
                       <Link
                         key={index}
                         href={`/news/${item.id}`}
-                        className="flex flex-col gap-[8px]"
+                        className="flex flex-col gap-2 hover-lift rounded-lg p-2 -m-2 transition-all duration-300"
                       >
                         <Avatar
                           small={true}

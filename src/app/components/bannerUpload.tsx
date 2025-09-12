@@ -21,7 +21,7 @@ const NewsBanner: React.FC<NewsBannerProps> = ({
   };
 
   return (
-    <div className="flex w-full gap-[24px] justify-start items-center">
+    <div className="flex w-full gap-6 justify-start items-center">
       <h3>News banner photo</h3>
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {preview && (

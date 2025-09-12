@@ -48,8 +48,8 @@ export default function LeftSidebar() {
   const { isConnected } = useAccount();
   return (
     <div className="flex-[0.2] h-full min-w-[255px]">
-      <div className="flex flex-col h-full w-full gap-[12px]">
-        <div className="flex-[1] overflow-y-auto w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-between items-center pl-[8%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
+      <div className="flex flex-col h-full w-full gap-3">
+        <div className="sidebar-card flex-[1] overflow-y-auto w-full flex flex-col h-full w-full justify-between items-center pl-[8%] py-7 gap-5">
           <Link href="/" className="self-start">
             <Image
               src="/images/pabsLogo.png"
@@ -59,15 +59,15 @@ export default function LeftSidebar() {
               alt="Sidebar placeholder"
             />
           </Link>
-          <div className="flex flex-col w-full gap-[24px] justify-start items-center">
+          <div className="flex flex-col w-full gap-6 justify-start items-center">
             {MENU_ITEMS.map((item: any, index: number) => {
               return (
                 <div
                   key={index}
-                  className={`flex gap-[24px] rounded-l-[8px] p-[16px] w-full ${
+                  className={`flex gap-6 rounded-l-lg p-4 w-full transition-all duration-300 hover-lift ${
                     item.disabled
-                      ? "cursor-not-allowed"
-                      : "bg-[#3EEE99] cursor-pointer"
+                      ? "cursor-not-allowed opacity-60"
+                      : "bg-gradient-to-r from-green-400 to-emerald-400 cursor-pointer shadow-md"
                   }`}
                 >
                   <Image
@@ -78,8 +78,8 @@ export default function LeftSidebar() {
                     style={{ objectFit: "contain" }}
                   />
                   <span
-                    className={`text-[22px] ${
-                      item.disabled ? "text-[#84828A]" : "text-white"
+                    className={`text-xl font-semibold ${
+                      item.disabled ? "text-gray-500" : "text-white"
                     }`}
                   >
                     {item.title}
@@ -91,7 +91,7 @@ export default function LeftSidebar() {
 
           {isConnected ? (
             <div
-              className="flex gap-[24px] justify-start items-center cursor-pointer p-[16px] self-start"
+              className="flex gap-6 justify-start items-center cursor-pointer p-4 self-start hover-scale rounded-lg transition-all duration-300"
               onClick={logout}
             >
               <Image
@@ -100,12 +100,12 @@ export default function LeftSidebar() {
                 width={24}
                 alt="logout"
               ></Image>
-              <span className="text-[22px] text-[#84828A] self-start">
+              <span className="text-xl text-gray-500 self-start font-medium">
                 Disconnect
               </span>
             </div>
           ) : (
-            <div className="flex w-full gap-[24px] justify-start items-center cursor-pointer p-[16px]"></div>
+            <div className="flex w-full gap-6 justify-start items-center cursor-pointer p-4"></div>
           )}
         </div>
       </div>
