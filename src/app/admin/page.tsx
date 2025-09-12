@@ -2,10 +2,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Tiptap from "../../components/editor";
-import AvatarUpload from "../../components/avatarUpload";
+import Tiptap from "../components/editor";
+import AvatarUpload from "../components/avatarUpload";
 import { useAccount } from "wagmi";
-import NewsBanner from "../../components/bannerUpload";
+import NewsBanner from "../components/bannerUpload";
 
 const ALLOWED_WALLET_LIST = [
   "0xDD0c431bf168eAC19ED23a338429F32261B787A0", // jorganite
@@ -31,9 +31,6 @@ export default function Home() {
   const [selectedNewsType, setSelectedNewsType] = useState("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const handleChange = (e: any) => setSelectedNewsType(e.target.value);
 
@@ -92,9 +89,6 @@ export default function Home() {
   const uploadAvatar = async () => {
     if (isUploading) return;
     setIsUploading(true);
-    setUploadProgress(0);
-    setErrorMessage("");
-    setSuccessMessage("");
 
     try {
       if (!adminAvatar) {
@@ -112,7 +106,6 @@ export default function Home() {
         if (!(adminAvatar instanceof File)) {
           throw new Error("Invalid avatar file.");
         }
-        setUploadProgress(20);
         const formData = new FormData();
         formData.append("file", adminAvatar, adminAvatar.name);
         formData.append("username", username);
@@ -128,7 +121,6 @@ export default function Home() {
         editorAvatar = avatarData.url;
       }
 
-      setUploadProgress(40);
       // banner upload (must be a File)
       if (!(newsBanner instanceof File)) {
         throw new Error("Please select a banner image file.");
@@ -143,7 +135,6 @@ export default function Home() {
       if (!bannerRes.ok) throw new Error(bannerData?.error || "Error uploading banner");
       const bannerUrl = bannerData.url;
 
-      setUploadProgress(60);
       // create news
       const newsFormData = new FormData();
       newsFormData.append("title", title);
@@ -159,7 +150,6 @@ export default function Home() {
         })
       );
 
-      setUploadProgress(80);
       const newsRes = await fetch("/api/uploadNews", {
         method: "POST",
         body: newsFormData,
@@ -167,21 +157,11 @@ export default function Home() {
       const newsData = await newsRes.json().catch(() => ({}));
       if (!newsRes.ok) throw new Error(newsData?.error || "Error uploading news");
 
-      setUploadProgress(100);
-      setSuccessMessage("News article uploaded successfully!");
-      
-      // Reset form after successful upload
-      setTimeout(() => {
-        setPost("");
-        setTitle("");
-        setNewsBanner(null);
-        setUploadProgress(0);
-        setSuccessMessage("");
-        window.location.reload();
-      }, 2000);
+      alert("Upload successful!");
+      window.location.reload();
     } catch (err: any) {
       console.error("❌ Upload error:", err);
-      setErrorMessage(err?.message ?? err?.errorMessage ?? String(err));
+      alert(err?.message ?? err?.errorMessage ?? String(err));
     } finally {
       setIsUploading(false);
     }
@@ -190,92 +170,32 @@ export default function Home() {
   if (!canView) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Enhanced Header */}
-      <header className="sticky top-0 w-full bg-white shadow-lg border-b border-gray-200 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-3">
-                {adminAvatar && (
-                  <img
-                    src={
-                      typeof adminAvatar === "string"
-                        ? adminAvatar
-                        : URL.createObjectURL(adminAvatar)
-                    }
-                    alt={username ? `${username} avatar` : "Admin avatar"}
-                    className="h-10 w-10 rounded-full object-cover border-2 border-gray-200 shadow-sm"
-                  />
-                )}
-                <div>
-                  <h1 className="text-lg font-semibold text-gray-900">
-                    {username || "Admin"}
-                  </h1>
-                  <p className="text-sm text-gray-500">News Editor</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Connected</span>
-            </div>
+    <>
+      {/* CHANGED HEADER ONLY */}
+      <header className="sticky top-0 w-full h-12 bg-[#03fc7b] z-50">
+        <div className="h-full w-full px-4 flex items-center justify-between">
+          <div className="flex items-center gap-3 min-w-0">
+            {adminAvatar && (
+              <img
+                src={
+                  typeof adminAvatar === "string"
+                    ? adminAvatar
+                    : URL.createObjectURL(adminAvatar)
+                }
+                alt={username ? `${username} avatar` : "Admin avatar"}
+                className="h-8 w-8 rounded-full object-cover border border-black/10"
+              />
+            )}
+            <span className="text-black font-medium truncate">
+              {username || address}
+            </span>
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Status Messages */}
-        {errorMessage && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-red-800">{errorMessage}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {successMessage && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-green-800">{successMessage}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Upload Progress */}
-        {isUploading && (
-          <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Uploading...</span>
-              <span className="text-sm text-gray-500">{uploadProgress}%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-8">
-          {/* Homepage Banner Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Homepage Banner</h2>
+      <main className="pt-20">
+        <div className="h-auto max-w-[800px] w-full mx-auto px-[20px] pb-[20px] flex flex-col gap-[30px] text-black">
+          <div className="flex flex-col">
             <AvatarUpload
               title="Homepage banner"
               avatarUrl={homepageBanner}
@@ -285,138 +205,76 @@ export default function Home() {
             />
           </div>
 
-          {/* News Article Form */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Create News Article</h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Author Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Author Information</h3>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username"
-                  />
-                </div>
+          <h1>Create a news</h1>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Username Subtitle
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    value={usernameSubtitle}
-                    onChange={(e) => setUsernameSubtitle(e.target.value)}
-                    placeholder="e.g., Chief Waddler"
-                  />
-                </div>
+          <h3>Username</h3>
+          <input
+            type="text"
+            className="bg-white border border-solid border-[#000]"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-                <AvatarUpload
-                  title="Profile Avatar"
-                  handleImageChange={(e: any) => setAdminAvatar(e)}
-                  avatarUrl={adminAvatar}
-                  isBanner={false}
-                  flexStyle="flex-col"
-                />
-              </div>
-
-              {/* Article Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900">Article Information</h3>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Article Title
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Enter article title"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    News Type
-                  </label>
-                  <select 
-                    id="news-type" 
-                    value={selectedNewsType} 
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  >
-                    <option value="">--Please choose an option--</option>
-                    <option value="chainNews">Chain News</option>
-                    <option value="theBuzz">The Buzz</option>
-                    <option value="trenches">Trenches</option>
-                    <option value="lore">Lore</option>
-                    <option value="playbook">Playbook</option>
-                  </select>
-                </div>
-
-                <NewsBanner handleImageChange={(e: any) => setNewsBanner(e)} />
-              </div>
-            </div>
+          <div className="flex gap-[24px] w-full justify-start items-center">
+            <h2>Username Subtitle (for example: chief waddler)</h2>
+            <input
+              type="text"
+              className="bg-white border border-solid border-[#000] w-[60%]"
+              value={usernameSubtitle}
+              onChange={(e) => setUsernameSubtitle(e.target.value)}
+            />
           </div>
 
-          {/* Content Editor */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Article Content</h3>
-            <Tiptap content={post} onChange={onChange} />
+          <AvatarUpload
+            title="Your profile avatar"
+            handleImageChange={(e: any) => setAdminAvatar(e)}
+            avatarUrl={adminAvatar}
+            isBanner={false}
+            flexStyle=""
+          />
+
+          <NewsBanner handleImageChange={(e: any) => setNewsBanner(e)} />
+
+          <div className="flex gap-[24px] w-full justify-start items-center">
+            <h2>Article title</h2>
+            <input
+              type="text"
+              className="bg-white border border-solid border-[#000] w-[60%]"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
 
-          {/* Preview Section */}
-          {post && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Preview</h3>
-              <div className="prose max-w-none">
-                <div 
-                  className="border border-gray-200 rounded-lg p-4 bg-gray-50"
-                  dangerouslySetInnerHTML={{ __html: post }} 
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={disabled || isUploading}
-              onClick={uploadAvatar}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {isUploading ? (
-                <>
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Uploading...
-                </>
-              ) : (
-                <>
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                  Publish Article
-                </>
-              )}
-            </button>
+          <div className="flex gap-[24px] w-full justify-start items-center">
+            <label htmlFor="news-type">Choose a news type: </label>
+            <select id="news-type" value={selectedNewsType} onChange={handleChange}>
+              <option value="">--Please choose an option--</option>
+              <option value="chainNews">chain news</option>
+              <option value="theBuzz">the buzz</option>
+              <option value="trenches">trenches</option>
+              <option value="lore">lore</option>
+              <option value="playbook">playbook</option>
+            </select>
           </div>
+
+          <Tiptap content={post} onChange={onChange} />
+
+          {/* Preview the HTML content */}
+          <div className="mt-4">
+            <h2 className="text-xl font-bold">Preview:</h2>
+            <div className="preview" dangerouslySetInnerHTML={{ __html: post }} />
+          </div>
+
+          <button
+            type="submit"
+            disabled={disabled || isUploading}
+            onClick={uploadAvatar}
+            className="cursor-pointer bg-black text-white py-2 px-4 rounded hover:opacity-90 disabled:opacity-50"
+          >
+            {isUploading ? "Uploading..." : "Upload"}
+          </button>
         </div>
       </main>
-    </div>
+    </>
   );
 }
