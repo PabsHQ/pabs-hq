@@ -38,58 +38,178 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>("");
   const TEMPLATES = [
     {
-      id: "just-dropped",
-      name: "Just Dropped",
-      title: "Just dropped: {project} on {chain}",
-      content: `<h2>Launch Alert</h2><h3>What dropped</h3><p>[Describe what just launched]</p><h3>Why it matters</h3><p>[Explain the significance]</p><h3>What to do</h3><p>[Action items for readers]</p><h3>Next up</h3><p>[What's coming next]</p>`
+      id: "case-file",
+      name: "Case File",
+      title: "Case File: {incident}",
+      content: `<h2>Case File</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">What happened, who was involved, what the outcome was — written like an investigation.</p>
+
+<h3>Incident</h3>
+<p style="margin-bottom: 1.5em;">[Describe what went down]</p>
+
+<h3>Players</h3>
+<p style="margin-bottom: 1.5em;">[Who was involved]</p>
+
+<h3>Evidence</h3>
+<p style="margin-bottom: 1.5em;">[What proof do we have]</p>
+
+<h3>Verdict</h3>
+<p style="margin-bottom: 1.5em;">[Final judgment]</p>`
     },
     {
-      id: "from-trenches",
-      name: "From the Trenches",
-      title: "From the trenches: {info}",
-      content: `<h2>Trench Notes</h2><h3>Signal</h3><p>[What signals are you seeing]</p><h3>Receipts</h3><p>[Evidence and proof]</p><h3>My read</h3><p>[Your interpretation]</p><h3>Watchlist</h3><p>[What to keep an eye on]</p>`
+      id: "war-story",
+      name: "War Story",
+      title: "War Story: {battle}",
+      content: `<h2>War Story</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">Frame events like a battle — wins/losses, surprise attacks, retreats.</p>
+
+<h3>Opening move</h3>
+<p style="margin-bottom: 1.5em;">[How it started]</p>
+
+<h3>Counter</h3>
+<p style="margin-bottom: 1.5em;">[The response]</p>
+
+<h3>Turning point</h3>
+<p style="margin-bottom: 1.5em;">[The decisive moment]</p>
+
+<h3>Final score</h3>
+<p style="margin-bottom: 1.5em;">[Who won and by how much]</p>`
     },
     {
-      id: "candles",
-      name: "Candles",
-      title: "{project} candles looking THICC rn",
-      content: `<h2>Market Pulse</h2><h3>Chart setup</h3><p>[Technical analysis]</p><h3>Volume</h3><p>[Volume analysis]</p><h3>Who's buying or selling</h3><p>[Market participants]</p><h3>What's next</h3><p>[Price predictions]</p>`
+      id: "autopsy",
+      name: "Autopsy",
+      title: "Autopsy: {failed-project}",
+      content: `<h2>Autopsy</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">Break down a failed project/coin like a postmortem.</p>
+
+<h3>What went wrong</h3>
+<p style="margin-bottom: 1.5em;">[The failure points]</p>
+
+<h3>Key mistakes</h3>
+<p style="margin-bottom: 1.5em;">[Critical errors made]</p>
+
+<h3>Root cause</h3>
+<p style="margin-bottom: 1.5em;">[The fundamental issue]</p>
+
+<h3>Lessons learned</h3>
+<p style="margin-bottom: 1.5em;">[What we can take away]</p>`
+    },
+    {
+      id: "echo-chamber",
+      name: "Echo Chamber",
+      title: "Echo Chamber: {topic}",
+      content: `<h2>Echo Chamber</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">What CT or TG chats are buzzing about right now.</p>
+
+<h3>Who's talking</h3>
+<p style="margin-bottom: 1.5em;">[Key voices in the conversation]</p>
+
+<h3>Main narratives</h3>
+<p style="margin-bottom: 1.5em;">[The dominant storylines]</p>
+
+<h3>Hottest takes</h3>
+<p style="margin-bottom: 1.5em;">[The most controversial opinions]</p>
+
+<h3>My filter</h3>
+<p style="margin-bottom: 1.5em;">[Your take on the noise]</p>`
+    },
+    {
+      id: "meme-watch",
+      name: "Meme Watch",
+      title: "Meme Watch: {meme-coin}",
+      content: `<h2>Meme Watch</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">Track the life cycle of a meme-coin or joke narrative.</p>
+
+<h3>Meme origin</h3>
+<p style="margin-bottom: 1.5em;">[Where it started]</p>
+
+<h3>How it spread</h3>
+<p style="margin-bottom: 1.5em;">[The viral mechanism]</p>
+
+<h3>Market reaction</h3>
+<p style="margin-bottom: 1.5em;">[Price and volume response]</p>
+
+<h3>Where it's headed</h3>
+<p style="margin-bottom: 1.5em;">[Future trajectory]</p>`
     },
     {
       id: "thesis",
       name: "Thesis",
       title: "The thesis nobody asked for: {topic}",
-      content: `<h2>Personal Take</h2><h3>Claim</h3><p>[Your main argument]</p><h3>Why I believe it</h3><p>[Supporting evidence]</p><h3>Counterpoints</h3><p>[Addressing opposing views]</p><h3>Risks</h3><p>[Potential downsides]</p>`
-    },
-    {
-      id: "weekly-scoreboard",
-      name: "Weekly Scoreboard",
-      title: "Who's hot, who's cooked – {category} weekly scoreboard",
-      content: `<h2>Scoreboard</h2><h3>Top performers</h3><p>[Who's winning this week]</p><h3>Wrecked bags</h3><p>[Who's losing big]</p><h3>Surprise entries</h3><p>[Unexpected movers]</p><h3>Overall vibe</h3><p>[Market sentiment]</p>`
-    },
-    {
-      id: "weekly-wrap",
-      name: "Weekly Wrap",
-      title: "What the chain fed us this week {date}",
-      content: `<h2>Weekly Wrap</h2><h3>Winners</h3><p>[What performed well]</p><h3>Losers</h3><p>[What underperformed]</p><h3>Key narratives</h3><p>[Main storylines]</p><h3>Takeaway</h3><p>[Key lessons learned]</p>`
-    },
-    {
-      id: "whale-watch",
-      name: "Whale Watch",
-      title: "Whales moving sus again – follow the flow",
-      content: `<h2>Whale Watch</h2><h3>Wallet activity</h3><p>[Notable whale movements]</p><h3>Flows</h3><p>[Money flow analysis]</p><h3>Why it matters</h3><p>[Impact on market]</p><h3>Next watch</h3><p>[What to monitor]</p>`
+      content: `<h2>Thesis</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">A deep dive into an unpopular opinion with evidence to back it up.</p>
+
+<h3>Claim</h3>
+<p style="margin-bottom: 1.5em;">[Your main argument]</p>
+
+<h3>Why I believe it</h3>
+<p style="margin-bottom: 1.5em;">[Supporting evidence]</p>
+
+<h3>Counterpoints</h3>
+<p style="margin-bottom: 1.5em;">[Addressing opposing views]</p>
+
+<h3>Risks</h3>
+<p style="margin-bottom: 1.5em;">[Potential downsides]</p>`
     },
     {
       id: "playbook",
       name: "Playbook",
       title: "Playbook: {doing} {item} without getting clapped",
-      content: `<h2>Playbook</h2><h3>Goal</h3><p>[What you're trying to achieve]</p><h3>Setup</h3><p>[Prerequisites and preparation]</p><h3>Steps</h3><p>[Step-by-step process]</p><h3>Safeguards</h3><p>[Risk management]</p><h3>Outcome</h3><p>[Expected results]</p>`
+      content: `<h2>Playbook</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">Step-by-step guide to navigating crypto without getting rekt.</p>
+
+<h3>Goal</h3>
+<p style="margin-bottom: 1.5em;">[What you're trying to achieve]</p>
+
+<h3>Setup</h3>
+<p style="margin-bottom: 1.5em;">[Prerequisites and preparation]</p>
+
+<h3>Steps</h3>
+<p style="margin-bottom: 1.5em;">[Step-by-step process]</p>
+
+<h3>Safeguards</h3>
+<p style="margin-bottom: 1.5em;">[Risk management]</p>
+
+<h3>Outcome</h3>
+<p style="margin-bottom: 1.5em;">[Expected results]</p>`
     },
     {
       id: "explainer",
       name: "Explainer",
       title: "{item} explained…",
-      content: `<h2>Explainer</h2><h3>What it is</h3><p>[Basic definition]</p><h3>How it works</h3><p>[Mechanism and process]</p><h3>Why it matters</h3><p>[Significance and impact]</p><h3>Examples</h3><p>[Real-world applications]</p>`
+      content: `<h2>Explainer</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">Break down complex concepts into digestible pieces.</p>
+
+<h3>What it is</h3>
+<p style="margin-bottom: 1.5em;">[Basic definition]</p>
+
+<h3>How it works</h3>
+<p style="margin-bottom: 1.5em;">[Mechanism and process]</p>
+
+<h3>Why it matters</h3>
+<p style="margin-bottom: 1.5em;">[Significance and impact]</p>
+
+<h3>Examples</h3>
+<p style="margin-bottom: 1.5em;">[Real-world applications]</p>`
+    },
+    {
+      id: "weekly-wrap",
+      name: "Weekly Wrap",
+      title: "What the chain fed us this week {date}",
+      content: `<h2>Weekly Wrap</h2>
+<p style="font-style: italic; font-size: 0.9em; color: #666; margin-bottom: 1.5em;">A comprehensive look at the week's biggest moves and narratives.</p>
+
+<h3>Winners</h3>
+<p style="margin-bottom: 1.5em;">[What performed well]</p>
+
+<h3>Losers</h3>
+<p style="margin-bottom: 1.5em;">[What underperformed]</p>
+
+<h3>Key narratives</h3>
+<p style="margin-bottom: 1.5em;">[Main storylines]</p>
+
+<h3>Takeaway</h3>
+<p style="margin-bottom: 1.5em;">[Key lessons learned]</p>`
     }
   ];
 
