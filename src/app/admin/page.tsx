@@ -2,9 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Tiptap from "../components/editor";
-import AvatarUpload from "../components/avatarUpload";
 import { useAccount } from "wagmi";
-import NewsBanner from "../components/bannerUpload";
 
 const ALLOWED_WALLET_LIST = [
   "0xDD0c431bf168eAC19ED23a338429F32261B787A0", // jorganite
