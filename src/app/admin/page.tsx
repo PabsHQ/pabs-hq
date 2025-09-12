@@ -272,18 +272,18 @@ export default function Home() {
           </div>
 
           {/* Top Row: Homepage Banner and Author Profile */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {/* Homepage Banner Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="h-8 w-1 bg-blue-500 rounded-full"></div>
-                  <h2 className="text-lg font-semibold text-gray-900">Homepage Banner</h2>
+                  <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
+                  <h3 className="text-lg font-semibold text-gray-900">Homepage Banner</h3>
                 </div>
                 
                 {/* Banner Image Display */}
                 {homepageBanner && (
-                  <div className="mb-4">
+                  <div className="mb-4 flex-1">
                     <img
                       src={homepageBanner}
                       alt="Homepage banner preview"
@@ -293,7 +293,7 @@ export default function Home() {
                 )}
                 
                 {/* File Upload Controls */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-auto">
                   <AvatarUpload
                     title=""
                     avatarUrl={homepageBanner}
@@ -309,7 +309,7 @@ export default function Home() {
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="h-8 w-1 bg-green-500 rounded-full"></div>
+                  <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
                   <h3 className="text-lg font-semibold text-gray-900">Author Profile</h3>
                 </div>
                 
@@ -352,12 +352,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Banner Image Display above Article Details */}
+          {/* Article Banner Preview */}
           {newsBanner && (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-8 w-1 bg-purple-500 rounded-full"></div>
-                <h3 className="text-lg font-semibold text-gray-900">Banner Image Preview</h3>
+                <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
+                <h3 className="text-lg font-semibold text-gray-900">Article Banner Preview</h3>
               </div>
               <div className="w-full">
                 <img
@@ -376,7 +376,7 @@ export default function Home() {
           {/* Article Details Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-8 w-1 bg-purple-500 rounded-full"></div>
+              <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
               <h3 className="text-lg font-semibold text-gray-900">Article Details</h3>
             </div>
             
@@ -422,7 +422,7 @@ export default function Home() {
           {/* Content Editor Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-8 w-1 bg-orange-500 rounded-full"></div>
+              <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
               <h3 className="text-lg font-semibold text-gray-900">Article Content</h3>
             </div>
             <Tiptap content={post} onChange={onChange} />
@@ -432,7 +432,7 @@ export default function Home() {
           {post && (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
               <div className="flex items-center gap-3 mb-4">
-                <div className="h-8 w-1 bg-indigo-500 rounded-full"></div>
+                <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
                 <h3 className="text-lg font-semibold text-gray-900">Preview</h3>
               </div>
               <div className="prose max-w-none">
