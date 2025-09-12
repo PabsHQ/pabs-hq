@@ -64,10 +64,12 @@ export default function LeftSidebar() {
               return (
                 <div
                   key={index}
-                  className={`flex gap-6 rounded-l-lg p-4 w-full transition-all duration-300 hover-lift ${
+                  className={`sidebar-item flex gap-4 w-full ${
                     item.disabled
                       ? "cursor-not-allowed opacity-60"
-                      : "bg-gradient-to-r from-green-400 to-emerald-400 cursor-pointer shadow-md"
+                      : !item.disabled && item.title === "Pabs News" 
+                      ? "active cursor-pointer"
+                      : "cursor-pointer"
                   }`}
                 >
                   <Image
@@ -78,8 +80,8 @@ export default function LeftSidebar() {
                     style={{ objectFit: "contain" }}
                   />
                   <span
-                    className={`text-xl font-semibold ${
-                      item.disabled ? "text-gray-500" : "text-white"
+                    className={`sidebar-item-text text-xl ${
+                      item.disabled ? "text-gray-500" : "text-gray-300"
                     }`}
                   >
                     {item.title}

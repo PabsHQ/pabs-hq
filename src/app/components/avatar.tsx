@@ -53,7 +53,7 @@ export default function Avatar({
       )}
       <div className="flex flex-col gap-1 justify-start items-start max-w-[80%]">
         <span
-          className={`text-black ${
+          className={`text-white ${
             small ? "text-sm" : "text-base"
           } overflow-hidden text-ellipsis whitespace-nowrap w-full font-medium`}
         >
@@ -61,7 +61,7 @@ export default function Avatar({
         </span>
         {subText && (
           <span
-            className={`text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap w-full ${
+            className={`text-gray-400 overflow-hidden text-ellipsis whitespace-nowrap w-full ${
               small ? "text-xs" : "text-sm"
             }`}
           >

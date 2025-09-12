@@ -94,22 +94,29 @@ export default function MainContent({ news, banner }: NewsPageProps) {
         {newsItems.length < 1 && <Spinner />}
         {/* Grid container with scrolling */}
         {newsItems.length > 0 && (
-          <div className="grid p-2 gap-5 grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] w-full overflow-y-auto min-h-0">
+          <div 
+            className="grid w-full overflow-y-auto min-h-0"
+            style={{
+              padding: '8px',
+              gap: 'var(--card-gap-y) var(--card-gap-x)',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))'
+            }}
+          >
             {(selectedNewsType === "" ? newsItems : filteredNews).map(
               (item: NewsItem, id: number) => (
                 <Link
                   href={`/news/${item.id}`}
                   key={item.id}
-                  className="news-card interactive-card xl:max-w-[450px] min-h-[310px] xl:min-h-[250px] cursor-pointer flex flex-col gap-2 fade-in"
+                  className="news-card interactive-card cursor-pointer flex flex-col fade-in"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
-                  <div className="w-full relative flex-grow">
+                  <div className="w-full relative mb-4" style={{ height: '200px' }}>
                     <Image
                       src={item.banner}
                       alt="Article preview"
                       layout="fill"
-                      className="rounded-3xl p-2 block relative object-cover"
+                      className="rounded-xl object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
@@ -132,7 +139,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-2 justify-start items-start p-2">
+                  <div className="flex flex-col justify-start items-start">
                     <span
                       className={`category-badge ${
                         item.newsType === "lore"
@@ -156,15 +163,17 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <span className="font-semibold text-black relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
+                    <h3 className="news-card-title">
                       {item.title}
-                    </span>
-                    <Avatar
-                      small
-                      image={item.editor.avatarUrl}
-                      headerText={item.editor.username}
-                      banner={false}
-                    />
+                    </h3>
+                    <div className="news-card-meta">
+                      <Avatar
+                        small
+                        image={item.editor.avatarUrl}
+                        headerText={item.editor.username}
+                        banner={false}
+                      />
+                    </div>
                   </div>
                 </Link>
               )

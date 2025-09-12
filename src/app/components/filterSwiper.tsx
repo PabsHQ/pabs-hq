@@ -57,9 +57,9 @@ export default function FilterSwiper({
                 onClick={() => selectNewsType(categoryName)}
               >
                 <div
-                  className={`rounded-xl w-full min-w-[190px] h-10 flex justify-center items-center font-semibold cursor-pointer shadow-md hover-lift transition-all duration-300 ${
+                  className={`filter-tab w-full min-w-[190px] h-12 flex justify-center items-center shadow-md ${
                     selectedNewsType === categoryName
-                      ? "bg-gradient-to-r from-green-400 to-emerald-400 text-white"
+                      ? "active bg-gradient-to-r from-green-400 to-emerald-400 text-white"
                       : "bg-white text-black hover:bg-gray-50"
                   }`}
                 >
