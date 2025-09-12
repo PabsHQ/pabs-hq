@@ -267,7 +267,7 @@ export default function Home() {
         <div className="space-y-6">
           {/* Page Title */}
           <div className="text-center py-4">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">News Management</h1>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Pabs HQ News</h2>
             <p className="text-gray-600">Create and manage news articles for the platform</p>
           </div>
 

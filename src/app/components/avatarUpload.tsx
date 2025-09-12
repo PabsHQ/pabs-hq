@@ -97,7 +97,10 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
         {isBanner && preview && (
           <div className="mt-3">
             <button
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+              style={{ backgroundColor: '#15e382' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#12c973'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#15e382'}
               onClick={() => setHomepageBanner()}
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
