@@ -173,88 +173,306 @@ export default function Home() {
   }
 
   return (
-    <div className="h-auto w-screen p-[20px] flex flex-col gap-[30px] text-black">
-      <div className="flex flex-col">
-        <AvatarUpload
-          title="Homepage banner"
-          avatarUrl={homepageBanner}
-          handleImageChange={(e) => setHomepageBanner(e)}
-          isBanner={true}
-          flexStyle="flex-col"
-        ></AvatarUpload>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold text-gray-900">New Article</h1>
+          <div className="flex items-center space-x-4">
+            <button className="p-2 text-gray-400 hover:text-gray-600">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5V3h5v14z" />
+              </svg>
+            </button>
+            <button className="p-2 text-gray-400 hover:text-gray-600">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <h1>Create a news</h1>
-      <h3>Username</h3>
-      <input
-        type="text"
-        className="bg-white border border-solid border-[#000]"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-6 py-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="p-6 space-y-8">
+            
+            {/* User Profile Section */}
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                {adminAvatar ? (
+                  <img 
+                    src={typeof adminAvatar === 'string' ? adminAvatar : URL.createObjectURL(adminAvatar)} 
+                    alt="Profile" 
+                    className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                )}
+                <button 
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs hover:bg-blue-700"
+                  onClick={() => document.getElementById('avatar-upload')?.click()}
+                >
+                  +
+                </button>
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && setAdminAvatar(e.target.files[0])}
+                />
+              </div>
+              <div className="flex-1">
+                <input
+                  type="text"
+                  placeholder="Author name"
+                  className="text-base font-medium text-gray-900 bg-transparent border-none outline-none w-full"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Author title (e.g. Content Writer)"
+                  className="text-sm text-gray-500 bg-transparent border-none outline-none w-full"
+                  value={usernameSubtitle}
+                  onChange={(e) => setUsernameSubtitle(e.target.value)}
+                />
+              </div>
+            </div>
 
-      <div className="flex gap-[24px] w-full justify-start items-center">
-        <h2>Username Subtitle (for example: chief waddler)</h2>
-        <input
-          type="text"
-          className="bg-white border border-solid border-[#000] w-[60%]"
-          value={usernameSubtitle}
-          onChange={(e) => setUsernameSubtitle(e.target.value)}
-        />
-      </div>
-      <AvatarUpload
-        title="Your profile avatar"
-        handleImageChange={(e: any) => setAdminAvatar(e)}
-        avatarUrl={adminAvatar}
-        isBanner={false}
-        flexStyle=""
-      />
-      <NewsBanner handleImageChange={(e: any) => setNewsBanner(e)} />
-      <div className="flex gap-[24px] w-full justify-start items-center">
-        <h2>Article title</h2>
-        <input
-          type="text"
-          className="bg-white border border-solid border-[#000] w-[60%]"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
+            {/* Featured Image Section */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Featured Image
+              </label>
+              <div className="relative">
+                <div 
+                  className="w-full h-48 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+                  onClick={() => document.getElementById('banner-upload')?.click()}
+                  style={{
+                    backgroundImage: newsBanner ? `url(${typeof newsBanner === 'string' ? newsBanner : URL.createObjectURL(newsBanner)})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  <div className="text-center">
+                    <button className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      Upload Image
+                    </button>
+                  </div>
+                </div>
+                <input
+                  id="banner-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && setNewsBanner(e.target.files[0])}
+                />
+              </div>
+            </div>
 
-      <div className="flex gap-[24px] w-full justify-start items-center">
-        <label htmlFor="fruit-select">Choose a news type: </label>
-        <select
-          id="fruit-select"
-          value={selectedNewsType}
-          onChange={handleChange}
-        >
-          <option value="">--Please choose an option--</option>
-          <option value="chainNews">chain news</option>
-          <option value="theBuzz">the buzz</option>
-          <option value="trenches">trenches</option>
-          <option value="lore">lore</option>
-          <option value="playbook">playbook</option>
-        </select>
-      </div>
+            {/* Article Title */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Article Title
+              </label>
+              <input
+                type="text"
+                placeholder="Enter article title"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
 
-      <Tiptap content={post} onChange={onChange} />
-      {/* Preview the HTML content */}
-      <div className="mt-4">
-        <h2 className="text-xl font-bold">Preview:</h2>
-        <div className="preview" dangerouslySetInnerHTML={{ __html: post }} />
+            {/* Category */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Category
+              </label>
+              <select
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                value={selectedNewsType}
+                onChange={handleChange}
+              >
+                <option value="">Select a category</option>
+                <option value="chainNews">Chain News</option>
+                <option value="theBuzz">The Buzz</option>
+                <option value="trenches">Trenches</option>
+                <option value="lore">Lore</option>
+                <option value="playbook">Playbook</option>
+              </select>
+            </div>
+
+            {/* Tags */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Tags
+              </label>
+              <input
+                type="text"
+                placeholder="Add tags (comma separated)"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* Content Editor */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Content
+              </label>
+              <div className="border border-gray-300 rounded-md">
+                <Tiptap content={post} onChange={onChange} />
+              </div>
+            </div>
+
+            {/* Homepage Banner Section (moved to less prominent position) */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Homepage Banner (Optional)
+              </label>
+              <div className="relative">
+                <div 
+                  className="w-full h-32 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+                  onClick={() => document.getElementById('homepage-banner-upload')?.click()}
+                  style={{
+                    backgroundImage: homepageBanner ? `url(${homepageBanner})` : 'none',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  <div className="text-center">
+                    <button className="inline-flex items-center px-3 py-1 bg-white border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 hover:bg-gray-50">
+                      <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      Upload Banner
+                    </button>
+                  </div>
+                </div>
+                <input
+                  id="homepage-banner-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && setHomepageBanner(e.target.files[0])}
+                />
+              </div>
+            </div>
+
+            {/* URL Slug */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                URL Slug
+              </label>
+              <input
+                type="text"
+                placeholder="url-slug-will-be-generated-automatically"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-50"
+                disabled
+              />
+            </div>
+
+            {/* Publish Options */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Publish Options
+              </label>
+              <div className="space-y-3">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="publish-option"
+                    value="draft"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                    defaultChecked
+                  />
+                  <span className="ml-3 text-sm text-gray-700">Save as Draft</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="publish-option"
+                    value="publish"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                  />
+                  <span className="ml-3 text-sm text-gray-700">Publish Now</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="publish-option"
+                    value="schedule"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                  />
+                  <span className="ml-3 text-sm text-gray-700">Schedule for Later</span>
+                  <input
+                    type="datetime-local"
+                    className="ml-4 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="dd/mm/yyyy, --:-- --"
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Preview Section (Collapsible) */}
+            <div className="border-t pt-8">
+              <details className="group">
+                <summary className="flex cursor-pointer items-center justify-between text-sm font-medium text-gray-700 hover:text-gray-900">
+                  <span>Preview</span>
+                  <svg className="h-5 w-5 text-gray-400 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <div className="preview prose max-w-none" dangerouslySetInnerHTML={{ __html: post }} />
+                </div>
+              </details>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 rounded-b-lg">
+            <div className="flex items-center justify-between">
+              <button 
+                type="button"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Discard
+              </button>
+              <div className="flex space-x-3">
+                <button 
+                  type="button"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Save Draft
+                </button>
+                <button
+                  type="button"
+                  disabled={disabled || isUploading}
+                  onClick={uploadAvatar}
+                  className={`px-6 py-2 text-sm font-medium text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                    disabled || isUploading 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  }`}
+                >
+                  {isUploading ? 'Publishing...' : 'Publish'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button
-        type="submit"
-        disabled={disabled || isUploading}
-        onClick={uploadAvatar}
-        className="cursor-pointer"
-      >
-        Upload
-      </button>
     </div>
   );
 }
