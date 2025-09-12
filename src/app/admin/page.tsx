@@ -36,7 +36,7 @@ export default function Home() {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [selectedTemplate, setSelectedTemplate] = useState<string>("");
-  const [templates, setTemplates] = useState([
+  const TEMPLATES = [
     {
       id: "just-dropped",
       name: "Just Dropped",
@@ -91,14 +91,14 @@ export default function Home() {
       title: "{item} explained…",
       content: `<h2>Explainer</h2><h3>What it is</h3><p>[Basic definition]</p><h3>How it works</h3><p>[Mechanism and process]</p><h3>Why it matters</h3><p>[Significance and impact]</p><h3>Examples</h3><p>[Real-world applications]</p>`
     }
-  ]);
+  ];
 
   const handleChange = (e: any) => setSelectedNewsType(e.target.value);
 
   const handleTemplateChange = (templateId: string) => {
     setSelectedTemplate(templateId);
     if (templateId) {
-      const template = templates.find(t => t.id === templateId);
+      const template = TEMPLATES.find(t => t.id === templateId);
       if (template) {
         setTitle(template.title);
         setPost(template.content);
@@ -108,15 +108,19 @@ export default function Home() {
 
   // Load dark mode preference from localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem('admin-dark-mode');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'true');
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('admin-dark-mode');
+      if (savedTheme) {
+        setIsDarkMode(savedTheme === 'true');
+      }
     }
   }, []);
 
   // Save dark mode preference to localStorage
   useEffect(() => {
-    localStorage.setItem('admin-dark-mode', isDarkMode.toString());
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('admin-dark-mode', isDarkMode.toString());
+    }
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
@@ -291,6 +295,17 @@ export default function Home() {
       setIsUploading(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (adminAvatar && typeof adminAvatar !== 'string') {
+        URL.revokeObjectURL(URL.createObjectURL(adminAvatar));
+      }
+      if (newsBanner && typeof newsBanner !== 'string') {
+        URL.revokeObjectURL(URL.createObjectURL(newsBanner));
+      }
+    };
+  }, [adminAvatar, newsBanner]);
 
   if (!canView) return null;
 
@@ -589,7 +604,7 @@ export default function Home() {
                   }`}
                 >
                   <option value="">--Choose article style (optional)--</option>
-                  {templates.map((template) => (
+                  {TEMPLATES.map((template) => (
                     <option key={template.id} value={template.id}>
                       {template.name}
                     </option>
