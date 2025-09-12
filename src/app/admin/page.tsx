@@ -35,8 +35,76 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>("");
+  const [templates, setTemplates] = useState([
+    {
+      id: "just-dropped",
+      name: "Just Dropped",
+      title: "Just dropped: {project} on {chain}",
+      content: `<h2>Launch Alert</h2><h3>What dropped</h3><p>[Describe what just launched]</p><h3>Why it matters</h3><p>[Explain the significance]</p><h3>What to do</h3><p>[Action items for readers]</p><h3>Next up</h3><p>[What's coming next]</p>`
+    },
+    {
+      id: "from-trenches",
+      name: "From the Trenches",
+      title: "From the trenches: {info}",
+      content: `<h2>Trench Notes</h2><h3>Signal</h3><p>[What signals are you seeing]</p><h3>Receipts</h3><p>[Evidence and proof]</p><h3>My read</h3><p>[Your interpretation]</p><h3>Watchlist</h3><p>[What to keep an eye on]</p>`
+    },
+    {
+      id: "candles",
+      name: "Candles",
+      title: "{project} candles looking THICC rn",
+      content: `<h2>Market Pulse</h2><h3>Chart setup</h3><p>[Technical analysis]</p><h3>Volume</h3><p>[Volume analysis]</p><h3>Who's buying or selling</h3><p>[Market participants]</p><h3>What's next</h3><p>[Price predictions]</p>`
+    },
+    {
+      id: "thesis",
+      name: "Thesis",
+      title: "The thesis nobody asked for: {topic}",
+      content: `<h2>Personal Take</h2><h3>Claim</h3><p>[Your main argument]</p><h3>Why I believe it</h3><p>[Supporting evidence]</p><h3>Counterpoints</h3><p>[Addressing opposing views]</p><h3>Risks</h3><p>[Potential downsides]</p>`
+    },
+    {
+      id: "weekly-scoreboard",
+      name: "Weekly Scoreboard",
+      title: "Who's hot, who's cooked – {category} weekly scoreboard",
+      content: `<h2>Scoreboard</h2><h3>Top performers</h3><p>[Who's winning this week]</p><h3>Wrecked bags</h3><p>[Who's losing big]</p><h3>Surprise entries</h3><p>[Unexpected movers]</p><h3>Overall vibe</h3><p>[Market sentiment]</p>`
+    },
+    {
+      id: "weekly-wrap",
+      name: "Weekly Wrap",
+      title: "What the chain fed us this week {date}",
+      content: `<h2>Weekly Wrap</h2><h3>Winners</h3><p>[What performed well]</p><h3>Losers</h3><p>[What underperformed]</p><h3>Key narratives</h3><p>[Main storylines]</p><h3>Takeaway</h3><p>[Key lessons learned]</p>`
+    },
+    {
+      id: "whale-watch",
+      name: "Whale Watch",
+      title: "Whales moving sus again – follow the flow",
+      content: `<h2>Whale Watch</h2><h3>Wallet activity</h3><p>[Notable whale movements]</p><h3>Flows</h3><p>[Money flow analysis]</p><h3>Why it matters</h3><p>[Impact on market]</p><h3>Next watch</h3><p>[What to monitor]</p>`
+    },
+    {
+      id: "playbook",
+      name: "Playbook",
+      title: "Playbook: {doing} {item} without getting clapped",
+      content: `<h2>Playbook</h2><h3>Goal</h3><p>[What you're trying to achieve]</p><h3>Setup</h3><p>[Prerequisites and preparation]</p><h3>Steps</h3><p>[Step-by-step process]</p><h3>Safeguards</h3><p>[Risk management]</p><h3>Outcome</h3><p>[Expected results]</p>`
+    },
+    {
+      id: "explainer",
+      name: "Explainer",
+      title: "{item} explained…",
+      content: `<h2>Explainer</h2><h3>What it is</h3><p>[Basic definition]</p><h3>How it works</h3><p>[Mechanism and process]</p><h3>Why it matters</h3><p>[Significance and impact]</p><h3>Examples</h3><p>[Real-world applications]</p>`
+    }
+  ]);
 
   const handleChange = (e: any) => setSelectedNewsType(e.target.value);
+
+  const handleTemplateChange = (templateId: string) => {
+    setSelectedTemplate(templateId);
+    if (templateId) {
+      const template = templates.find(t => t.id === templateId);
+      if (template) {
+        setTitle(template.title);
+        setPost(template.content);
+      }
+    }
+  };
 
   // Load dark mode preference from localStorage
   useEffect(() => {
@@ -459,7 +527,7 @@ export default function Home() {
               <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Article Details</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className={`block text-sm font-medium mb-2 ${
                   isDarkMode ? 'text-gray-200' : 'text-gray-700'
@@ -502,6 +570,36 @@ export default function Home() {
                   <option value="lore">Lore</option>
                   <option value="playbook">Playbook</option>
                 </select>
+              </div>
+
+              <div>
+                <label className={`block text-sm font-medium mb-2 ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                }`}>
+                  Article Style
+                </label>
+                <select 
+                  id="article-template" 
+                  value={selectedTemplate} 
+                  onChange={(e) => handleTemplateChange(e.target.value)}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                    isDarkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'border-gray-300 text-gray-900'
+                  }`}
+                >
+                  <option value="">--Choose article style (optional)--</option>
+                  {templates.map((template) => (
+                    <option key={template.id} value={template.id}>
+                      {template.name}
+                    </option>
+                  ))}
+                </select>
+                {selectedTemplate && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    Style applied! Edit the placeholders below.
+                  </p>
+                )}
               </div>
             </div>
 
