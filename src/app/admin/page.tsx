@@ -281,9 +281,9 @@ export default function Home() {
                   <h3 className="text-lg font-semibold text-gray-900">Homepage Banner</h3>
                 </div>
                 
-                {/* Banner Image Display */}
+                {/* Banner Preview */}
                 {homepageBanner && (
-                  <div className="mb-4 flex-1">
+                  <div className="mb-4 flex justify-center">
                     <img
                       src={homepageBanner}
                       alt="Homepage banner preview"
@@ -293,14 +293,17 @@ export default function Home() {
                 )}
                 
                 {/* File Upload Controls */}
-                <div className="flex gap-2 mt-auto">
-                  <AvatarUpload
-                    title=""
-                    avatarUrl={homepageBanner}
-                    handleImageChange={(e: any) => setHomepageBanner(e)}
-                    isBanner={true}
-                    flexStyle="flex-row"
-                  />
+                <div className="flex flex-col gap-3 mt-auto">
+                  <div className="flex gap-3">
+                    <AvatarUpload
+                      title=""
+                      avatarUrl={homepageBanner}
+                      handleImageChange={(e: any) => setHomepageBanner(e)}
+                      isBanner={true}
+                      flexStyle="flex-row"
+                      hidePreview={true}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -437,7 +440,8 @@ export default function Home() {
               </div>
               <div className="prose max-w-none">
                 <div 
-                  className="border border-gray-200 rounded-lg p-4 bg-gray-50"
+                  className="border border-gray-200 rounded-lg p-4 bg-gray-50 text-gray-900"
+                  style={{ color: '#111827' }}
                   dangerouslySetInnerHTML={{ __html: post }} 
                 />
               </div>

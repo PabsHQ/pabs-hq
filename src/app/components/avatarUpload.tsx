@@ -7,6 +7,7 @@ interface AvatarUploadProps {
   handleImageChange: (file: File) => void;
   isBanner: boolean;
   flexStyle: string;
+  hidePreview?: boolean;
 }
 
 const AvatarUpload: React.FC<AvatarUploadProps> = ({
@@ -15,6 +16,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
   avatarUrl,
   isBanner,
   flexStyle,
+  hidePreview = false,
 }) => {
   const [preview, setPreview] = useState<string | null>(avatarUrl);
 
@@ -76,7 +78,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
             </label>
           </div>
           
-          {preview && (
+          {preview && !hidePreview && (
             <div className="relative">
               <img
                 src={preview}
