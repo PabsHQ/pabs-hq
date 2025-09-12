@@ -34,8 +34,26 @@ export default function Home() {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const handleChange = (e: any) => setSelectedNewsType(e.target.value);
+
+  // Load dark mode preference from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('admin-dark-mode');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'true');
+    }
+  }, []);
+
+  // Save dark mode preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('admin-dark-mode', isDarkMode.toString());
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   // enable/disable the button both ways
   useEffect(() => {
@@ -88,6 +106,25 @@ export default function Home() {
   };
 
   const onChange = (content: string) => setPost(content);
+
+  // Calculate word count and reading time
+  const getWordCount = (html: string) => {
+    if (!html || html.trim() === '') return 0;
+    // Remove HTML tags and count words
+    const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const words = text.split(' ').filter(word => word.length > 0);
+    return words.length;
+  };
+
+  const getReadingTime = (wordCount: number) => {
+    if (wordCount === 0) return 0;
+    // Average reading speed: 200 words per minute
+    const minutes = Math.ceil(wordCount / 200);
+    return Math.max(1, minutes); // Minimum 1 minute
+  };
+
+  const wordCount = getWordCount(post);
+  const readingTime = getReadingTime(wordCount);
 
   const uploadAvatar = async () => {
     if (isUploading) return;
@@ -190,7 +227,11 @@ export default function Home() {
   if (!canView) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className={`min-h-screen transition-colors duration-200 ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-gray-900 to-gray-800' 
+        : 'bg-gradient-to-br from-gray-50 to-gray-100'
+    }`}>
       {/* Compact Header */}
       <header className="sticky top-0 w-full backdrop-blur-sm shadow-sm border-b border-gray-200 z-50" style={{ backgroundColor: '#15e382' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -214,9 +255,26 @@ export default function Home() {
                 <p className="text-xs text-white/80">News Editor</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full">
-              <div className="h-2 w-2 bg-white rounded-full"></div>
-              <span className="text-xs font-medium text-white">Connected</span>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors"
+                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {isDarkMode ? (
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                  </svg>
+                )}
+              </button>
+              <div className="flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full">
+                <div className="h-2 w-2 bg-white rounded-full"></div>
+                <span className="text-xs font-medium text-white">Connected</span>
+              </div>
             </div>
           </div>
         </div>
@@ -267,18 +325,20 @@ export default function Home() {
         <div className="space-y-6">
           {/* Page Title */}
           <div className="text-center py-4">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Pabs HQ News</h2>
-            <p className="text-gray-600">Create and manage news articles for the platform</p>
+            <h2 className={`text-3xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Pabs HQ News</h2>
+            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Create and manage news articles for the platform</p>
           </div>
 
           {/* Top Row: Homepage Banner and Author Profile */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {/* Homepage Banner Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full flex flex-col">
+              <div className={`rounded-lg shadow-sm border p-5 h-full flex flex-col ${
+                isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              }`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-                  <h3 className="text-lg font-semibold text-gray-900">Homepage Banner</h3>
+                  <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Homepage Banner</h3>
                 </div>
                 
                 {/* Banner Preview */}
@@ -308,20 +368,28 @@ export default function Home() {
 
             {/* Author Profile Section */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 h-full">
+              <div className={`rounded-lg shadow-sm border p-5 h-full ${
+                isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+              }`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-                  <h3 className="text-lg font-semibold text-gray-900">Author Profile</h3>
+                  <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Author Profile</h3>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className={`block text-sm font-medium mb-2 ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Username
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                        isDarkMode 
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                          : 'border-gray-300 text-gray-900'
+                      }`}
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder="Enter your username"
@@ -329,12 +397,18 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className={`block text-sm font-medium mb-2 ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Username Subtitle
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                        isDarkMode 
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                          : 'border-gray-300 text-gray-900'
+                      }`}
                       value={usernameSubtitle}
                       onChange={(e) => setUsernameSubtitle(e.target.value)}
                       placeholder="e.g., Chief Waddler"
@@ -355,10 +429,12 @@ export default function Home() {
 
           {/* Article Banner Preview */}
           {newsBanner && (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+            <div className={`rounded-lg shadow-sm border p-5 ${
+              isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            }`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-                <h3 className="text-lg font-semibold text-gray-900">Article Banner Preview</h3>
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Article Banner Preview</h3>
               </div>
               <div className="w-full">
                 <img
@@ -375,20 +451,28 @@ export default function Home() {
           )}
 
           {/* Article Details Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+          <div className={`rounded-lg shadow-sm border p-5 ${
+            isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+          }`}>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-              <h3 className="text-lg font-semibold text-gray-900">Article Details</h3>
+              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Article Details</h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-sm font-medium mb-2 ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                }`}>
                   Article Title
                 </label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                    isDarkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                      : 'border-gray-300 text-gray-900'
+                  }`}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Enter article title"
@@ -396,14 +480,20 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-sm font-medium mb-2 ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                }`}>
                   News Type
                 </label>
                 <select 
                   id="news-type" 
                   value={selectedNewsType} 
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                    isDarkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white' 
+                      : 'border-gray-300 text-gray-900'
+                  }`}
                 >
                   <option value="">--Please choose an option--</option>
                   <option value="chainNews">Chain News</option>
@@ -421,25 +511,63 @@ export default function Home() {
           </div>
 
           {/* Content Editor Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+          <div className={`rounded-lg shadow-sm border p-5 ${
+            isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+          }`}>
             <div className="flex items-center gap-3 mb-4">
               <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-              <h3 className="text-lg font-semibold text-gray-900">Article Content</h3>
+              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Article Content</h3>
             </div>
             <Tiptap content={post} onChange={onChange} />
+            
+            {/* Word Count Display */}
+            <div className={`mt-3 flex items-center justify-between text-sm rounded-lg px-3 py-2 ${
+              isDarkMode ? 'text-gray-300 bg-gray-700' : 'text-gray-600 bg-gray-50'
+            }`}>
+              <div className="flex items-center gap-4">
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span className="font-medium">{wordCount} words</span>
+                </span>
+                <span className="flex items-center gap-1">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="font-medium">{readingTime} min read</span>
+                </span>
+              </div>
+              {wordCount > 0 && (
+                <div className="text-xs">
+                  {wordCount < 100 ? (
+                    <span className="text-orange-600">Too short</span>
+                  ) : wordCount > 1000 ? (
+                    <span className="text-green-600">Long article</span>
+                  ) : (
+                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>Good length</span>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Preview Section */}
           {post && (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+            <div className={`rounded-lg shadow-sm border p-5 ${
+              isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            }`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-8 w-1 rounded-full" style={{ backgroundColor: '#15e382' }}></div>
-                <h3 className="text-lg font-semibold text-gray-900">Preview</h3>
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Preview</h3>
               </div>
               <div className="prose max-w-none">
                 <div 
-                  className="border border-gray-200 rounded-lg p-4 bg-gray-50 text-gray-900"
-                  style={{ color: '#111827' }}
+                  className={`border rounded-lg p-4 ${
+                    isDarkMode 
+                      ? 'border-gray-600 bg-gray-700 text-gray-100' 
+                      : 'border-gray-200 bg-gray-50 text-gray-900'
+                  }`}
                   dangerouslySetInnerHTML={{ __html: post }} 
                 />
               </div>
