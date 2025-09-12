@@ -293,17 +293,15 @@ export default function Home() {
                 )}
                 
                 {/* File Upload Controls */}
-                <div className="flex flex-col gap-3 mt-auto">
-                  <div className="flex gap-3">
-                    <AvatarUpload
-                      title=""
-                      avatarUrl={homepageBanner}
-                      handleImageChange={(e: any) => setHomepageBanner(e)}
-                      isBanner={true}
-                      flexStyle="flex-row"
-                      hidePreview={true}
-                    />
-                  </div>
+                <div className="flex gap-3 mt-auto">
+                  <AvatarUpload
+                    title=""
+                    avatarUrl={homepageBanner}
+                    handleImageChange={(e: any) => setHomepageBanner(e)}
+                    isBanner={true}
+                    flexStyle="flex-row"
+                    hidePreview={true}
+                  />
                 </div>
               </div>
             </div>
