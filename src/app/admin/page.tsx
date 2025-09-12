@@ -267,7 +267,7 @@ export default function Home() {
         <div className="space-y-6">
           {/* Page Title */}
           <div className="text-center py-4">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">News Management</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Pabs HQ News</h2>
             <p className="text-gray-600">Create and manage news articles for the platform</p>
           </div>
 
@@ -333,7 +333,7 @@ export default function Home() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder-gray-400"
                       value={usernameSubtitle}
                       onChange={(e) => setUsernameSubtitle(e.target.value)}
                       placeholder="e.g., Chief Waddler"
@@ -387,7 +387,7 @@ export default function Home() {
                 </label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder-gray-400"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Enter article title"
