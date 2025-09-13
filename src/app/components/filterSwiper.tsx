@@ -32,39 +32,49 @@ export default function FilterSwiper({
   };
 
   return (
-    <div className="w-full overflow-hidden px-4">
-      <div
-        className=" mx-auto"
-        style={{
-          width: containerWidth ? `calc(${containerWidth}px - 100px)` : "100%",
-        }}
-      >
+    <div className="w-full overflow-hidden">
+      <div className="mx-auto max-w-7xl">
         <Swiper
           speed={200}
           freeMode
-          spaceBetween={10}
+          spaceBetween={12}
           slidesPerView="auto"
           modules={[FreeMode]}
-          className="w-full py-4"
+          className="w-full"
           style={{ width: "100%", overflow: "hidden" }}
         >
+          {/* All News Tab */}
+          <SwiperSlide style={{ width: "auto" }}>
+            <button
+              onClick={() => selectNewsType("")}
+              className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 ${
+                selectedNewsType === ""
+                  ? "bg-green-500 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              All News
+            </button>
+          </SwiperSlide>
+
+          {/* Category Tabs */}
           {categories &&
             categories.length > 0 &&
             categories.map((categoryName: string, i: number) => (
               <SwiperSlide
                 key={i}
-                style={{ width: "auto", maxWidth: "200px" }}
-                onClick={() => selectNewsType(categoryName)}
+                style={{ width: "auto" }}
               >
-                <div
-                  className={`filter-tab w-full min-w-[190px] h-12 flex justify-center items-center shadow-md ${
+                <button
+                  onClick={() => selectNewsType(categoryName)}
+                  className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 ${
                     selectedNewsType === categoryName
-                      ? "active bg-gradient-to-r from-green-400 to-emerald-400 text-white"
-                      : "bg-white text-black hover:bg-gray-50"
+                      ? "bg-green-500 text-white shadow-md"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {displayText(categoryName)}
-                </div>
+                </button>
               </SwiperSlide>
             ))}
         </Swiper>

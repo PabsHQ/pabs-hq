@@ -2,7 +2,6 @@
 "use client";
 
 import Image from "next/image";
-import PresaleBanner from "./banner";
 import Avatar from "./avatar";
 import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
@@ -12,10 +11,9 @@ import Link from "next/link";
 
 interface NewsPageProps {
   news: NewsItem[];
-  banner: string;
 }
 
-export default function MainContent({ news, banner }: NewsPageProps) {
+export default function MainContent({ news }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
@@ -76,14 +74,10 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      <PresaleBanner banner={banner} />
-      {/* Light box layout */}
-      <div
-        className="bg-white border border-gray-200 rounded-3xl p-6 flex flex-col w-full h-full min-h-0 gap-4 shadow-sm"
-        ref={containerRef}
-      >
-        <div className="flex w-full">
+    <div className="w-full">
+      {/* Sticky Categories Section */}
+      <div className="sticky top-16 z-40 bg-white border-b border-gray-200 shadow-sm mb-6">
+        <div className="px-4 py-4">
           <FilterSwiper
             categories={categories}
             selectedNewsType={selectedNewsType}
@@ -91,24 +85,31 @@ export default function MainContent({ news, banner }: NewsPageProps) {
             containerWidth={containerWidth}
           />
         </div>
+      </div>
 
-        {newsItems.length < 1 && <Spinner />}
-        {/* Grid container with scrolling */}
+      {/* Articles Grid */}
+      <div className="w-full">
+        {newsItems.length < 1 && (
+          <div className="flex justify-center py-12">
+            <Spinner />
+          </div>
+        )}
+
         {newsItems.length > 0 && (
           <div 
-            className="grid w-full overflow-y-auto min-h-0"
+            className="grid w-full"
             style={{
-              padding: '8px',
-              gap: 'var(--card-gap-y) var(--card-gap-x)',
+              gap: '1.5rem',
               gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))'
             }}
+            ref={containerRef}
           >
             {(selectedNewsType === "" ? newsItems : filteredNews).map(
               (item: NewsItem, id: number) => (
                 <Link
                   href={`/news/${item.id}`}
                   key={item.id}
-                  className="bg-white border border-gray-200 rounded-2xl p-4 cursor-pointer flex flex-col fade-in hover:shadow-lg hover:border-gray-300 transition-all duration-300"
+                  className="bg-white border border-gray-200 rounded-2xl p-4 cursor-pointer flex flex-col fade-in hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
@@ -117,7 +118,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       src={item.banner}
                       alt="Article preview"
                       fill
-                      className="rounded-xl object-cover"
+                      className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
@@ -163,7 +164,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 mt-2 line-clamp-2">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 mt-2 line-clamp-2 group-hover:text-green-600 transition-colors">
                       {item.title}
                     </h3>
                     <div className="text-sm text-gray-600">
