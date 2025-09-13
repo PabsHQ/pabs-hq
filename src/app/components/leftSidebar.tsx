@@ -2,7 +2,6 @@
 "use client";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useAccount } from "wagmi";
 
 const MENU_ITEMS = [
@@ -46,69 +45,72 @@ const MENU_ITEMS = [
 export default function LeftSidebar() {
   const { logout } = useLoginWithAbstract();
   const { isConnected } = useAccount();
+  
   return (
-    <div className="flex-[0.2] h-full min-w-[255px]">
-      <div className="flex flex-col h-full w-full gap-[12px]">
-        <div className="flex-[1] overflow-y-auto w-full rounded-[30px] bg-white flex flex-col h-full w-full justify-between items-center pl-[8%] py-[28px] drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] gap-[20px]">
-          <Link href="/" className="self-start">
-            <Image
-              src="/images/pabsLogo.png"
-              className="cursor-pointer self-start"
-              width={125}
-              height={28}
-              alt="Sidebar placeholder"
-            />
-          </Link>
-          <div className="flex flex-col w-full gap-[24px] justify-start items-center">
-            {MENU_ITEMS.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className={`flex gap-[24px] rounded-l-[8px] p-[16px] w-full ${
-                    item.disabled
-                      ? "cursor-not-allowed"
-                      : "bg-[#3EEE99] cursor-pointer"
-                  }`}
-                >
-                  <Image
-                    src={item.image}
-                    height={24}
-                    width={24}
-                    alt="news"
-                    style={{ objectFit: "contain" }}
-                  />
-                  <span
-                    className={`text-[22px] ${
-                      item.disabled ? "text-[#84828A]" : "text-white"
-                    }`}
-                  >
-                    {item.title}
+    <nav className="h-full" role="navigation" aria-label="Main navigation">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 h-full flex flex-col py-6 px-4">
+        {/* Navigation Menu */}
+        <div className="flex-1 space-y-3">
+          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider px-3 mb-4">
+            Navigation
+          </h2>
+          {MENU_ITEMS.map((item: any, index: number) => {
+            return (
+              <div
+                key={index}
+                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                  item.disabled
+                    ? "cursor-not-allowed opacity-50"
+                    : "bg-gradient-to-r from-green-400 to-green-500 text-white cursor-pointer hover:from-green-500 hover:to-green-600 shadow-sm"
+                }`}
+                role={item.disabled ? "presentation" : "button"}
+                tabIndex={item.disabled ? -1 : 0}
+                aria-disabled={item.disabled}
+              >
+                <Image
+                  src={item.image}
+                  height={20}
+                  width={20}
+                  alt={`${item.title} icon`}
+                  className="flex-shrink-0"
+                />
+                <span className={`text-sm font-medium ${
+                  item.disabled ? "text-gray-400" : "text-white"
+                }`}>
+                  {item.title}
+                </span>
+                {item.disabled && (
+                  <span className="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
+                    Soon
                   </span>
-                </div>
-              );
-            })}
-          </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
 
-          {isConnected ? (
-            <div
-              className="flex gap-[24px] justify-start items-center cursor-pointer p-[16px] self-start"
+        {/* Logout Section */}
+        {isConnected && (
+          <div className="pt-4 border-t border-gray-100">
+            <button
               onClick={logout}
+              className="flex items-center gap-3 px-3 py-3 rounded-xl w-full text-left hover:bg-gray-50 transition-colors duration-200"
+              aria-label="Disconnect wallet"
             >
               <Image
-                src={"/images/leftSidebar/logout.png"}
-                height={24}
-                width={24}
-                alt="logout"
-              ></Image>
-              <span className="text-[22px] text-[#84828A] self-start">
+                src="/images/leftSidebar/logout.png"
+                height={20}
+                width={20}
+                alt="Logout icon"
+                className="flex-shrink-0"
+              />
+              <span className="text-sm font-medium text-gray-600">
                 Disconnect
               </span>
-            </div>
-          ) : (
-            <div className="flex w-full gap-[24px] justify-start items-center cursor-pointer p-[16px]"></div>
-          )}
-        </div>
+            </button>
+          </div>
+        )}
       </div>
-    </div>
+    </nav>
   );
 }
