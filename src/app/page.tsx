@@ -4,6 +4,7 @@ import RightSidebar from "./components/rightSidebar";
 import { getHomepageBanner } from "./helper/getHomepageBanner";
 import { getNews } from "./helper/getNews";
 import { NewsItem } from "./interfaces/newsDto.model";
+import Image from "next/image";
 
 export const revalidate = 3600;
 export default async function Home() {
@@ -16,10 +17,12 @@ export default async function Home() {
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img
+            <Image
               src="/images/pabsLogo.png"
               className="cursor-pointer h-8"
               alt="Pabs HQ Logo"
+              width={140}
+              height={32}
             />
           </div>
 

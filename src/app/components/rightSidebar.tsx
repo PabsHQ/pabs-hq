@@ -67,10 +67,9 @@ export default function RightSidebar({ news }: NewsPageProps) {
             </div>
             <Image
               src="/images/banner2.jpeg"
-              layout="responsive"
               width={700}
               height={400}
-              className="rounded-[8px]"
+              className="rounded-[8px] w-full h-auto"
               alt="Sidebar placeholder"
             />
             <div className="flex w-full h-full flex-col gap-[20px]">

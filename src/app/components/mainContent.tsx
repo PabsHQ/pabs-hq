@@ -8,6 +8,7 @@ import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
+
 interface NewsPageProps {
   news: NewsItem[];
   banner: string;
@@ -73,53 +74,128 @@ export default function MainContent({ news, banner }: NewsPageProps) {
     else setSelectedNewsType(text);
   };
 
-  return (
-    <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      {/* White box layout */}
-      <div
-        className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]"
-        ref={containerRef}
-      >
-        <div className="flex w-full">
-          <FilterSwiper
-            categories={categories}
-            selectedNewsType={selectedNewsType}
-            selectNewsType={(e: string) => selectNewsType(e)}
-            containerWidth={containerWidth}
-          />
-        </div>
+  const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
+  const featuredNews = displayNews[0];
+  const regularNews = displayNews.slice(1);
 
-        {newsItems.length < 1 && <Spinner />}
-        {/* Grid container with scrolling */}
-        {newsItems.length > 0 && (
-          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] w-full overflow-y-auto min-h-0">
-            {(selectedNewsType === "" ? newsItems : filteredNews).map(
-              (item: NewsItem, id: number) => (
-                <Link
-                  href={`/news/${item.id}`}
-                  key={item.id}
-                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md min-h-[310px] xl:min-h-[250px] cursor-pointer flex flex-col gap-[8px]"
-                  onMouseEnter={() => handleLikesDisplay(id)}
-                  onMouseLeave={() => setShowLikeButton(-1)}
-                >
-                  <div className="w-full relative flex-grow">
+  return (
+    <div className="w-full">
+      {/* Filter Swiper */}
+      <div className="mb-8">
+        <FilterSwiper
+          categories={categories}
+          selectedNewsType={selectedNewsType}
+          selectNewsType={(e: string) => selectNewsType(e)}
+          containerWidth={containerWidth}
+        />
+      </div>
+
+      {newsItems.length < 1 && (
+        <div className="flex justify-center py-12">
+          <Spinner />
+        </div>
+      )}
+
+      {/* News Grid with Mixed Hierarchy */}
+      {newsItems.length > 0 && (
+        <div className="space-y-8" ref={containerRef}>
+          {/* Featured Card - Full Width */}
+          {featuredNews && (
+            <div className="w-full">
+              <Link
+                href={`/news/${featuredNews.id}`}
+                className="block group"
+                onMouseEnter={() => handleLikesDisplay(0)}
+                onMouseLeave={() => setShowLikeButton(-1)}
+              >
+                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                  <div className="relative h-80">
+                    <Image
+                      src={featuredNews.banner}
+                      alt="Featured article"
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                      priority
+                    />
+                    {showLikeButton === 0 && (
+                      <div
+                        className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
+                        onClick={(e) => handleLikeClick(e)}
+                      >
+                        <Image
+                          src="/images/heartIcon.png"
+                          alt="Like"
+                          width={20}
+                          height={20}
+                        />
+                      </div>
+                    )}
+                    <div className="absolute bottom-4 left-4">
+                      <span
+                        className={`inline-block px-4 py-2 text-sm font-bold text-white rounded-full ${
+                          featuredNews.newsType === "lore"
+                            ? "bg-orange-500"
+                            : featuredNews.newsType === "theBuzz"
+                            ? "bg-yellow-500"
+                            : featuredNews.newsType === "chainNews"
+                            ? "bg-green-500"
+                            : "bg-orange-500"
+                        }`}
+                      >
+                        {featuredNews.newsType === "chainNews"
+                          ? "Chain News"
+                          : featuredNews.newsType === "theBuzz"
+                          ? "The Buzz"
+                          : featuredNews.newsType === "trenches"
+                          ? "Trenches"
+                          : featuredNews.newsType === "lore"
+                          ? "Lore"
+                          : "Playbook"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-8">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
+                      {featuredNews.title}
+                    </h2>
+                    <div className="flex items-center space-x-3">
+                      <Avatar
+                        small
+                        image={featuredNews.editor.avatarUrl}
+                        headerText={featuredNews.editor.username}
+                        banner={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          )}
+
+          {/* Regular News Grid - 3 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {regularNews.map((item: NewsItem, id: number) => (
+              <Link
+                href={`/news/${item.id}`}
+                key={item.id}
+                className="block group"
+                onMouseEnter={() => handleLikesDisplay(id + 1)}
+                onMouseLeave={() => setShowLikeButton(-1)}
+              >
+                <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105 h-full">
+                  <div className="relative h-48">
                     <Image
                       src={item.banner}
                       alt="Article preview"
-                      layout="fill"
-                      className="rounded-[24px] p-[8px] block relative object-cover"
+                      fill
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority
                     />
-                    {showLikeButton === id && (
+                    {showLikeButton === id + 1 && (
                       <div
-                        className="absolute top-[8px] right-[8px] bg-[#7e8180]/90 rounded-full p-[4px] shadow-md transition-all duration-300 hover:scale-115"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          console.log("Like clicked");
-                          handleLikeClick(e);
-                        }}
+                        className="absolute top-3 right-3 bg-white/90 rounded-full p-1.5 shadow-md transition-all duration-300 hover:scale-110"
+                        onClick={(e) => handleLikeClick(e)}
                       >
                         <Image
                           src="/images/heartIcon.png"
@@ -130,44 +206,46 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-[7px] justify-start items-start p-[8px]">
+                  <div className="p-6">
                     <span
-                      className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
+                      className={`inline-block px-3 py-1 text-xs font-bold text-white rounded-full mb-3 ${
                         item.newsType === "lore"
-                          ? "bg-[#FF937A]"
+                          ? "bg-orange-500"
                           : item.newsType === "theBuzz"
-                          ? "bg-[#FFD46F]"
+                          ? "bg-yellow-500"
                           : item.newsType === "chainNews"
-                          ? "bg-[#1BFE90]"
-                          : "bg-[#FF937A]"
-                      } text-white rounded-full uppercase`}
+                          ? "bg-green-500"
+                          : "bg-orange-500"
+                      }`}
                     >
                       {item.newsType === "chainNews"
-                        ? "chain news"
+                        ? "Chain News"
                         : item.newsType === "theBuzz"
-                        ? "the buzz"
+                        ? "The Buzz"
                         : item.newsType === "trenches"
-                        ? "trenches"
+                        ? "Trenches"
                         : item.newsType === "lore"
-                        ? "lore"
-                        : "playbook"}
+                        ? "Lore"
+                        : "Playbook"}
                     </span>
-                    <span className="font-semibold text-black relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
                       {item.title}
-                    </span>
-                    <Avatar
-                      small
-                      image={item.editor.avatarUrl}
-                      headerText={item.editor.username}
-                      banner={false}
-                    />
+                    </h3>
+                    <div className="flex items-center space-x-2">
+                      <Avatar
+                        small
+                        image={item.editor.avatarUrl}
+                        headerText={item.editor.username}
+                        banner={false}
+                      />
+                    </div>
                   </div>
-                </Link>
-              )
-            )}
+                </div>
+              </Link>
+            ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
