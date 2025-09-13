@@ -32,39 +32,40 @@ export default function FilterSwiper({
   };
 
   return (
-    <div className="w-full overflow-hidden px-4">
-      <div
-        className=" mx-auto"
-        style={{
-          width: containerWidth ? `calc(${containerWidth}px - 100px)` : "100%",
-        }}
-      >
+    <div className="w-full">
+      <div className="mb-4">
+        <h2 className="text-lg font-bold text-gray-900">Filter by Category</h2>
+        <p className="text-sm text-gray-500">Select a category to filter articles</p>
+      </div>
+      
+      <div className="overflow-hidden">
         <Swiper
-          speed={200}
+          speed={300}
           freeMode
-          spaceBetween={10}
+          spaceBetween={12}
           slidesPerView="auto"
           modules={[FreeMode]}
-          className="w-full py-4"
-          style={{ width: "100%", overflow: "hidden" }}
+          className="w-full py-2"
         >
           {categories &&
             categories.length > 0 &&
             categories.map((categoryName: string, i: number) => (
               <SwiperSlide
                 key={i}
-                style={{ width: "auto", maxWidth: "200px" }}
+                style={{ width: "auto" }}
                 onClick={() => selectNewsType(categoryName)}
               >
-                <div
-                  className={`${
+                <button
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     selectedNewsType === categoryName
-                      ? "bg-[#3EEE99] text-white hover:bg-green-300"
-                      : "bg-white text-black hover:bg-gray-100 rounded-[12px] w-full h-[40px] flex justify-center items-center font-semibold cursor-pointer  hover:shadow-md transition-all duration-300 "
-                  } rounded-[12px] w-full min-w-[190px] h-[40px] flex justify-center items-center font-semibold cursor-pointer shadow-md hover:shadow-md transition-all duration-300`}
+                      ? "bg-gradient-to-r from-green-400 to-green-500 text-white shadow-sm hover:from-green-500 hover:to-green-600"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
+                  }`}
+                  aria-pressed={selectedNewsType === categoryName}
+                  aria-label={`Filter by ${displayText(categoryName)}`}
                 >
                   {displayText(categoryName)}
-                </div>
+                </button>
               </SwiperSlide>
             ))}
         </Swiper>
