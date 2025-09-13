@@ -2,7 +2,6 @@
 "use client";
 
 import Image from "next/image";
-import PresaleBanner from "./banner";
 import Avatar from "./avatar";
 import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
@@ -77,7 +76,6 @@ export default function MainContent({ news, banner }: NewsPageProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      <PresaleBanner banner={banner} />
       {/* White box layout */}
       <div
         className="sidebar-card p-[2%] flex flex-col w-full h-full min-h-0 gap-4"
