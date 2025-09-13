@@ -16,13 +16,13 @@ export default async function Home() {
         {/* Left Sidebar */}
         <LeftSidebar />
 
-        {/* Main Content (Middle) */}
-        <div className="flex-1">
+        {/* Main Content (Middle) - Extended to right edge */}
+        <div className="flex-1 mr-0">
           <MainContent banner={homepageBanner} news={news} />
         </div>
 
-        {/* Right Sidebar */}
-        <RightSidebar news={news} />
+        {/* Right Sidebar - Simplified */}
+        <RightSidebar />
       </div>
 
       {/* Mobile display */}
