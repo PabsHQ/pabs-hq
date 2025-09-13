@@ -20,7 +20,6 @@ export default function MainContent({ news }: NewsPageProps) {
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
     if (!news) return;
@@ -30,21 +29,6 @@ export default function MainContent({ news }: NewsPageProps) {
     ];
     setCategories(uniqueCategories);
   }, [news]);
-
-  useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-
-    return () => {
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
 
   useEffect(() => {
     if (selectedNewsType === "") {
@@ -82,7 +66,6 @@ export default function MainContent({ news }: NewsPageProps) {
             categories={categories}
             selectedNewsType={selectedNewsType}
             selectNewsType={(e: string) => selectNewsType(e)}
-            containerWidth={containerWidth}
           />
         </div>
       </div>
