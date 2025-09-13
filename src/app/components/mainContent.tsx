@@ -78,9 +78,9 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
       <PresaleBanner banner={banner} />
-      {/* White box layout */}
+      {/* Light box layout */}
       <div
-        className="sidebar-card p-[2%] flex flex-col w-full h-full min-h-0 gap-4"
+        className="bg-white border border-gray-200 rounded-3xl p-6 flex flex-col w-full h-full min-h-0 gap-4 shadow-sm"
         ref={containerRef}
       >
         <div className="flex w-full">
@@ -108,7 +108,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                 <Link
                   href={`/news/${item.id}`}
                   key={item.id}
-                  className="news-card interactive-card cursor-pointer flex flex-col fade-in"
+                  className="bg-white border border-gray-200 rounded-2xl p-4 cursor-pointer flex flex-col fade-in hover:shadow-lg hover:border-gray-300 transition-all duration-300"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
@@ -123,7 +123,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                     />
                     {showLikeButton === id && (
                       <div
-                        className="absolute top-2 right-2 bg-gray-800/90 rounded-full p-1 shadow-md hover-scale"
+                        className="absolute top-2 right-2 bg-white/90 rounded-full p-1 shadow-md hover-scale border border-gray-200"
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -163,10 +163,10 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <h3 className="news-card-title">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 mt-2 line-clamp-2">
                       {item.title}
                     </h3>
-                    <div className="news-card-meta">
+                    <div className="text-sm text-gray-600">
                       <Avatar
                         small
                         image={item.editor.avatarUrl}

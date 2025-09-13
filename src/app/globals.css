@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  /* Base Colors */
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+  /* Base Colors - Light Theme */
+  --background: #ffffff;
+  --foreground: #1f2937;
   
   /* Brand Colors */
   --primary: #3EEE99;
@@ -42,21 +42,21 @@
   /* Design System Accent Colors */
   --accent-orange: #f97316;
   --accent-lime: #22c55e;
-  --sidebar-hover: #1e1e1e;
-  --card-bg-dark: #111111;
-  --card-bg-hover: #1a1a1a;
+  --sidebar-hover: #f3f4f6;
+  --card-bg-dark: #ffffff;
+  --card-bg-hover: #f9fafb;
   
   /* Typography Colors */
-  --text-white: #ffffff;
-  --text-light-grey: #a1a1aa;
-  --text-dim-grey: #737373;
+  --text-white: #1f2937;
+  --text-light-grey: #6b7280;
+  --text-dim-grey: #9ca3af;
   
   /* Surface Colors */
-  --surface: #1a1a1a;
-  --surface-elevated: #2a2a2a;
-  --surface-hover: #2a2a2a;
-  --border: #374151;
-  --border-light: #2a2a2a;
+  --surface: #ffffff;
+  --surface-elevated: #f8fafc;
+  --surface-hover: #f3f4f6;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
   
   /* Shadow Colors */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -64,7 +64,7 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-custom: 2px 2px 5px rgba(11, 15, 52, 0.18);
+  --shadow-custom: 2px 2px 5px rgba(0, 0, 0, 0.08);
   
   /* Spacing Scale */
   --space-1: 0.25rem;    /* 4px */
@@ -122,20 +122,13 @@
   --color-border: var(--border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #F0F1F5;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
 }
 
-/* Custom scrollbar - sexy, thin, no arrows */
+/* Custom scrollbar - light theme */
 ::-webkit-scrollbar {
   height: 0px;
   width: 0px;
@@ -147,16 +140,16 @@ body {
 
 ::-webkit-scrollbar-track {
   border-radius: .5rem;
-  background-color: hsla(0, 0%, 100%, .05);
+  background-color: hsla(0, 0%, 0%, .05);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: var(--radius-md);
-  background-color: hsla(0, 0%, 100%, .5);
+  background-color: hsla(0, 0%, 0%, .2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: hsla(0, 0%, 100%, .75);
+  background-color: hsla(0, 0%, 0%, .3);
 }
 
 ::-webkit-scrollbar-corner {
@@ -171,7 +164,6 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
-
 
 h1 {
   font-size: var(--text-5xl);
@@ -405,9 +397,9 @@ ol li {
 
 /* Utility Classes */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .hover-lift {
@@ -461,7 +453,7 @@ ol li {
   border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--card-bg-dark);
-  border: 1px solid var(--gray-800);
+  border: 1px solid var(--border);
   padding: var(--card-padding);
   height: auto;
   min-height: 320px;
@@ -470,7 +462,7 @@ ol li {
 .news-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-xl);
-  border-color: var(--gray-700);
+  border-color: var(--gray-300);
   background: var(--card-bg-hover);
 }
 
@@ -689,7 +681,7 @@ ol li {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
   transition: left var(--transition-slow);
 }
 
