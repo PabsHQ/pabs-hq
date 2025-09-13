@@ -9,6 +9,7 @@ import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
+
 interface NewsPageProps {
   news: NewsItem[];
   banner: string;
@@ -115,7 +116,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                     <Image
                       src={item.banner}
                       alt="Article preview"
-                      layout="fill"
+                      fill
                       className="rounded-xl object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
@@ -126,7 +127,6 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          console.log("Like clicked");
                           handleLikeClick(e);
                         }}
                       >
