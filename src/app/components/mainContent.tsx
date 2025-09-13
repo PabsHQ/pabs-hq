@@ -75,100 +75,129 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   };
 
   return (
-    <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
+    <div className="flex flex-col space-y-6 h-full">
+      {/* Banner */}
       <PresaleBanner banner={banner} />
-      {/* White box layout */}
+      
+      {/* News Content */}
       <div
-        className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]"
+        className="bg-white rounded-2xl shadow-sm border border-gray-100 flex-1 min-h-0 overflow-hidden"
         ref={containerRef}
       >
-        <div className="flex w-full">
-          <FilterSwiper
-            categories={categories}
-            selectedNewsType={selectedNewsType}
-            selectNewsType={(e: string) => selectNewsType(e)}
-            containerWidth={containerWidth}
-          />
-        </div>
-
-        {newsItems.length < 1 && <Spinner />}
-        {/* Grid container with scrolling */}
-        {newsItems.length > 0 && (
-          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] w-full overflow-y-auto min-h-0">
-            {(selectedNewsType === "" ? newsItems : filteredNews).map(
-              (item: NewsItem, id: number) => (
-                <Link
-                  href={`/news/${item.id}`}
-                  key={item.id}
-                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md min-h-[310px] xl:min-h-[250px] cursor-pointer flex flex-col gap-[8px]"
-                  onMouseEnter={() => handleLikesDisplay(id)}
-                  onMouseLeave={() => setShowLikeButton(-1)}
-                >
-                  <div className="w-full relative flex-grow">
-                    <Image
-                      src={item.banner}
-                      alt="Article preview"
-                      layout="fill"
-                      className="rounded-[24px] p-[8px] block relative object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority
-                    />
-                    {showLikeButton === id && (
-                      <div
-                        className="absolute top-[8px] right-[8px] bg-[#7e8180]/90 rounded-full p-[4px] shadow-md transition-all duration-300 hover:scale-115"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          console.log("Like clicked");
-                          handleLikeClick(e);
-                        }}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={16}
-                          height={16}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col gap-[7px] justify-start items-start p-[8px]">
-                    <span
-                      className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
-                        item.newsType === "lore"
-                          ? "bg-[#FF937A]"
-                          : item.newsType === "theBuzz"
-                          ? "bg-[#FFD46F]"
-                          : item.newsType === "chainNews"
-                          ? "bg-[#1BFE90]"
-                          : "bg-[#FF937A]"
-                      } text-white rounded-full uppercase`}
-                    >
-                      {item.newsType === "chainNews"
-                        ? "chain news"
-                        : item.newsType === "theBuzz"
-                        ? "the buzz"
-                        : item.newsType === "trenches"
-                        ? "trenches"
-                        : item.newsType === "lore"
-                        ? "lore"
-                        : "playbook"}
-                    </span>
-                    <span className="font-semibold text-black relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
-                      {item.title}
-                    </span>
-                    <Avatar
-                      small
-                      image={item.editor.avatarUrl}
-                      headerText={item.editor.username}
-                      banner={false}
-                    />
-                  </div>
-                </Link>
-              )
-            )}
+        <div className="p-6 h-full flex flex-col space-y-6">
+          {/* Filter Section */}
+          <div className="flex-shrink-0">
+            <FilterSwiper
+              categories={categories}
+              selectedNewsType={selectedNewsType}
+              selectNewsType={(e: string) => selectNewsType(e)}
+              containerWidth={containerWidth}
+            />
           </div>
-        )}
+
+          {/* Loading State */}
+          {newsItems.length < 1 && (
+            <div className="flex-1 flex items-center justify-center">
+              <Spinner />
+            </div>
+          )}
+          
+          {/* News Grid */}
+          {newsItems.length > 0 && (
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {(selectedNewsType === "" ? newsItems : filteredNews).map(
+                  (item: NewsItem, id: number) => (
+                    <article
+                      key={item.id}
+                      className="group"
+                    >
+                      <Link
+                        href={`/news/${item.id}`}
+                        className="block bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02] h-full"
+                        onMouseEnter={() => handleLikesDisplay(id)}
+                        onMouseLeave={() => setShowLikeButton(-1)}
+                      >
+                        {/* Article Image */}
+                        <div className="relative aspect-video overflow-hidden">
+                          <Image
+                            src={item.banner}
+                            alt={`${item.title} preview image`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                          />
+                          
+                          {/* Like Button */}
+                          {showLikeButton === id && (
+                            <button
+                              className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110 hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/50"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleLikeClick(e);
+                              }}
+                              aria-label={`Like ${item.title}`}
+                            >
+                              <Image
+                                src="/images/heartIcon.png"
+                                alt="Like icon"
+                                width={16}
+                                height={16}
+                              />
+                            </button>
+                          )}
+                          
+                          {/* Category Badge */}
+                          <div className="absolute bottom-3 left-3">
+                            <span
+                              className={`inline-block px-3 py-1 text-xs font-semibold text-white rounded-full shadow-lg ${
+                                item.newsType === "lore"
+                                  ? "bg-orange-400"
+                                  : item.newsType === "theBuzz"
+                                  ? "bg-yellow-400"
+                                  : item.newsType === "chainNews"
+                                  ? "bg-green-400"
+                                  : "bg-orange-400"
+                              }`}
+                            >
+                              {item.newsType === "chainNews"
+                                ? "Chain News"
+                                : item.newsType === "theBuzz"
+                                ? "The Buzz"
+                                : item.newsType === "trenches"
+                                ? "Trenches"
+                                : item.newsType === "lore"
+                                ? "Lore"
+                                : "Playbook"}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        {/* Article Content */}
+                        <div className="p-4 space-y-3">
+                          <h3 className="font-semibold text-gray-900 line-clamp-2 text-sm leading-5">
+                            {item.title}
+                          </h3>
+                          
+                          {/* Author */}
+                          <div className="pt-2">
+                            <Avatar
+                              small
+                              image={item.editor.avatarUrl}
+                              headerText={item.editor.username}
+                              banner={false}
+                            />
+                          </div>
+                        </div>
+                      </Link>
+                    </article>
+                  )
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
