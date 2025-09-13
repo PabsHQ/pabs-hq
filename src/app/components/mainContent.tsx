@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import PresaleBanner from "./banner";
 import Avatar from "./avatar";
 import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
@@ -11,15 +12,17 @@ import Link from "next/link";
 
 interface NewsPageProps {
   news: NewsItem[];
+  banner: string;
 }
 
-export default function MainContent({ news }: NewsPageProps) {
+export default function MainContent({ news, banner }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
     if (!news) return;
@@ -29,6 +32,21 @@ export default function MainContent({ news }: NewsPageProps) {
     ];
     setCategories(uniqueCategories);
   }, [news]);
+
+  useEffect(() => {
+    const measure = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+
+    return () => {
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedNewsType === "") {
@@ -58,41 +76,39 @@ export default function MainContent({ news }: NewsPageProps) {
   };
 
   return (
-    <div className="w-full">
-      {/* Sticky Categories Section */}
-      <div className="sticky top-16 z-40 bg-white border-b border-gray-200 shadow-sm mb-6">
-        <div className="px-4 py-4">
+    <div className="flex flex-col gap-4 w-full h-full min-h-0">
+      <PresaleBanner banner={banner} />
+      {/* White box layout */}
+      <div
+        className="sidebar-card p-[2%] flex flex-col w-full h-full min-h-0 gap-4"
+        ref={containerRef}
+      >
+        <div className="flex w-full">
           <FilterSwiper
             categories={categories}
             selectedNewsType={selectedNewsType}
             selectNewsType={(e: string) => selectNewsType(e)}
+            containerWidth={containerWidth}
           />
         </div>
-      </div>
 
-      {/* Articles Grid */}
-      <div className="w-full">
-        {newsItems.length < 1 && (
-          <div className="flex justify-center py-12">
-            <Spinner />
-          </div>
-        )}
-
+        {newsItems.length < 1 && <Spinner />}
+        {/* Grid container with scrolling */}
         {newsItems.length > 0 && (
           <div 
-            className="grid w-full"
+            className="grid w-full overflow-y-auto min-h-0"
             style={{
-              gap: '1.5rem',
+              padding: '8px',
+              gap: 'var(--card-gap-y) var(--card-gap-x)',
               gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))'
             }}
-            ref={containerRef}
           >
             {(selectedNewsType === "" ? newsItems : filteredNews).map(
               (item: NewsItem, id: number) => (
                 <Link
                   href={`/news/${item.id}`}
                   key={item.id}
-                  className="bg-white border border-gray-200 rounded-2xl p-4 cursor-pointer flex flex-col fade-in hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
+                  className="news-card interactive-card cursor-pointer flex flex-col fade-in"
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
                 >
@@ -101,13 +117,13 @@ export default function MainContent({ news }: NewsPageProps) {
                       src={item.banner}
                       alt="Article preview"
                       fill
-                      className="rounded-xl object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="rounded-xl object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       priority
                     />
                     {showLikeButton === id && (
                       <div
-                        className="absolute top-2 right-2 bg-white/90 rounded-full p-1 shadow-md hover-scale border border-gray-200"
+                        className="absolute top-2 right-2 bg-gray-800/90 rounded-full p-1 shadow-md hover-scale"
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -147,10 +163,10 @@ export default function MainContent({ news }: NewsPageProps) {
                         ? "lore"
                         : "playbook"}
                     </span>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 mt-2 line-clamp-2 group-hover:text-green-600 transition-colors">
+                    <h3 className="news-card-title">
                       {item.title}
                     </h3>
-                    <div className="text-sm text-gray-600">
+                    <div className="news-card-meta">
                       <Avatar
                         small
                         image={item.editor.avatarUrl}
