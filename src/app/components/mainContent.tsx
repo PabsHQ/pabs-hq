@@ -76,11 +76,6 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   };
 
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
-  
-  // Get staff picks - top 4 articles for the horizontal bar
-  const staffPicks = displayNews.slice(0, 4);
-  // Get regular news starting from index 4
-  const regularNews = displayNews.slice(4);
 
   const getCategoryStyle = (newsType: string) => {
     switch (newsType) {
@@ -150,7 +145,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                   href={`/news/${item.id}`}
                   key={item.id}
                   className={`bg-white border border-gray-200 rounded-2xl overflow-hidden cursor-pointer flex flex-col fade-in hover:shadow-xl hover:border-gray-300 transition-all duration-300 group ${
-                    id === 0 ? 'col-span-2 row-span-2' : ''
+                    id === 0 ? 'md:col-span-2 md:row-span-2' : ''
                   }`}
                   onMouseEnter={() => handleLikesDisplay(id)}
                   onMouseLeave={() => setShowLikeButton(-1)}
@@ -166,7 +161,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                     />
                     {showLikeButton === id && (
                       <div
-                        className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg hover-scale border border-gray-200 transition-all duration-300"
+                        className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 transition-all duration-300"
                         onClick={(e) => handleLikeClick(e)}
                       >
                         <Image
@@ -187,8 +182,13 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                   </div>
                   <div className={`flex flex-col justify-start items-start ${id === 0 ? 'p-6' : 'p-4'}`}>
                     <h3 className={`font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors ${
-                      id === 0 ? 'text-2xl line-clamp-3' : 'text-lg line-clamp-2'
-                    }`}>
+                      id === 0 ? 'text-2xl' : 'text-lg'
+                    }`} style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: id === 0 ? 3 : 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
                       {item.title}
                     </h3>
                     <div className="flex items-center space-x-2">
@@ -211,7 +211,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                   <h2 className="text-2xl font-bold text-gray-900">Staff Picks</h2>
                   <div className="h-px bg-gradient-to-r from-green-400 to-transparent flex-1 ml-4"></div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {displayNews.slice(6, 10).map((item: NewsItem, id: number) => (
                     <Link
                       href={`/news/${item.id}`}
@@ -237,7 +237,12 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         </div>
                       </div>
                       <div className="p-3">
-                        <h4 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors line-clamp-2">
+                        <h4 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors" style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
                           {item.title}
                         </h4>
                         <Avatar
@@ -280,7 +285,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       />
                       {showLikeButton === id + 10 && (
                         <div
-                          className="absolute top-2 right-2 bg-white/90 rounded-full p-1 shadow-md hover-scale border border-gray-200"
+                          className="absolute top-2 right-2 bg-white/90 rounded-full p-1 shadow-md hover:scale-110 border border-gray-200"
                           onClick={(e) => handleLikeClick(e)}
                         >
                           <Image
@@ -300,7 +305,12 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors line-clamp-2">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors" style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
                         {item.title}
                       </h3>
                       <Avatar
