@@ -10,14 +10,14 @@ export default async function Home() {
   const news: NewsItem[] = ((await getNews()) as NewsItem[]) || [];
   const homepageBanner: string = (await getHomepageBanner()) as string;
   return (
-    <div className="h-screen w-screen p-[20px]">
+    <div className="h-screen w-screen p-4 lg:p-5 xl:p-6">
       {/* Desktop display */}
-      <div className="lg:flex gap-[16px] flex-row w-full h-full hidden">
+      <div className="hidden lg:flex lg:gap-4 xl:gap-5 w-full h-full">
         {/* Left Sidebar */}
         <LeftSidebar />
 
         {/* Main Content (Middle) */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <MainContent banner={homepageBanner} news={news} />
         </div>
 
@@ -26,11 +26,8 @@ export default async function Home() {
       </div>
 
       {/* Mobile display */}
-      <div className="lg:hidden gap-[16px] flex-row w-full h-full flex">
-        {/* Main Content (Middle) */}
-        <div className="flex-1">
-          <MainContent news={news} banner={homepageBanner} />
-        </div>
+      <div className="lg:hidden w-full h-full">
+        <MainContent news={news} banner={homepageBanner} />
       </div>
     </div>
   );
