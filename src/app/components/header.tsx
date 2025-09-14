@@ -29,11 +29,37 @@ export default function Header() {
             />
           </Link>
 
+          {/* Search Bar - Center */}
+          <div className="flex-1 flex justify-center px-8">
+            <div className="relative w-full max-w-md">
+              <input
+                type="text"
+                placeholder="Search articles..."
+                className="w-full px-4 py-2 pl-10 pr-4 bg-[#2a2a2a] border border-[#404040] rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+              />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
           {/* User Info / Wallet Connection */}
           <div className="flex items-center space-x-4">
             {isConnected ? (
               <div className="flex items-center space-x-3">
-                <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full shadow-sm">
+                <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg shadow-sm">
                   <Image
                     src="/images/abstract.png"
                     height={20}
@@ -54,7 +80,7 @@ export default function Header() {
                   }
                 }}
                 disabled={isConnecting}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
                 aria-label={isConnecting ? "Connecting wallet..." : "Connect wallet"}
               >
                 {isConnecting ? (
