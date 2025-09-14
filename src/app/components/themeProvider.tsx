@@ -17,18 +17,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else {
-      // Check system preference
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      setTheme(systemTheme);
+    
+    // Only access localStorage and window after component mounts (client-side)
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme") as Theme;
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        // Check system preference
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        setTheme(systemTheme);
+      }
     }
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (mounted && typeof window !== "undefined") {
       localStorage.setItem("theme", theme);
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
@@ -42,8 +46,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(prev => prev === "light" ? "dark" : "light");
   };
 
+  // Return children without theme context during SSR to prevent hydration mismatch
   if (!mounted) {
-    return <div>{children}</div>;
+    return <>{children}</>;
   }
 
   return (
@@ -56,7 +61,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    // Return a default theme during SSR or when context is not available
+    return {
+      theme: "light" as Theme,
+      toggleTheme: () => {}
+    };
   }
   return context;
 }
