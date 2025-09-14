@@ -2,14 +2,12 @@ import Header from "./components/header";
 import LeftSidebar from "./components/leftSidebar";
 import MainContent from "./components/mainContent";
 import RightSidebar from "./components/rightSidebar";
-import { getHomepageBanner } from "./helper/getHomepageBanner";
 import { getNews } from "./helper/getNews";
 import { NewsItem } from "./interfaces/newsDto.model";
 
 export const revalidate = 3600;
 export default async function Home() {
   const news: NewsItem[] = ((await getNews()) as NewsItem[]) || [];
-  const homepageBanner: string = (await getHomepageBanner()) as string;
   
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
