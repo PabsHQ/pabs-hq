@@ -27,11 +27,6 @@ export default async function Home() {
           <section className="flex-1 min-w-0" aria-label="News content">
             <MainContent news={news} />
           </section>
-
-          {/* Right Sidebar */}
-          <aside className="w-80 flex-shrink-0" role="complementary" aria-label="Additional content">
-            <RightSidebar news={news} />
-          </aside>
         </div>
 
         {/* Tablet Layout (768px - 1024px) */}
