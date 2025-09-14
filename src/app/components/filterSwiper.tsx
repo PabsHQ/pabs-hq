@@ -31,11 +31,6 @@ export default function FilterSwiper({
 
   return (
     <div className="w-full">
-      <div className="mb-4">
-        <h2 className="text-lg font-bold text-gray-900">Filter by Category</h2>
-        <p className="text-sm text-gray-500">Select a category to filter articles</p>
-      </div>
-      
       <div className="overflow-hidden">
         <Swiper
           speed={300}
