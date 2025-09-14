@@ -27,7 +27,7 @@ export default async function Home() {
 
           {/* Main Content */}
           <section className="flex-1 min-w-0" aria-label="News content">
-            <MainContent banner={homepageBanner} news={news} />
+            <MainContent news={news} />
           </section>
 
           {/* Right Sidebar */}
@@ -39,7 +39,7 @@ export default async function Home() {
         {/* Tablet Layout (768px - 1024px) */}
         <div className="hidden md:flex lg:hidden gap-4">
           <section className="flex-1" aria-label="News content">
-            <MainContent banner={homepageBanner} news={news} />
+            <MainContent news={news} />
           </section>
           <aside className="w-72" role="complementary" aria-label="Additional content">
             <RightSidebar news={news} />
@@ -95,7 +95,7 @@ export default async function Home() {
 
           {/* Main Content */}
           <section aria-label="News content">
-            <MainContent news={news} banner={homepageBanner} />
+            <MainContent news={news} />
           </section>
 
           {/* Mobile Quick Links */}

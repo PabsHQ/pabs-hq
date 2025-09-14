@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import Avatar from "./avatar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
@@ -11,17 +11,14 @@ import Link from "next/link";
 
 interface NewsPageProps {
   news: NewsItem[];
-  banner: string;
 }
 
-export default function MainContent({ news, banner }: NewsPageProps) {
+export default function MainContent({ news }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
     if (!news) return;
@@ -32,20 +29,6 @@ export default function MainContent({ news, banner }: NewsPageProps) {
     setCategories(uniqueCategories);
   }, [news]);
 
-  useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-
-    return () => {
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
 
   useEffect(() => {
     if (selectedNewsType === "") {
@@ -56,7 +39,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
       (n) => n.newsType === selectedNewsType
     );
     setFilteredNews(filteredNews);
-  }, [selectedNewsType]);
+  }, [selectedNewsType, newsItems]);
 
   const handleLikesDisplay = (id: number) => {
     setShowLikeButton(id);
@@ -86,7 +69,6 @@ export default function MainContent({ news, banner }: NewsPageProps) {
           categories={categories}
           selectedNewsType={selectedNewsType}
           selectNewsType={(e: string) => selectNewsType(e)}
-          containerWidth={containerWidth}
         />
       </div>
 
@@ -98,7 +80,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
 
       {/* News Grid with Mixed Hierarchy */}
       {newsItems.length > 0 && (
-        <div className="space-y-8" ref={containerRef}>
+        <div className="space-y-8">
           {/* Featured Card - Full Width */}
           {featuredNews && (
             <div className="w-full">

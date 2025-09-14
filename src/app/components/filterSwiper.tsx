@@ -7,14 +7,12 @@ type FilterSwiperProps = {
   categories: string[];
   selectedNewsType: string;
   selectNewsType: (val: string) => void;
-  containerWidth: number | null;
 };
 
 export default function FilterSwiper({
   categories,
   selectedNewsType,
   selectNewsType,
-  containerWidth,
 }: FilterSwiperProps) {
   const displayText = (text: string) => {
     switch (text) {
