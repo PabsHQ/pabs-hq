@@ -28,23 +28,22 @@ export default function MainContent({ news }: NewsPageProps) {
     setCategories(uniqueCategories);
   }, [news]);
 
-
   useEffect(() => {
     if (selectedNewsType === "") {
       setFilteredNews([]);
       return;
     }
-    const filteredNews = newsItems.filter(
+    const filtered = newsItems.filter(
       (n) => n.newsType === selectedNewsType
     );
-    setFilteredNews(filteredNews);
+    setFilteredNews(filtered);
   }, [selectedNewsType, newsItems]);
 
   const handleLikesDisplay = (id: number) => {
     setShowLikeButton(id);
   };
 
-  const handleLikeClick = (e: any) => {
+  const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -60,6 +59,30 @@ export default function MainContent({ news }: NewsPageProps) {
   const featuredNews = displayNews[0];
   const regularNews = displayNews.slice(1);
 
+  // Helper function to get category display name
+  const getCategoryDisplayName = (newsType: string) => {
+    const categoryMap: { [key: string]: string } = {
+      chainNews: "Chain News",
+      theBuzz: "The Buzz",
+      trenches: "Trenches",
+      lore: "Lore",
+      playbook: "Playbook"
+    };
+    return categoryMap[newsType] || "News";
+  };
+
+  // Helper function to get category color
+  const getCategoryColor = (newsType: string) => {
+    const colorMap: { [key: string]: string } = {
+      lore: "bg-gradient-to-r from-orange-500 to-orange-600",
+      theBuzz: "bg-gradient-to-r from-yellow-500 to-yellow-600",
+      chainNews: "bg-gradient-to-r from-green-500 to-green-600",
+      trenches: "bg-gradient-to-r from-red-500 to-red-600",
+      playbook: "bg-gradient-to-r from-purple-500 to-purple-600"
+    };
+    return colorMap[newsType] || "bg-gradient-to-r from-gray-500 to-gray-600";
+  };
+
   return (
     <div className="w-full">
       {/* Filter Swiper */}
@@ -67,7 +90,7 @@ export default function MainContent({ news }: NewsPageProps) {
         <FilterSwiper
           categories={categories}
           selectedNewsType={selectedNewsType}
-          selectNewsType={(e: string) => selectNewsType(e)}
+          selectNewsType={selectNewsType}
         />
       </div>
 
@@ -102,27 +125,9 @@ export default function MainContent({ news }: NewsPageProps) {
                     {/* Category Badge - Top Left */}
                     <div className="absolute top-4 left-4">
                       <span
-                        className={`inline-block px-3 py-1.5 text-xs font-semibold text-white rounded-lg shadow-lg ${
-                          featuredNews.newsType === "lore"
-                            ? "bg-gradient-to-r from-orange-500 to-orange-600"
-                            : featuredNews.newsType === "theBuzz"
-                            ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
-                            : featuredNews.newsType === "chainNews"
-                            ? "bg-gradient-to-r from-green-500 to-green-600"
-                            : featuredNews.newsType === "trenches"
-                            ? "bg-gradient-to-r from-red-500 to-red-600"
-                            : "bg-gradient-to-r from-purple-500 to-purple-600"
-                        }`}
+                        className={`inline-block px-3 py-1.5 text-xs font-semibold text-white rounded-lg shadow-lg ${getCategoryColor(featuredNews.newsType)}`}
                       >
-                        {featuredNews.newsType === "chainNews"
-                          ? "Chain News"
-                          : featuredNews.newsType === "theBuzz"
-                          ? "The Buzz"
-                          : featuredNews.newsType === "trenches"
-                          ? "Trenches"
-                          : featuredNews.newsType === "lore"
-                          ? "Lore"
-                          : "Playbook"}
+                        {getCategoryDisplayName(featuredNews.newsType)}
                       </span>
                     </div>
                     {/* Author Image - Top Right */}
@@ -141,7 +146,7 @@ export default function MainContent({ news }: NewsPageProps) {
                     {showLikeButton === 0 && (
                       <div
                         className="absolute bottom-4 right-4 bg-white/90 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
-                        onClick={(e) => handleLikeClick(e)}
+                        onClick={handleLikeClick}
                       >
                         <Image
                           src="/images/heartIcon.png"
@@ -194,27 +199,9 @@ export default function MainContent({ news }: NewsPageProps) {
                     {/* Category Badge - Top Left */}
                     <div className="absolute top-3 left-3">
                       <span
-                        className={`inline-block px-2.5 py-1 text-xs font-semibold text-white rounded-lg shadow-lg ${
-                          item.newsType === "lore"
-                            ? "bg-gradient-to-r from-orange-500 to-orange-600"
-                            : item.newsType === "theBuzz"
-                            ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
-                            : item.newsType === "chainNews"
-                            ? "bg-gradient-to-r from-green-500 to-green-600"
-                            : item.newsType === "trenches"
-                            ? "bg-gradient-to-r from-red-500 to-red-600"
-                            : "bg-gradient-to-r from-purple-500 to-purple-600"
-                        }`}
+                        className={`inline-block px-2.5 py-1 text-xs font-semibold text-white rounded-lg shadow-lg ${getCategoryColor(item.newsType)}`}
                       >
-                        {item.newsType === "chainNews"
-                          ? "Chain News"
-                          : item.newsType === "theBuzz"
-                          ? "The Buzz"
-                          : item.newsType === "trenches"
-                          ? "Trenches"
-                          : item.newsType === "lore"
-                          ? "Lore"
-                          : "Playbook"}
+                        {getCategoryDisplayName(item.newsType)}
                       </span>
                     </div>
                     {/* Author Image - Top Right */}
@@ -233,7 +220,7 @@ export default function MainContent({ news }: NewsPageProps) {
                     {showLikeButton === id + 1 && (
                       <div
                         className="absolute bottom-3 right-3 bg-white/90 rounded-full p-1.5 shadow-lg transition-all duration-300 hover:scale-110"
-                        onClick={(e) => handleLikeClick(e)}
+                        onClick={handleLikeClick}
                       >
                         <Image
                           src="/images/heartIcon.png"

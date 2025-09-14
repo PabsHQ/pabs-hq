@@ -14,29 +14,29 @@ export default async function Home() {
       <Header />
       
       {/* Main Content Area */}
-      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="w-full py-6">
         {/* Desktop Layout */}
-        <div className="hidden lg:flex gap-4 h-[calc(100vh-120px)] min-h-[600px]">
+        <div className="hidden lg:flex gap-6 h-[calc(100vh-120px)] min-h-[600px] px-6">
           {/* Left Sidebar */}
           <aside className="w-64 flex-shrink-0" role="navigation" aria-label="Main navigation">
             <LeftSidebar />
           </aside>
 
           {/* Main Content */}
-          <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-4 border border-[#333333]" aria-label="News content">
+          <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]" aria-label="News content">
             <MainContent news={news} />
           </section>
         </div>
 
         {/* Tablet Layout (768px - 1024px) */}
-        <div className="hidden md:flex lg:hidden gap-4">
-          <section className="flex-1 bg-[#1a1a1a] rounded-2xl p-4 border border-[#333333]" aria-label="News content">
+        <div className="hidden md:flex lg:hidden gap-4 px-4">
+          <section className="flex-1 bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]" aria-label="News content">
             <MainContent news={news} />
           </section>
         </div>
 
         {/* Mobile Layout (< 768px) */}
-        <div className="md:hidden space-y-6">
+        <div className="md:hidden space-y-6 px-4">
           {/* Mobile Navigation Menu */}
           <div className="bg-[#1a1a1a] rounded-2xl shadow-lg border border-[#333333] p-4">
             <details className="group">
