@@ -1,7 +1,6 @@
 import Header from "./components/header";
 import LeftSidebar from "./components/leftSidebar";
 import MainContent from "./components/mainContent";
-import RightSidebar from "./components/rightSidebar";
 import { getNews } from "./helper/getNews";
 import { NewsItem } from "./interfaces/newsDto.model";
 
@@ -24,19 +23,16 @@ export default async function Home() {
           </aside>
 
           {/* Main Content */}
-          <section className="flex-1 min-w-0" aria-label="News content">
+          <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-6" aria-label="News content">
             <MainContent news={news} />
           </section>
         </div>
 
         {/* Tablet Layout (768px - 1024px) */}
         <div className="hidden md:flex lg:hidden gap-4">
-          <section className="flex-1" aria-label="News content">
+          <section className="flex-1 bg-[#1a1a1a] rounded-2xl p-6" aria-label="News content">
             <MainContent news={news} />
           </section>
-          <aside className="w-72" role="complementary" aria-label="Additional content">
-            <RightSidebar news={news} />
-          </aside>
         </div>
 
         {/* Mobile Layout (< 768px) */}

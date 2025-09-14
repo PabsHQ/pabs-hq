@@ -88,6 +88,24 @@ export default function LeftSidebar() {
           })}
         </div>
 
+        {/* Homepage Banner */}
+        <div className="mt-6">
+          <div className="text-center space-y-3">
+            <h3 className="text-sm font-bold text-white">
+              SKIP NFT&apos;S ARE LIVE!
+            </h3>
+            <div className="relative rounded-lg overflow-hidden">
+              <Image
+                src="/images/banner2.jpeg"
+                width={200}
+                height={120}
+                className="object-cover w-full h-auto"
+                alt="Skip NFTs promotional banner"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Logout Section */}
         {isConnected && (
           <div className="pt-4 border-t border-[#404040]">
