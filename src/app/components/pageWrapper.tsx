@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Header from "./header";
 import LeftSidebar from "./leftSidebar";
+import RightSidebar from "./rightSidebar";
 import MainContent from "./mainContent";
 
 interface PageWrapperProps {
@@ -49,12 +50,12 @@ export default function PageWrapper({ news }: PageWrapperProps) {
       {/* Main Layout */}
       <div className="pt-20 min-h-[calc(100vh-5rem)]">
         {/* Desktop display */}
-        <div className="lg:flex gap-4 flex-row w-full min-h-full hidden p-5">
+        <div className="lg:flex gap-6 flex-row w-full min-h-full hidden px-6">
           {/* Left Sidebar */}
           <LeftSidebar />
 
-          {/* Main Content - Extended to right edge */}
-          <div className="flex-1 pr-5">
+          {/* Main Content - Centered with equal padding */}
+          <div className="flex-1 px-3">
             <MainContent 
               news={news} 
               selectedNewsType={selectedNewsType} 
@@ -63,12 +64,15 @@ export default function PageWrapper({ news }: PageWrapperProps) {
               containerWidth={containerWidth}
             />
           </div>
+
+          {/* Right Sidebar */}
+          <RightSidebar />
         </div>
 
         {/* Mobile display */}
-        <div className="lg:hidden gap-4 flex-row w-full min-h-full flex p-5">
-          {/* Main Content */}
-          <div className="flex-1 pr-5">
+        <div className="lg:hidden w-full min-h-full flex px-4">
+          {/* Main Content - Full width on mobile */}
+          <div className="w-full">
             <MainContent 
               news={news} 
               selectedNewsType={selectedNewsType}
