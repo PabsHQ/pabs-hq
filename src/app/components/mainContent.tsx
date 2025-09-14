@@ -82,7 +82,7 @@ export default function MainContent({ news }: NewsPageProps) {
 
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
 
-  const getCategoryStyle = (newsType: string) => {
+  const getCategoryStyle = () => {
     // All categories now use the orange color
     return "bg-orange-500";
   };
@@ -191,9 +191,7 @@ export default function MainContent({ news }: NewsPageProps) {
                     </div>
                   )}
                   <div className="absolute bottom-4 left-4">
-                    <span
-                      className={`inline-block px-4 py-2 text-sm font-bold text-white rounded-full ${getCategoryStyle(displayNews[0].newsType)}`}
-                    >
+                    <span className="inline-block px-4 py-2 text-sm font-bold text-white rounded-full bg-orange-500">
                       {getCategoryLabel(displayNews[0].newsType)}
                     </span>
                   </div>
@@ -249,9 +247,7 @@ export default function MainContent({ news }: NewsPageProps) {
                     </div>
                   )}
                   <div className="absolute bottom-3 left-3">
-                    <span
-                      className={`inline-block px-3 py-1 text-xs font-bold text-white rounded-full ${getCategoryStyle(item.newsType)}`}
-                    >
+                    <span className="inline-block px-3 py-1 text-xs font-bold text-white rounded-full bg-orange-500">
                       {getCategoryLabel(item.newsType)}
                     </span>
                   </div>
