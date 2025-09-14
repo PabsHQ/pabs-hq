@@ -19,6 +19,11 @@ export default function Home() {
     }
   }, [address]);
 
+  const handleImageChange = (file: File) => {
+    console.log("Image selected:", file.name);
+    // Add image upload logic here if needed
+  };
+
   if (!canView) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-900">
@@ -35,7 +40,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-center">Admin Panel</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <BannerUpload />
+          <BannerUpload handleImageChange={handleImageChange} />
           <AvatarUpload />
         </div>
         
