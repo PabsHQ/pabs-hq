@@ -114,11 +114,13 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
       <PresaleBanner banner={banner} />
-      {/* White box layout */}
+      
+      {/* Main Content Container */}
       <div
-        className="sidebar-card p-[2%] flex flex-col w-full h-full min-h-0 gap-6"
+        className="sidebar-card p-6 flex flex-col w-full h-full min-h-0 gap-6"
         ref={containerRef}
       >
+        {/* Filter Section */}
         <div className="flex w-full">
           <FilterSwiper
             categories={categories}
@@ -130,200 +132,119 @@ export default function MainContent({ news, banner }: NewsPageProps) {
 
         {newsItems.length < 1 && <Spinner />}
         
-        {/* Main Articles Grid - More balanced layout */}
-        {newsItems.length > 0 && displayNews.length > 0 && (
-          <div className="w-full overflow-y-auto min-h-0">
-            <div 
-              className="grid w-full"
-              style={{
-                gap: 'var(--card-gap-y) var(--card-gap-x)',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))'
-              }}
+        {/* Featured Article */}
+        {displayNews.length > 0 && displayNews[0] && (
+          <div className="w-full mb-8">
+            <Link
+              href={`/news/${displayNews[0].id}`}
+              className="block group"
+              onMouseEnter={() => handleLikesDisplay(0)}
+              onMouseLeave={() => setShowLikeButton(-1)}
             >
-              {displayNews.slice(0, 6).map((item: NewsItem, id: number) => (
-                <Link
-                  href={`/news/${item.id}`}
-                  key={item.id}
-                  className={`bg-white border border-gray-200 rounded-2xl overflow-hidden cursor-pointer flex flex-col fade-in hover:shadow-xl hover:border-gray-300 transition-all duration-300 group ${
-                    id === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                  }`}
-                  onMouseEnter={() => handleLikesDisplay(id)}
-                  onMouseLeave={() => setShowLikeButton(-1)}
-                >
-                  <div className={`w-full relative ${id === 0 ? 'h-80' : 'h-48'}`}>
-                    <Image
-                      src={item.banner}
-                      alt="Article preview"
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes={id === 0 ? "100vw" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
-                      priority={id < 3}
-                    />
-                    {showLikeButton === id && (
-                      <div
-                        className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 transition-all duration-300"
-                        onClick={(e) => handleLikeClick(e)}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={16}
-                          height={16}
-                        />
-                      </div>
-                    )}
-                    <div className="absolute bottom-3 left-3">
-                      <span
-                        className={`inline-block px-3 py-1 text-xs font-bold text-white rounded-full ${getCategoryStyle(item.newsType)}`}
-                      >
-                        {getCategoryLabel(item.newsType)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className={`flex flex-col justify-start items-start ${id === 0 ? 'p-6' : 'p-4'}`}>
-                    <h3 className={`font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors ${
-                      id === 0 ? 'text-2xl' : 'text-lg'
-                    }`} style={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: id === 0 ? 3 : 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}>
-                      {item.title}
-                    </h3>
-                    <div className="flex items-center space-x-2">
-                      <Avatar
-                        small
-                        image={item.editor.avatarUrl}
-                        headerText={item.editor.username}
-                        banner={false}
-                      />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Staff Picks Horizontal Bar - After first 6 articles */}
-            {displayNews.length > 6 && (
-              <div className="mt-8 mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-gray-900">Staff Picks</h2>
-                  <div className="h-px bg-gradient-to-r from-green-400 to-transparent flex-1 ml-4"></div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {displayNews.slice(6, 10).map((item: NewsItem, id: number) => (
-                    <Link
-                      href={`/news/${item.id}`}
-                      key={item.id}
-                      className="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer flex flex-col hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
-                      onMouseEnter={() => handleLikesDisplay(id + 6)}
-                      onMouseLeave={() => setShowLikeButton(-1)}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.01] border border-gray-200">
+                <div className="relative h-96">
+                  <Image
+                    src={displayNews[0].banner}
+                    alt="Featured article"
+                    fill
+                    className="object-cover"
+                    sizes="100vw"
+                    priority
+                  />
+                  {showLikeButton === 0 && (
+                    <div
+                      className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
+                      onClick={(e) => handleLikeClick(e)}
                     >
-                      <div className="w-full relative h-32">
-                        <Image
-                          src={item.banner}
-                          alt="Staff pick preview"
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 768px) 100vw, 25vw"
-                        />
-                        <div className="absolute bottom-2 left-2">
-                          <span
-                            className={`inline-block px-2 py-1 text-xs font-bold text-white rounded-full ${getCategoryStyle(item.newsType)}`}
-                          >
-                            {getCategoryLabel(item.newsType)}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <h4 className="text-sm font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors" style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden'
-                        }}>
-                          {item.title}
-                        </h4>
-                        <Avatar
-                          small
-                          image={item.editor.avatarUrl}
-                          headerText={item.editor.username}
-                          banner={false}
-                        />
-                      </div>
-                    </Link>
-                  ))}
+                      <Image
+                        src="/images/heartIcon.png"
+                        alt="Like"
+                        width={20}
+                        height={20}
+                      />
+                    </div>
+                  )}
+                  <div className="absolute bottom-4 left-4">
+                    <span
+                      className={`inline-block px-4 py-2 text-sm font-bold text-white rounded-full ${getCategoryStyle(displayNews[0].newsType)}`}
+                    >
+                      {getCategoryLabel(displayNews[0].newsType)}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-8">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
+                    {displayNews[0].title}
+                  </h2>
+                  <div className="flex items-center space-x-3">
+                    <Avatar
+                      small
+                      image={displayNews[0].editor.avatarUrl}
+                      headerText={displayNews[0].editor.username}
+                      banner={false}
+                    />
+                  </div>
                 </div>
               </div>
-            )}
+            </Link>
+          </div>
+        )}
 
-            {/* Remaining Articles Grid */}
-            {displayNews.length > 10 && (
-              <div 
-                className="grid w-full mt-6"
-                style={{
-                  gap: 'var(--card-gap-y) var(--card-gap-x)',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))'
-                }}
+        {/* Articles Grid */}
+        {displayNews.length > 1 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {displayNews.slice(1).map((item: NewsItem, id: number) => (
+              <Link
+                href={`/news/${item.id}`}
+                key={item.id}
+                className="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer flex flex-col hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
+                onMouseEnter={() => handleLikesDisplay(id + 1)}
+                onMouseLeave={() => setShowLikeButton(-1)}
               >
-                {displayNews.slice(10).map((item: NewsItem, id: number) => (
-                  <Link
-                    href={`/news/${item.id}`}
-                    key={item.id}
-                    className="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer flex flex-col fade-in hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
-                    onMouseEnter={() => handleLikesDisplay(id + 10)}
-                    onMouseLeave={() => setShowLikeButton(-1)}
-                  >
-                    <div className="w-full relative h-48">
+                <div className="w-full relative h-48">
+                  <Image
+                    src={item.banner}
+                    alt="Article preview"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                  {showLikeButton === id + 1 && (
+                    <div
+                      className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 transition-all duration-300"
+                      onClick={(e) => handleLikeClick(e)}
+                    >
                       <Image
-                        src={item.banner}
-                        alt="Article preview"
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      {showLikeButton === id + 10 && (
-                        <div
-                          className="absolute top-2 right-2 bg-white/90 rounded-full p-1 shadow-md hover:scale-110 border border-gray-200"
-                          onClick={(e) => handleLikeClick(e)}
-                        >
-                          <Image
-                            src="/images/heartIcon.png"
-                            alt="Like"
-                            width={14}
-                            height={14}
-                          />
-                        </div>
-                      )}
-                      <div className="absolute bottom-2 left-2">
-                        <span
-                          className={`inline-block px-2 py-1 text-xs font-bold text-white rounded-full ${getCategoryStyle(item.newsType)}`}
-                        >
-                          {getCategoryLabel(item.newsType)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors" style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden'
-                      }}>
-                        {item.title}
-                      </h3>
-                      <Avatar
-                        small
-                        image={item.editor.avatarUrl}
-                        headerText={item.editor.username}
-                        banner={false}
+                        src="/images/heartIcon.png"
+                        alt="Like"
+                        width={16}
+                        height={16}
                       />
                     </div>
-                  </Link>
-                ))}
-              </div>
-            )}
+                  )}
+                  <div className="absolute bottom-3 left-3">
+                    <span
+                      className={`inline-block px-3 py-1 text-xs font-bold text-white rounded-full ${getCategoryStyle(item.newsType)}`}
+                    >
+                      {getCategoryLabel(item.newsType)}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <div className="mt-auto">
+                    <Avatar
+                      small
+                      image={item.editor.avatarUrl}
+                      headerText={item.editor.username}
+                      banner={false}
+                    />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>
