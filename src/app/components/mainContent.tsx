@@ -6,13 +6,23 @@ import { useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import Link from "next/link";
+import FilterSwiper from "./filterSwiper";
 
 interface NewsPageProps {
   news: NewsItem[];
   selectedNewsType: string;
+  categories: string[];
+  selectNewsType: (type: string) => void;
+  containerWidth: number | null;
 }
 
-export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
+export default function MainContent({ 
+  news, 
+  selectedNewsType, 
+  categories, 
+  selectNewsType, 
+  containerWidth 
+}: NewsPageProps) {
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
 
   // Filter news based on selected type
@@ -50,6 +60,16 @@ export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
+      {/* Categories Filter - Above featured article */}
+      <div className="w-full">
+        <FilterSwiper
+          categories={categories}
+          selectedNewsType={selectedNewsType}
+          selectNewsType={selectNewsType}
+          containerWidth={containerWidth}
+        />
+      </div>
+
       {/* Main Content Container */}
       <div className="flex-1 overflow-y-auto">
         {news.length < 1 && <Spinner />}

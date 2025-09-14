@@ -5,6 +5,7 @@ import { NewsItem } from "../interfaces/newsDto.model";
 import Header from "./header";
 import LeftSidebar from "./leftSidebar";
 import MainContent from "./mainContent";
+import FilterSwiper from "./filterSwiper";
 
 interface PageWrapperProps {
   news: NewsItem[];
@@ -61,7 +62,13 @@ export default function PageWrapper({ news }: PageWrapperProps) {
 
           {/* Main Content - Extended to right edge */}
           <div className="flex-1 pr-5">
-            <MainContent news={news} selectedNewsType={selectedNewsType} />
+            <MainContent 
+              news={news} 
+              selectedNewsType={selectedNewsType} 
+              categories={categories}
+              selectNewsType={selectNewsType}
+              containerWidth={containerWidth}
+            />
           </div>
         </div>
 
@@ -69,7 +76,13 @@ export default function PageWrapper({ news }: PageWrapperProps) {
         <div className="lg:hidden gap-4 flex-row w-full min-h-full flex p-5">
           {/* Main Content */}
           <div className="flex-1 pr-5">
-            <MainContent news={news} selectedNewsType={selectedNewsType} />
+            <MainContent 
+              news={news} 
+              selectedNewsType={selectedNewsType}
+              categories={categories}
+              selectNewsType={selectNewsType}
+              containerWidth={containerWidth}
+            />
           </div>
         </div>
       </div>

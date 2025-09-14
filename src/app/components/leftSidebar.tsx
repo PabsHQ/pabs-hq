@@ -2,7 +2,6 @@
 "use client";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useAccount } from "wagmi";
 
 const MENU_ITEMS = [
@@ -50,15 +49,6 @@ export default function LeftSidebar() {
     <div className="flex-[0.2] h-full min-w-[255px]">
       <div className="flex flex-col h-full w-full gap-3">
         <div className="sidebar-card flex-[1] overflow-y-auto w-full flex flex-col h-full w-full justify-between items-center pl-[8%] py-7 gap-5">
-          <Link href="/" className="self-start">
-            <Image
-              src="/images/pabsLogo.png"
-              className="cursor-pointer self-start"
-              width={125}
-              height={28}
-              alt="Sidebar placeholder"
-            />
-          </Link>
           <div className="flex flex-col w-full gap-6 justify-start items-center">
             {MENU_ITEMS.map((item: any, index: number) => {
               return (
