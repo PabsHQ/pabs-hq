@@ -50,10 +50,7 @@ export default function LeftSidebar() {
     <nav className="h-full" role="navigation" aria-label="Main navigation">
       <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] h-full flex flex-col py-6 px-4">
         {/* Navigation Menu */}
-        <div className="flex-1 space-y-3">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider px-3 mb-4">
-            Navigation
-          </h2>
+        <div className="flex-1 space-y-2">
           {MENU_ITEMS.map((item: any, index: number) => {
             return (
               <div
