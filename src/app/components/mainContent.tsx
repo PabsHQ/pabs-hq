@@ -13,25 +13,12 @@ interface NewsPageProps {
 }
 
 export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
-  const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
 
-  useEffect(() => {
-    if (!news) return;
-    setNewsItems(news);
-  }, [news]);
-
-  useEffect(() => {
-    if (selectedNewsType === "") {
-      setFilteredNews([]);
-      return;
-    }
-    const filteredNews = newsItems.filter(
-      (n) => n.newsType === selectedNewsType
-    );
-    setFilteredNews(filteredNews);
-  }, [selectedNewsType, newsItems]);
+  // Filter news based on selected type
+  const displayNews = selectedNewsType === "" 
+    ? news 
+    : news.filter(item => item.newsType === selectedNewsType);
 
   const handleLikesDisplay = (id: number) => {
     setShowLikeButton(id);
@@ -43,8 +30,6 @@ export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
     e.nativeEvent.stopImmediatePropagation();
     e.nativeEvent.preventDefault();
   };
-
-  const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
 
   const getCategoryLabel = (newsType: string) => {
     switch (newsType) {
@@ -67,7 +52,7 @@ export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
       {/* Main Content Container */}
       <div className="flex-1 overflow-y-auto">
-        {newsItems.length < 1 && <Spinner />}
+        {news.length < 1 && <Spinner />}
         
         {/* Featured Article */}
         {displayNews.length > 0 && displayNews[0] && (

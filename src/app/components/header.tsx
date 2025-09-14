@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
 import Image from "next/image";
@@ -16,7 +16,12 @@ interface HeaderProps {
   containerWidth: number | null;
 }
 
-export default function Header({ categories, selectedNewsType, selectNewsType, containerWidth }: HeaderProps) {
+const Header = forwardRef<HTMLDivElement, HeaderProps>(({ 
+  categories, 
+  selectedNewsType, 
+  selectNewsType, 
+  containerWidth 
+}, ref) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { login } = useLoginWithAbstract();
   const { address, isConnected, isConnecting } = useAccount();
@@ -33,7 +38,7 @@ export default function Header({ categories, selectedNewsType, selectNewsType, c
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'h-16' : 'h-20'
     }`}>
-      <div className="w-full h-full glass-effect border-b border-white/10">
+      <div className="w-full h-full glass-effect border-b border-white/10" ref={ref}>
         <div className="max-w-7xl mx-auto h-full px-6">
           <div className="grid grid-cols-3 items-center h-full gap-4">
             {/* Logo */}
@@ -98,4 +103,8 @@ export default function Header({ categories, selectedNewsType, selectNewsType, c
       </div>
     </header>
   );
-}
+});
+
+Header.displayName = "Header";
+
+export default Header;

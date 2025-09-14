@@ -13,7 +13,7 @@ interface PageWrapperProps {
 export default function PageWrapper({ news }: PageWrapperProps) {
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [categories, setCategories] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
   useEffect(() => {
@@ -23,8 +23,8 @@ export default function PageWrapper({ news }: PageWrapperProps) {
 
   useEffect(() => {
     const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
+      if (headerRef.current) {
+        setContainerWidth(headerRef.current.offsetWidth);
       }
     };
 
@@ -42,32 +42,33 @@ export default function PageWrapper({ news }: PageWrapperProps) {
   };
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-screen w-screen">
       {/* Header */}
       <Header 
         categories={categories}
         selectedNewsType={selectedNewsType}
         selectNewsType={selectNewsType}
         containerWidth={containerWidth}
+        ref={headerRef}
       />
       
       {/* Main Layout */}
-      <div className="pt-20 h-full">
+      <div className="pt-20 min-h-[calc(100vh-5rem)]">
         {/* Desktop display */}
-        <div className="lg:flex gap-4 flex-row w-full h-full hidden p-5">
+        <div className="lg:flex gap-4 flex-row w-full min-h-full hidden p-5">
           {/* Left Sidebar */}
           <LeftSidebar />
 
           {/* Main Content - Extended to right edge */}
-          <div className="flex-1 pr-5" ref={containerRef}>
+          <div className="flex-1 pr-5">
             <MainContent news={news} selectedNewsType={selectedNewsType} />
           </div>
         </div>
 
         {/* Mobile display */}
-        <div className="lg:hidden gap-4 flex-row w-full h-full flex p-5">
+        <div className="lg:hidden gap-4 flex-row w-full min-h-full flex p-5">
           {/* Main Content */}
-          <div className="flex-1 pr-5" ref={containerRef}>
+          <div className="flex-1 pr-5">
             <MainContent news={news} selectedNewsType={selectedNewsType} />
           </div>
         </div>
