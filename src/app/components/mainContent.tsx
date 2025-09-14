@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
@@ -62,13 +61,13 @@ export default function MainContent({ news }: NewsPageProps) {
       (n) => n.newsType === selectedNewsType
     );
     setFilteredNews(filteredNews);
-  }, [selectedNewsType]);
+  }, [selectedNewsType, newsItems]);
 
   const handleLikesDisplay = (id: number) => {
     setShowLikeButton(id);
   };
 
-  const handleLikeClick = (e: any) => {
+  const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -81,11 +80,6 @@ export default function MainContent({ news }: NewsPageProps) {
   };
 
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
-
-  const getCategoryStyle = () => {
-    // All categories now use the orange color
-    return "bg-orange-500";
-  };
 
   const getCategoryLabel = (newsType: string) => {
     switch (newsType) {
