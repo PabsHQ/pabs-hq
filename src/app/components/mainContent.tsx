@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Avatar from "./avatar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import Link from "next/link";
