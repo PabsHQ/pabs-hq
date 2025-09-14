@@ -12,7 +12,7 @@ export default async function Home() {
   const homepageBanner: string = (await getHomepageBanner()) as string;
   
   return (
-    <div className="min-h-screen bg-[#F0F1F5]">
+    <div className="min-h-screen bg-[#1a1a1a]">
       {/* Sticky Header */}
       <Header />
       
@@ -49,12 +49,12 @@ export default async function Home() {
         {/* Mobile Layout (< 768px) */}
         <div className="md:hidden space-y-6">
           {/* Mobile Navigation Menu */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+          <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] p-4">
             <details className="group">
               <summary className="flex items-center justify-between cursor-pointer list-none">
-                <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
+                <h2 className="text-lg font-semibold text-white">Menu</h2>
                 <svg 
-                  className="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" 
+                  className="w-5 h-5 text-gray-400 transition-transform group-open:rotate-180" 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
@@ -77,13 +77,13 @@ export default async function Home() {
                     key={index}
                     className={`flex items-center justify-between p-3 rounded-xl ${
                       item.active 
-                        ? "bg-gradient-to-r from-green-400 to-green-500 text-white" 
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white" 
                         : "text-gray-400"
                     }`}
                   >
                     <span className="text-sm font-medium">{item.title}</span>
                     {!item.active && (
-                      <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
+                      <span className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full">
                         Soon
                       </span>
                     )}
@@ -99,16 +99,16 @@ export default async function Home() {
           </section>
 
           {/* Mobile Quick Links */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-4">
-            <h3 className="text-lg font-bold text-gray-900">Quick Access</h3>
+          <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] p-4 space-y-4">
+            <h3 className="text-lg font-bold text-white">Quick Access</h3>
             <div className="grid grid-cols-2 gap-3">
-              <button className="p-3 bg-gray-50 rounded-xl text-left hover:bg-gray-100 transition-colors">
-                <div className="text-sm font-medium text-gray-900">Staff Picks</div>
-                <div className="text-xs text-gray-500">Featured content</div>
+              <button className="p-3 bg-[#404040] rounded-xl text-left hover:bg-[#4a4a4a] transition-colors">
+                <div className="text-sm font-medium text-white">Staff Picks</div>
+                <div className="text-xs text-gray-400">Featured content</div>
               </button>
-              <button className="p-3 bg-gray-50 rounded-xl text-left hover:bg-gray-100 transition-colors">
-                <div className="text-sm font-medium text-gray-900">Latest</div>
-                <div className="text-xs text-gray-500">Recent articles</div>
+              <button className="p-3 bg-[#404040] rounded-xl text-left hover:bg-[#4a4a4a] transition-colors">
+                <div className="text-sm font-medium text-white">Latest</div>
+                <div className="text-xs text-gray-400">Recent articles</div>
               </button>
             </div>
           </div>

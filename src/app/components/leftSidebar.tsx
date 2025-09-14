@@ -48,10 +48,10 @@ export default function LeftSidebar() {
   
   return (
     <nav className="h-full" role="navigation" aria-label="Main navigation">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 h-full flex flex-col py-6 px-4">
+      <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] h-full flex flex-col py-6 px-4">
         {/* Navigation Menu */}
         <div className="flex-1 space-y-3">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider px-3 mb-4">
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider px-3 mb-4">
             Navigation
           </h2>
           {MENU_ITEMS.map((item: any, index: number) => {
@@ -61,7 +61,7 @@ export default function LeftSidebar() {
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
                   item.disabled
                     ? "cursor-not-allowed opacity-50"
-                    : "bg-gradient-to-r from-green-400 to-green-500 text-white cursor-pointer hover:from-green-500 hover:to-green-600 shadow-sm"
+                    : "bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-pointer hover:from-orange-600 hover:to-orange-700 shadow-sm"
                 }`}
                 role={item.disabled ? "presentation" : "button"}
                 tabIndex={item.disabled ? -1 : 0}
@@ -80,7 +80,7 @@ export default function LeftSidebar() {
                   {item.title}
                 </span>
                 {item.disabled && (
-                  <span className="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full">
+                  <span className="ml-auto text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full">
                     Soon
                   </span>
                 )}
@@ -91,10 +91,10 @@ export default function LeftSidebar() {
 
         {/* Logout Section */}
         {isConnected && (
-          <div className="pt-4 border-t border-gray-100">
+          <div className="pt-4 border-t border-[#404040]">
             <button
               onClick={logout}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl w-full text-left hover:bg-gray-50 transition-colors duration-200"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl w-full text-left hover:bg-[#404040] transition-colors duration-200"
               aria-label="Disconnect wallet"
             >
               <Image
@@ -104,7 +104,7 @@ export default function LeftSidebar() {
                 alt="Logout icon"
                 className="flex-shrink-0"
               />
-              <span className="text-sm font-medium text-gray-600">
+              <span className="text-sm font-medium text-gray-300">
                 Disconnect
               </span>
             </button>

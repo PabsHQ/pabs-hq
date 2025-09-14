@@ -108,7 +108,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                 onMouseEnter={() => handleLikesDisplay(0)}
                 onMouseLeave={() => setShowLikeButton(-1)}
               >
-                <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
+                <div className="bg-[#2a2a2a] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
                   <div className="relative h-80">
                     <Image
                       src={featuredNews.banner}
@@ -156,7 +156,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                     </div>
                   </div>
                   <div className="p-8">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
+                    <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-orange-500 transition-colors">
                       {featuredNews.title}
                     </h2>
                     <div className="flex items-center space-x-3">
@@ -183,7 +183,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                 onMouseEnter={() => handleLikesDisplay(id + 1)}
                 onMouseLeave={() => setShowLikeButton(-1)}
               >
-                <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105 h-full">
+                <div className="bg-[#2a2a2a] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105 h-full">
                   <div className="relative h-48">
                     <Image
                       src={item.banner}
@@ -228,7 +228,7 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                         ? "Lore"
                         : "Playbook"}
                     </span>
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
+                    <h3 className="text-lg font-bold text-white mb-3 group-hover:text-orange-500 transition-colors line-clamp-2">
                       {item.title}
                     </h3>
                     <div className="flex items-center space-x-2">
