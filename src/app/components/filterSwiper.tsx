@@ -49,10 +49,10 @@ export default function FilterSwiper({
                 onClick={() => selectNewsType(categoryName)}
               >
                 <button
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     selectedNewsType === categoryName
-                      ? "bg-gradient-to-r from-green-400 to-green-500 text-white shadow-sm hover:from-green-500 hover:to-green-600"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
+                      ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-sm hover:from-orange-600 hover:to-orange-700"
+                      : "bg-[#2a2a2a] text-gray-300 hover:bg-[#404040] border border-[#404040]"
                   }`}
                   aria-pressed={selectedNewsType === categoryName}
                   aria-label={`Filter by ${displayText(categoryName)}`}
