@@ -2,20 +2,20 @@
 "use client";
 
 import Image from "next/image";
-import PresaleBanner from "./banner";
 import Avatar from "./avatar";
 import { useEffect, useRef, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
+import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
+import { useAccount } from "wagmi";
 
 interface NewsPageProps {
   news: NewsItem[];
-  banner: string;
 }
 
-export default function MainContent({ news, banner }: NewsPageProps) {
+export default function MainContent({ news }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
@@ -23,6 +23,10 @@ export default function MainContent({ news, banner }: NewsPageProps) {
   const [categories, setCategories] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
+
+  // Wallet connection for header
+  const { login } = useLoginWithAbstract();
+  const { address, isConnected, isConnecting } = useAccount();
 
   useEffect(() => {
     if (!news) return;
@@ -113,15 +117,10 @@ export default function MainContent({ news, banner }: NewsPageProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      <PresaleBanner banner={banner} />
-      
-      {/* Main Content Container */}
-      <div
-        className="sidebar-card p-6 flex flex-col w-full h-full min-h-0 gap-6"
-        ref={containerRef}
-      >
-        {/* Filter Section */}
-        <div className="flex w-full">
+      {/* Header with Categories and Wallet */}
+      <div className="flex justify-between items-center w-full">
+        {/* Categories Filter */}
+        <div className="flex-1" ref={containerRef}>
           <FilterSwiper
             categories={categories}
             selectedNewsType={selectedNewsType}
@@ -129,7 +128,39 @@ export default function MainContent({ news, banner }: NewsPageProps) {
             containerWidth={containerWidth}
           />
         </div>
+        
+        {/* Wallet Connection */}
+        <div
+          className={`text-black hover:text-white h-12 px-4 bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
+            isConnected ? "justify-start" : "justify-center"
+          } items-center text-center cursor-pointer flex min-w-[200px]`}
+          onClick={() => {
+            if (!isConnected && !isConnecting) {
+              login();
+            }
+          }}
+        >
+          {isConnecting && !isConnected && <Spinner />}
+          {!isConnected && !isConnecting && <span className="font-semibold">Connect Wallet</span>}
+          {isConnected && (
+            <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
+              <span className="text-gray-600 font-bold text-xs text-start">
+                Wallet Connected
+              </span>
+              <div className="flex w-full h-full gap-2 items-center text-xs">
+                <span>
+                  {address?.substring(0, 4) +
+                    "........" +
+                    address?.substring(address.length - 4)}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
+      {/* Main Content Container */}
+      <div className="flex-1 overflow-y-auto">
         {newsItems.length < 1 && <Spinner />}
         
         {/* Featured Article */}

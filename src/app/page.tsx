@@ -1,14 +1,11 @@
 import LeftSidebar from "./components/leftSidebar";
 import MainContent from "./components/mainContent";
-import RightSidebar from "./components/rightSidebar";
-import { getHomepageBanner } from "./helper/getHomepageBanner";
 import { getNews } from "./helper/getNews";
 import { NewsItem } from "./interfaces/newsDto.model";
 
 export const revalidate = 3600;
 export default async function Home() {
   const news: NewsItem[] = ((await getNews()) as NewsItem[]) || [];
-  const homepageBanner: string = (await getHomepageBanner()) as string;
   return (
     <div className="h-screen w-screen p-5">
       {/* Desktop display */}
@@ -16,22 +13,17 @@ export default async function Home() {
         {/* Left Sidebar */}
         <LeftSidebar />
 
-        {/* Main Content (Middle) - Extended to right edge */}
-        <div className="flex-1">
-          <MainContent banner={homepageBanner} news={news} />
-        </div>
-
-        {/* Right Sidebar - Simplified and smaller */}
-        <div className="w-80 flex-shrink-0">
-          <RightSidebar />
+        {/* Main Content - Extended to right edge */}
+        <div className="flex-1 pr-5">
+          <MainContent news={news} />
         </div>
       </div>
 
       {/* Mobile display */}
       <div className="lg:hidden gap-4 flex-row w-full h-full flex">
-        {/* Main Content (Middle) */}
-        <div className="flex-1">
-          <MainContent news={news} banner={homepageBanner} />
+        {/* Main Content */}
+        <div className="flex-1 pr-5">
+          <MainContent news={news} />
         </div>
       </div>
     </div>
