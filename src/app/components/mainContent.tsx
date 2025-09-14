@@ -2,55 +2,25 @@
 
 import Image from "next/image";
 import Avatar from "./avatar";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
-import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
-import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
-import { useAccount } from "wagmi";
-import ThemeToggle from "./themeToggle";
 
 interface NewsPageProps {
   news: NewsItem[];
+  selectedNewsType: string;
 }
 
-export default function MainContent({ news }: NewsPageProps) {
+export default function MainContent({ news, selectedNewsType }: NewsPageProps) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
-  const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
-  const [categories, setCategories] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
-
-  // Wallet connection for header
-  const { login } = useLoginWithAbstract();
-  const { address, isConnected, isConnecting } = useAccount();
 
   useEffect(() => {
     if (!news) return;
     setNewsItems(news);
-    const uniqueCategories = [
-      ...new Set(news.map((element) => element.newsType)),
-    ];
-    setCategories(uniqueCategories);
   }, [news]);
-
-  useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-
-    return () => {
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
 
   useEffect(() => {
     if (selectedNewsType === "") {
@@ -74,11 +44,6 @@ export default function MainContent({ news }: NewsPageProps) {
     e.nativeEvent.preventDefault();
   };
 
-  const selectNewsType = (text: string) => {
-    if (selectedNewsType === text) setSelectedNewsType("");
-    else setSelectedNewsType(text);
-  };
-
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
 
   const getCategoryLabel = (newsType: string) => {
@@ -100,54 +65,6 @@ export default function MainContent({ news }: NewsPageProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      {/* Header with Categories, Wallet, and Theme Toggle */}
-      <div className="flex justify-between items-center w-full">
-        {/* Categories Filter */}
-        <div className="flex-1" ref={containerRef}>
-          <FilterSwiper
-            categories={categories}
-            selectedNewsType={selectedNewsType}
-            selectNewsType={(e: string) => selectNewsType(e)}
-            containerWidth={containerWidth}
-          />
-        </div>
-        
-        {/* Right side controls */}
-        <div className="flex items-center gap-3">
-          {/* Theme Toggle */}
-          <ThemeToggle />
-          
-          {/* Wallet Connection - Updated to use orange gradient */}
-          <div
-            className={`text-white hover:text-white h-12 px-4 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
-              isConnected ? "justify-start" : "justify-center"
-            } items-center text-center cursor-pointer flex min-w-[200px]`}
-            onClick={() => {
-              if (!isConnected && !isConnecting) {
-                login();
-              }
-            }}
-          >
-            {isConnecting && !isConnected && <Spinner />}
-            {!isConnected && !isConnecting && <span className="font-semibold">Connect Wallet</span>}
-            {isConnected && (
-              <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
-                <span className="text-orange-100 font-bold text-xs text-start">
-                  Wallet Connected
-                </span>
-                <div className="flex w-full h-full gap-2 items-center text-xs">
-                  <span>
-                    {address?.substring(0, 4) +
-                      "........" +
-                      address?.substring(address.length - 4)}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* Main Content Container */}
       <div className="flex-1 overflow-y-auto">
         {newsItems.length < 1 && <Spinner />}
