@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Tiptap from "../components/editor";
 import AvatarUpload from "../components/avatarUpload";
@@ -248,19 +248,45 @@ export default function Home() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // enable/disable the button both ways
+  // Memoized functions to avoid dependency issues
+  const fetchEditorData = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/uploadAvatar?walletAddress=${address?.toLowerCase() ?? ""}`);
+      const data = await res.json();
+      if (res.ok) {
+        setUsernameSubtitle(data.usernameSubtitle);
+        setUsername(data.username);
+        setAdminAvatar(data.avatarUrl);
+      }
+    } catch (err) {
+      console.error("❌ Error fetching editor data:", err);
+    }
+  }, [address]);
+
+  const fetchHomepageBanner = useCallback(async () => {
+    try {
+      const res = await fetch("/api/uploadHomepageBanner");
+      const data = await res.json();
+      setHomepageBanner(data.url);
+    } catch (err) {
+      console.error("❌ Error fetching homepage banner:", err);
+    }
+  }, []);
+
+  // Check if form is ready
   useEffect(() => {
-    const ready =
-      !!adminAvatar &&
-      !!newsBanner &&
-      !!title &&
-      !!username &&
-      !!selectedNewsType &&
-      !!usernameSubtitle;
+    const ready = 
+      adminAvatar !== null && 
+      newsBanner !== null && 
+      title.trim() !== "" && 
+      username.trim() !== "" && 
+      usernameSubtitle.trim() !== "" && 
+      selectedNewsType !== "";
+    
     setDisabled(!ready);
   }, [adminAvatar, newsBanner, title, username, usernameSubtitle, selectedNewsType]);
 
-  // gate by wallet (case-insensitive)
+  // Gate by wallet (case-insensitive)
   useEffect(() => {
     if (!address) return;
     if (ALLOWLIST.includes(address.toLowerCase())) {
@@ -270,33 +296,7 @@ export default function Home() {
     } else {
       setCanView(false);
     }
-  }, [address, fetchEditorData]);
-
-  const fetchHomepageBanner = async () => {
-    try {
-      const res = await fetch("/api/uploadHomepageBanner");
-      const data = await res.json();
-      setHomepageBanner(data.url);
-    } catch (err) {
-      console.error("❌ Error fetching homepage banner:", err);
-    }
-  };
-
-  const fetchEditorData = async () => {
-    try {
-      const res = await fetch(`/api/uploadAvatar?walletAddress=${address?.toLowerCase() ?? ""}`);
-      const data = await res.json();
-      if (res.ok) {
-        setUsernameSubtitle(data.usernameSubtitle);
-        setUsername(data.username);
-        setAdminAvatar(data.avatarUrl);
-      } else {
-        console.error("❌ Failed to fetch editor data:", data.error);
-      }
-    } catch (err) {
-      console.error("❌ Error fetching editor data:", err);
-    }
-  };
+  }, [address, fetchEditorData, fetchHomepageBanner]);
 
   const onChange = (content: string) => setPost(content);
 
