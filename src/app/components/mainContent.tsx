@@ -1,162 +1,186 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
-import PresaleBanner from "./banner";
 import Avatar from "./avatar";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
-import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
+import FilterSwiper from "./filterSwiper";
+
 interface NewsPageProps {
   news: NewsItem[];
-  banner: string;
+  selectedNewsType: string;
+  categories: string[];
+  selectNewsType: (type: string) => void;
+  containerWidth: number | null;
 }
 
-export default function MainContent({ news, banner }: NewsPageProps) {
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
-  const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
-  const [selectedNewsType, setSelectedNewsType] = useState<string>("");
+export default function MainContent({ 
+  news, 
+  selectedNewsType, 
+  categories, 
+  selectNewsType, 
+  containerWidth 
+}: NewsPageProps) {
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
-  const [categories, setCategories] = useState<string[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (!news) return;
-    setNewsItems(news);
-    const uniqueCategories = [
-      ...new Set(news.map((element) => element.newsType)),
-    ];
-    setCategories(uniqueCategories);
-  }, [news]);
-
-  useEffect(() => {
-    const measure = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.offsetWidth);
-      }
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-
-    return () => {
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (selectedNewsType === "") {
-      setFilteredNews([]);
-      return;
-    }
-    const filteredNews = newsItems.filter(
-      (n) => n.newsType === selectedNewsType
-    );
-    setFilteredNews(filteredNews);
-  }, [selectedNewsType]);
+  // Filter news based on selected type
+  const displayNews = selectedNewsType === "" 
+    ? news 
+    : news.filter(item => item.newsType === selectedNewsType);
 
   const handleLikesDisplay = (id: number) => {
     setShowLikeButton(id);
   };
 
-  const handleLikeClick = (e: any) => {
+  const handleLikeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     e.nativeEvent.preventDefault();
   };
 
-  const selectNewsType = (text: string) => {
-    if (selectedNewsType === text) setSelectedNewsType("");
-    else setSelectedNewsType(text);
+  const getCategoryLabel = (newsType: string) => {
+    switch (newsType) {
+      case "chainNews":
+        return "Chain News";
+      case "theBuzz":
+        return "The Buzz";
+      case "trenches":
+        return "Trenches";
+      case "lore":
+        return "Lore";
+      case "playbook":
+        return "Playbook";
+      default:
+        return "News";
+    }
   };
 
   return (
-    <div className="flex flex-col gap-[16px] w-full h-full min-h-0">
-      <PresaleBanner banner={banner} />
-      {/* White box layout */}
-      <div
-        className="rounded-[30px] bg-white p-[2%] flex flex-col w-full drop-shadow-[2px_2px_5px_rgba(11,15,52,0.18)] h-full min-h-0 gap-[16px]"
-        ref={containerRef}
-      >
-        <div className="flex w-full">
-          <FilterSwiper
-            categories={categories}
-            selectedNewsType={selectedNewsType}
-            selectNewsType={(e: string) => selectNewsType(e)}
-            containerWidth={containerWidth}
-          />
-        </div>
+    <div className="flex flex-col gap-4 w-full h-full min-h-0">
+      {/* Categories Filter - Above featured article */}
+      <div className="w-full">
+        <FilterSwiper
+          categories={categories}
+          selectedNewsType={selectedNewsType}
+          selectNewsType={selectNewsType}
+          containerWidth={containerWidth}
+        />
+      </div>
 
-        {newsItems.length < 1 && <Spinner />}
-        {/* Grid container with scrolling */}
-        {newsItems.length > 0 && (
-          <div className="grid p-[8px] gap-[18px] grid-cols-[repeat(auto-fit,minmax(230px,1fr))] md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] w-full overflow-y-auto min-h-0">
-            {(selectedNewsType === "" ? newsItems : filteredNews).map(
-              (item: NewsItem, id: number) => (
-                <Link
-                  href={`/news/${item.id}`}
-                  key={item.id}
-                  className="bg-white xl:max-w-[450px] rounded-xl overflow-hidden shadow-md min-h-[310px] xl:min-h-[250px] cursor-pointer flex flex-col gap-[8px]"
-                  onMouseEnter={() => handleLikesDisplay(id)}
-                  onMouseLeave={() => setShowLikeButton(-1)}
-                >
-                  <div className="w-full relative flex-grow">
-                    <Image
-                      src={item.banner}
-                      alt="Article preview"
-                      layout="fill"
-                      className="rounded-[24px] p-[8px] block relative object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority
-                    />
-                    {showLikeButton === id && (
-                      <div
-                        className="absolute top-[8px] right-[8px] bg-[#7e8180]/90 rounded-full p-[4px] shadow-md transition-all duration-300 hover:scale-115"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          console.log("Like clicked");
-                          handleLikeClick(e);
-                        }}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={16}
-                          height={16}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-col gap-[7px] justify-start items-start p-[8px]">
-                    <span
-                      className={`inline-block shadow-lg text-[10px] px-[18px] py-[4px] font-semibold ${
-                        item.newsType === "lore"
-                          ? "bg-[#FF937A]"
-                          : item.newsType === "theBuzz"
-                          ? "bg-[#FFD46F]"
-                          : item.newsType === "chainNews"
-                          ? "bg-[#1BFE90]"
-                          : "bg-[#FF937A]"
-                      } text-white rounded-full uppercase`}
+      {/* Main Content Container */}
+      <div className="flex-1 overflow-y-auto">
+        {news.length < 1 && <Spinner />}
+        
+        {/* Featured Article */}
+        {displayNews.length > 0 && displayNews[0] && (
+          <div className="w-full mb-8">
+            <Link
+              href={`/news/${displayNews[0].id}`}
+              className="block group"
+              onMouseEnter={() => handleLikesDisplay(0)}
+              onMouseLeave={() => setShowLikeButton(-1)}
+            >
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.01]">
+                <div className="relative h-96">
+                  <Image
+                    src={displayNews[0].banner}
+                    alt="Featured article"
+                    fill
+                    className="object-cover"
+                    sizes="100vw"
+                    priority
+                  />
+                  {showLikeButton === 0 && (
+                    <div
+                      className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
+                      onClick={(e) => handleLikeClick(e)}
                     >
-                      {item.newsType === "chainNews"
-                        ? "chain news"
-                        : item.newsType === "theBuzz"
-                        ? "the buzz"
-                        : item.newsType === "trenches"
-                        ? "trenches"
-                        : item.newsType === "lore"
-                        ? "lore"
-                        : "playbook"}
+                      <Image
+                        src="/images/heartIcon.png"
+                        alt="Like"
+                        width={20}
+                        height={20}
+                      />
+                    </div>
+                  )}
+                  <div className="absolute bottom-4 left-4">
+                    <span className="inline-block px-4 py-2 text-sm font-bold text-white rounded-full bg-orange-500">
+                      {getCategoryLabel(displayNews[0].newsType)}
                     </span>
-                    <span className="font-semibold text-black relative overflow-hidden text-ellipsis whitespace-nowrap w-full">
-                      {item.title}
+                  </div>
+                </div>
+                <div className="p-8">
+                  <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-orange-500 transition-colors">
+                    {displayNews[0].title}
+                  </h2>
+                  <div className="flex items-center space-x-3">
+                    <Avatar
+                      small
+                      image={displayNews[0].editor.avatarUrl}
+                      headerText={displayNews[0].editor.username}
+                      banner={false}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* Articles Grid */}
+        {displayNews.length > 1 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {displayNews.slice(1).map((item: NewsItem, id: number) => (
+              <Link
+                href={`/news/${item.id}`}
+                key={item.id}
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden cursor-pointer flex flex-col hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 group"
+                onMouseEnter={() => handleLikesDisplay(id + 1)}
+                onMouseLeave={() => setShowLikeButton(-1)}
+              >
+                <div className="w-full relative h-48">
+                  <Image
+                    src={item.banner}
+                    alt="Article preview"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                  {showLikeButton === id + 1 && (
+                    <div
+                      className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 dark:border-gray-600 transition-all duration-300"
+                      onClick={(e) => handleLikeClick(e)}
+                    >
+                      <Image
+                        src="/images/heartIcon.png"
+                        alt="Like"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                  )}
+                  <div className="absolute bottom-3 left-3">
+                    <span className="inline-block px-3 py-1 text-xs font-bold text-white rounded-full bg-orange-500">
+                      {getCategoryLabel(item.newsType)}
                     </span>
+                  </div>
+                </div>
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3 
+                    className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-500 transition-colors"
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <div className="mt-auto">
                     <Avatar
                       small
                       image={item.editor.avatarUrl}
@@ -164,9 +188,9 @@ export default function MainContent({ news, banner }: NewsPageProps) {
                       banner={false}
                     />
                   </div>
-                </Link>
-              )
-            )}
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>

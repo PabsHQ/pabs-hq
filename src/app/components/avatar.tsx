@@ -19,8 +19,8 @@ export default function Avatar({
 }: IAvatarProps) {
   return (
     <div
-      className={`flex gap-[8px] ${
-        small ? "justify-start items-center" : "justify-start  items-start"
+      className={`flex gap-2 ${
+        small ? "justify-start items-center" : "justify-start items-start"
       }`}
     >
       {banner ? (
@@ -51,18 +51,18 @@ export default function Avatar({
           />
         </div>
       )}
-      <div className="flex flex-col gap-[4px] justify-start items-start max-w-[80%]">
+      <div className="flex flex-col gap-1 justify-start items-start max-w-[80%]">
         <span
-          className={`text-black ${
-            small ? "text-[14px]" : ""
-          }  overflow-hidden text-ellipsis whitespace-nowrap w-full`}
+          className={`text-white ${
+            small ? "text-sm" : "text-base"
+          } overflow-hidden text-ellipsis whitespace-nowrap w-full font-medium`}
         >
           {headerText}
         </span>
         {subText && (
           <span
-            className={`text-[#5F5F5F]  overflow-hidden text-ellipsis whitespace-nowrap w-full ${
-              small ? "text-[10px]" : "text-[14px]"
+            className={`text-gray-400 overflow-hidden text-ellipsis whitespace-nowrap w-full ${
+              small ? "text-xs" : "text-sm"
             }`}
           >
             {subText}
