@@ -12,8 +12,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#0f0f0f]/95 backdrop-blur-sm border-b border-[#333333] shadow-lg">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+        <div className="flex items-center h-16">
+          {/* Logo - Left */}
           <Link 
             href="/" 
             className="flex-shrink-0 transition-opacity hover:opacity-80"
@@ -55,8 +55,8 @@ export default function Header() {
             </div>
           </div>
 
-          {/* User Info / Wallet Connection */}
-          <div className="flex items-center space-x-4">
+          {/* Wallet Connect - Right */}
+          <div className="flex-shrink-0">
             {isConnected ? (
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-2 bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-4 py-2 rounded-lg shadow-lg">
