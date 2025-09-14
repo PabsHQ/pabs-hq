@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { isWalletAllowed } from "../constants/admin";
 import BannerUpload from "../components/bannerUpload";

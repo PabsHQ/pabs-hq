@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import Image from "next/image";
-import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
 
 const MENU_ITEMS = [
@@ -45,8 +42,6 @@ const MENU_ITEMS = [
 
 export default function LeftSidebar() {
   const [homepageBanner, setHomepageBanner] = useState<string>("");
-  const { login } = useLoginWithAbstract();
-  const { address, isConnected, isConnecting } = useAccount();
 
   useEffect(() => {
     const fetchHomepageBanner = async () => {
@@ -63,11 +58,6 @@ export default function LeftSidebar() {
 
     fetchHomepageBanner();
   }, []);
-
-  const logout = () => {
-    // Add logout logic here if needed
-    console.log("Logout clicked");
-  };
 
   return (
     <div className="flex-[0.2] h-full min-w-[297px]">
@@ -111,24 +101,8 @@ export default function LeftSidebar() {
             </div>
           )}
 
-          {isConnected ? (
-            <div
-              className="flex gap-6 justify-start items-center cursor-pointer p-4 self-start hover-scale rounded-lg transition-all duration-300"
-              onClick={logout}
-            >
-              <Image
-                src={"/images/leftSidebar/logout.png"}
-                height={24}
-                width={24}
-                alt="logout"
-              ></Image>
-              <span className="text-xl text-gray-500 dark:text-gray-400 self-start font-medium">
-                Disconnect
-              </span>
-            </div>
-          ) : (
-            <div className="flex w-full gap-6 justify-start items-center cursor-pointer p-4"></div>
-          )}
+          {/* Disconnect button placeholder - can be added back when needed */}
+          <div className="flex w-full gap-6 justify-start items-center p-4"></div>
         </div>
       </div>
     </div>

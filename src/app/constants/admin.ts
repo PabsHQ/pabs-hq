@@ -1,8 +1,7 @@
 // Admin configuration constants
 export const ALLOWED_WALLET_LIST: string[] = [
   // Add authorized wallet addresses here
-  // For now, we'll allow any connected wallet for development
-  // In production, add specific wallet addresses
+  // For now, empty array - add specific addresses as needed
 ];
 
 // Check if wallet is allowed (for now, allow any connected wallet)
@@ -17,7 +16,7 @@ export const isWalletAllowed = (address: string | undefined): boolean => {
   return ALLOWED_WALLET_LIST.includes(address);
 };
 
-// You can add more admin-related constants here
+// Admin configuration
 export const ADMIN_CONFIG = {
   MAX_FILE_SIZE: 5 * 1024 * 1024, // 5MB
   ALLOWED_IMAGE_TYPES: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
