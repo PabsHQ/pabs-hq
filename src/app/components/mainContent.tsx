@@ -83,20 +83,8 @@ export default function MainContent({ news }: NewsPageProps) {
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
 
   const getCategoryStyle = (newsType: string) => {
-    switch (newsType) {
-      case "lore":
-        return "bg-orange-500";
-      case "theBuzz":
-        return "bg-yellow-500";
-      case "chainNews":
-        return "bg-green-500";
-      case "trenches":
-        return "bg-orange-500";
-      case "playbook":
-        return "bg-blue-500";
-      default:
-        return "bg-orange-500";
-    }
+    // All categories now use the orange color
+    return "bg-orange-500";
   };
 
   const getCategoryLabel = (newsType: string) => {
@@ -135,9 +123,9 @@ export default function MainContent({ news }: NewsPageProps) {
           {/* Theme Toggle */}
           <ThemeToggle />
           
-          {/* Wallet Connection */}
+          {/* Wallet Connection - Updated to use orange gradient */}
           <div
-            className={`text-black hover:text-white h-12 px-4 bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
+            className={`text-white hover:text-white h-12 px-4 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
               isConnected ? "justify-start" : "justify-center"
             } items-center text-center cursor-pointer flex min-w-[200px]`}
             onClick={() => {
@@ -150,7 +138,7 @@ export default function MainContent({ news }: NewsPageProps) {
             {!isConnected && !isConnecting && <span className="font-semibold">Connect Wallet</span>}
             {isConnected && (
               <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
-                <span className="text-gray-600 font-bold text-xs text-start">
+                <span className="text-orange-100 font-bold text-xs text-start">
                   Wallet Connected
                 </span>
                 <div className="flex w-full h-full gap-2 items-center text-xs">
@@ -211,7 +199,7 @@ export default function MainContent({ news }: NewsPageProps) {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-green-600 transition-colors">
+                  <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-orange-500 transition-colors">
                     {displayNews[0].title}
                   </h2>
                   <div className="flex items-center space-x-3">
@@ -270,7 +258,7 @@ export default function MainContent({ news }: NewsPageProps) {
                 </div>
                 <div className="p-4 flex-1 flex flex-col">
                   <h3 
-                    className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-green-600 transition-colors"
+                    className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-500 transition-colors"
                     style={{
                       display: '-webkit-box',
                       WebkitLineClamp: 2,
