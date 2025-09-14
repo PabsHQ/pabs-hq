@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface AvatarUploadProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -80,9 +81,11 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
           
           {preview && !hidePreview && (
             <div className="relative">
-              <img
+              <Image
                 src={preview}
                 alt="Preview"
+                width={isBanner ? 128 : 64}
+                height={isBanner ? 96 : 64}
                 className={`${
                   isBanner 
                     ? "h-24 w-32 object-cover rounded-lg border-2 border-gray-200 shadow-sm" 

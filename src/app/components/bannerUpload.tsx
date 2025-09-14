@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 
 interface NewsBannerProps {
   handleImageChange: (file: File) => void;
@@ -48,9 +49,11 @@ const NewsBanner: React.FC<NewsBannerProps> = ({
         
         {preview && (
           <div className="relative">
-            <img
+            <Image
               src={preview}
               alt="Banner Preview"
+              width={192}
+              height={96}
               className="h-24 w-48 object-cover rounded-lg border-2 border-gray-200 shadow-sm"
             />
             <div className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">

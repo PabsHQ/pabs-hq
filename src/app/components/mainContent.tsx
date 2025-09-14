@@ -2,7 +2,6 @@
 "use client";
 
 import Image from "next/image";
-import Avatar from "./avatar";
 import { useEffect, useState } from "react";
 import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";

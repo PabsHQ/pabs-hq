@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Tiptap from "../components/editor";
 import AvatarUpload from "../components/avatarUpload";
 import { useAccount } from "wagmi";
@@ -269,7 +270,7 @@ export default function Home() {
     } else {
       setCanView(false);
     }
-  }, [address]);
+  }, [address, fetchEditorData]);
 
   const fetchHomepageBanner = async () => {
     try {
@@ -441,13 +442,15 @@ export default function Home() {
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center gap-3">
               {adminAvatar && (
-                <img
+                <Image
                   src={
                     typeof adminAvatar === "string"
                       ? adminAvatar
                       : URL.createObjectURL(adminAvatar)
                   }
                   alt={username ? `${username} avatar` : "Admin avatar"}
+                  width={32}
+                  height={32}
                   className="h-8 w-8 rounded-full object-cover border border-gray-200"
                 />
               )}
@@ -547,9 +550,11 @@ export default function Home() {
                 {/* Banner Preview */}
                 {homepageBanner && (
                   <div className="mb-4 flex justify-center">
-                    <img
+                    <Image
                       src={homepageBanner}
                       alt="Homepage banner preview"
+                      width={800}
+                      height={128}
                       className="w-full h-32 object-cover rounded-lg border border-gray-200"
                     />
                   </div>
@@ -640,13 +645,15 @@ export default function Home() {
                 <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Article Banner Preview</h3>
               </div>
               <div className="w-full">
-                <img
+                <Image
                   src={
                     typeof newsBanner === "string"
                       ? newsBanner
                       : URL.createObjectURL(newsBanner)
                   }
                   alt="Article banner preview"
+                  width={800}
+                  height={192}
                   className="w-full h-48 object-cover rounded-lg border border-gray-200"
                 />
               </div>
