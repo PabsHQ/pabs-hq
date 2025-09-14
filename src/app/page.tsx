@@ -38,7 +38,7 @@ export default async function Home() {
         {/* Mobile Layout (< 768px) */}
         <div className="md:hidden space-y-6">
           {/* Mobile Navigation Menu */}
-          <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] p-4">
+          <div className="bg-[#1a1a1a] rounded-2xl shadow-lg border border-[#333333] p-4">
             <details className="group">
               <summary className="flex items-center justify-between cursor-pointer list-none">
                 <h2 className="text-lg font-semibold text-white">Menu</h2>
@@ -88,16 +88,16 @@ export default async function Home() {
           </section>
 
           {/* Mobile Quick Links */}
-          <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] p-4 space-y-4">
+          <div className="bg-[#1a1a1a] rounded-2xl shadow-lg border border-[#333333] p-4 space-y-4">
             <h3 className="text-lg font-bold text-white">Quick Access</h3>
             <div className="grid grid-cols-2 gap-3">
-              <button className="p-3 bg-[#404040] rounded-xl text-left hover:bg-[#4a4a4a] transition-colors">
+              <button className="p-3 bg-[#222222] rounded-xl text-left hover:bg-[#333333] transition-colors">
                 <div className="text-sm font-medium text-white">Staff Picks</div>
-                <div className="text-xs text-gray-400">Featured content</div>
+                <div className="text-xs text-[#a0a0a0]">Featured content</div>
               </button>
-              <button className="p-3 bg-[#404040] rounded-xl text-left hover:bg-[#4a4a4a] transition-colors">
+              <button className="p-3 bg-[#222222] rounded-xl text-left hover:bg-[#333333] transition-colors">
                 <div className="text-sm font-medium text-white">Latest</div>
-                <div className="text-xs text-gray-400">Recent articles</div>
+                <div className="text-xs text-[#a0a0a0]">Recent articles</div>
               </button>
             </div>
           </div>

@@ -90,8 +90,8 @@ export default function MainContent({ news }: NewsPageProps) {
                 onMouseEnter={() => handleLikesDisplay(0)}
                 onMouseLeave={() => setShowLikeButton(-1)}
               >
-                <div className="bg-[#2a2a2a] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-                  <div className="relative h-80">
+                <div className="bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.01] border border-[#333333]">
+                  <div className="relative h-72">
                     <Image
                       src={featuredNews.banner}
                       alt="Featured article"
@@ -100,29 +100,19 @@ export default function MainContent({ news }: NewsPageProps) {
                       sizes="100vw"
                       priority
                     />
-                    {showLikeButton === 0 && (
-                      <div
-                        className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
-                        onClick={(e) => handleLikeClick(e)}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={20}
-                          height={20}
-                        />
-                      </div>
-                    )}
-                    <div className="absolute bottom-4 left-4">
+                    {/* Category Badge - Top Left */}
+                    <div className="absolute top-4 left-4">
                       <span
-                        className={`inline-block px-4 py-2 text-sm font-bold text-white rounded-full ${
+                        className={`inline-block px-3 py-1.5 text-xs font-semibold text-white rounded-lg shadow-lg ${
                           featuredNews.newsType === "lore"
-                            ? "bg-orange-500"
+                            ? "bg-gradient-to-r from-orange-500 to-orange-600"
                             : featuredNews.newsType === "theBuzz"
-                            ? "bg-yellow-500"
+                            ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
                             : featuredNews.newsType === "chainNews"
-                            ? "bg-green-500"
-                            : "bg-orange-500"
+                            ? "bg-gradient-to-r from-green-500 to-green-600"
+                            : featuredNews.newsType === "trenches"
+                            ? "bg-gradient-to-r from-red-500 to-red-600"
+                            : "bg-gradient-to-r from-purple-500 to-purple-600"
                         }`}
                       >
                         {featuredNews.newsType === "chainNews"
@@ -136,18 +126,38 @@ export default function MainContent({ news }: NewsPageProps) {
                           : "Playbook"}
                       </span>
                     </div>
+                    {/* Like Button - Top Right */}
+                    {showLikeButton === 0 && (
+                      <div
+                        className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+                        onClick={(e) => handleLikeClick(e)}
+                      >
+                        <Image
+                          src="/images/heartIcon.png"
+                          alt="Like"
+                          width={18}
+                          height={18}
+                        />
+                      </div>
+                    )}
                   </div>
-                  <div className="p-8">
-                    <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-orange-500 transition-colors">
+                  <div className="p-6">
+                    <h2 className="text-xl font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors leading-tight">
                       {featuredNews.title}
                     </h2>
-                    <div className="flex items-center space-x-3">
-                      <Avatar
-                        small
-                        image={featuredNews.editor.avatarUrl}
-                        headerText={featuredNews.editor.username}
-                        banner={false}
-                      />
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center space-x-2">
+                        <Avatar
+                          small
+                          image={featuredNews.editor.avatarUrl}
+                          headerText={featuredNews.editor.username}
+                          banner={false}
+                        />
+                        <span className="text-[#a0a0a0]">by {featuredNews.editor.username}</span>
+                      </div>
+                      <span className="text-[#666666] text-xs">
+                        {new Date(featuredNews.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -165,7 +175,7 @@ export default function MainContent({ news }: NewsPageProps) {
                 onMouseEnter={() => handleLikesDisplay(id + 1)}
                 onMouseLeave={() => setShowLikeButton(-1)}
               >
-                <div className="bg-[#2a2a2a] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-105 h-full">
+                <div className="bg-[#1a1a1a] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02] h-full border border-[#333333]">
                   <div className="relative h-48">
                     <Image
                       src={item.banner}
@@ -174,52 +184,64 @@ export default function MainContent({ news }: NewsPageProps) {
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
+                    {/* Category Badge - Top Left */}
+                    <div className="absolute top-3 left-3">
+                      <span
+                        className={`inline-block px-2.5 py-1 text-xs font-semibold text-white rounded-lg shadow-lg ${
+                          item.newsType === "lore"
+                            ? "bg-gradient-to-r from-orange-500 to-orange-600"
+                            : item.newsType === "theBuzz"
+                            ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
+                            : item.newsType === "chainNews"
+                            ? "bg-gradient-to-r from-green-500 to-green-600"
+                            : item.newsType === "trenches"
+                            ? "bg-gradient-to-r from-red-500 to-red-600"
+                            : "bg-gradient-to-r from-purple-500 to-purple-600"
+                        }`}
+                      >
+                        {item.newsType === "chainNews"
+                          ? "Chain News"
+                          : item.newsType === "theBuzz"
+                          ? "The Buzz"
+                          : item.newsType === "trenches"
+                          ? "Trenches"
+                          : item.newsType === "lore"
+                          ? "Lore"
+                          : "Playbook"}
+                      </span>
+                    </div>
+                    {/* Like Button - Top Right */}
                     {showLikeButton === id + 1 && (
                       <div
-                        className="absolute top-3 right-3 bg-white/90 rounded-full p-1.5 shadow-md transition-all duration-300 hover:scale-110"
+                        className="absolute top-3 right-3 bg-white/90 rounded-full p-1.5 shadow-lg transition-all duration-300 hover:scale-110"
                         onClick={(e) => handleLikeClick(e)}
                       >
                         <Image
                           src="/images/heartIcon.png"
                           alt="Like"
-                          width={16}
-                          height={16}
+                          width={14}
+                          height={14}
                         />
                       </div>
                     )}
                   </div>
-                  <div className="p-6">
-                    <span
-                      className={`inline-block px-3 py-1 text-xs font-bold text-white rounded-full mb-3 ${
-                        item.newsType === "lore"
-                          ? "bg-orange-500"
-                          : item.newsType === "theBuzz"
-                          ? "bg-yellow-500"
-                          : item.newsType === "chainNews"
-                          ? "bg-green-500"
-                          : "bg-orange-500"
-                      }`}
-                    >
-                      {item.newsType === "chainNews"
-                        ? "Chain News"
-                        : item.newsType === "theBuzz"
-                        ? "The Buzz"
-                        : item.newsType === "trenches"
-                        ? "Trenches"
-                        : item.newsType === "lore"
-                        ? "Lore"
-                        : "Playbook"}
-                    </span>
-                    <h3 className="text-lg font-bold text-white mb-3 group-hover:text-orange-500 transition-colors line-clamp-2">
+                  <div className="p-5">
+                    <h3 className="text-base font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors leading-tight line-clamp-2">
                       {item.title}
                     </h3>
-                    <div className="flex items-center space-x-2">
-                      <Avatar
-                        small
-                        image={item.editor.avatarUrl}
-                        headerText={item.editor.username}
-                        banner={false}
-                      />
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center space-x-2">
+                        <Avatar
+                          small
+                          image={item.editor.avatarUrl}
+                          headerText={item.editor.username}
+                          banner={false}
+                        />
+                        <span className="text-[#a0a0a0]">by {item.editor.username}</span>
+                      </div>
+                      <span className="text-[#666666]">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
