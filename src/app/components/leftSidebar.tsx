@@ -57,8 +57,10 @@ export default function LeftSidebar() {
                 key={index}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
                   item.disabled
-                    ? "cursor-not-allowed opacity-50"
-                    : "bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-pointer hover:from-orange-600 hover:to-orange-700 shadow-sm"
+                    ? "cursor-not-allowed opacity-50 hover:bg-[#404040]"
+                    : item.title === "Pabs News"
+                    ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-pointer shadow-lg shadow-orange-500/25"
+                    : "hover:bg-[#404040] cursor-pointer"
                 }`}
                 role={item.disabled ? "presentation" : "button"}
                 tabIndex={item.disabled ? -1 : 0}
@@ -77,7 +79,7 @@ export default function LeftSidebar() {
                   {item.title}
                 </span>
                 {item.disabled && (
-                  <span className="ml-auto text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full">
+                  <span className="ml-auto text-xs bg-gray-600 text-gray-400 px-2 py-1 rounded-md text-[10px]">
                     Soon
                   </span>
                 )}
