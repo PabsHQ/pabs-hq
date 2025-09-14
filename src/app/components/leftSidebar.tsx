@@ -81,7 +81,7 @@ export default function LeftSidebar() {
                   />
                   <span
                     className={`sidebar-item-text text-xl ${
-                      item.disabled ? "text-gray-500" : "text-gray-300"
+                      item.disabled ? "text-gray-500 dark:text-gray-400" : "text-gray-300 dark:text-gray-200"
                     }`}
                   >
                     {item.title}
@@ -102,7 +102,7 @@ export default function LeftSidebar() {
                 width={24}
                 alt="logout"
               ></Image>
-              <span className="text-xl text-gray-500 self-start font-medium">
+              <span className="text-xl text-gray-500 dark:text-gray-400 self-start font-medium">
                 Disconnect
               </span>
             </div>

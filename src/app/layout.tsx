@@ -3,6 +3,7 @@ import "./globals.css";
 import App from "./app";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { ThemeProvider } from "./components/themeProvider";
 
 export const metadata: Metadata = {
   title: "Pabs HQ",
@@ -24,16 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased`}>
-        <NextTopLoader
-          height={8}
-          showSpinner={true}
-          crawlSpeed={200}
-          easing="ease"
-          speed={500}
-        />
-        <App>{children}</App>
+        <ThemeProvider>
+          <NextTopLoader
+            height={8}
+            showSpinner={true}
+            crawlSpeed={200}
+            easing="ease"
+            speed={500}
+          />
+          <App>{children}</App>
+        </ThemeProvider>
       </body>
     </html>
   );

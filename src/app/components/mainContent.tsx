@@ -10,6 +10,7 @@ import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import { useAccount } from "wagmi";
+import ThemeToggle from "./themeToggle";
 
 interface NewsPageProps {
   news: NewsItem[];
@@ -117,7 +118,7 @@ export default function MainContent({ news }: NewsPageProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full min-h-0">
-      {/* Header with Categories and Wallet */}
+      {/* Header with Categories, Wallet, and Theme Toggle */}
       <div className="flex justify-between items-center w-full">
         {/* Categories Filter */}
         <div className="flex-1" ref={containerRef}>
@@ -129,33 +130,39 @@ export default function MainContent({ news }: NewsPageProps) {
           />
         </div>
         
-        {/* Wallet Connection */}
-        <div
-          className={`text-black hover:text-white h-12 px-4 bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
-            isConnected ? "justify-start" : "justify-center"
-          } items-center text-center cursor-pointer flex min-w-[200px]`}
-          onClick={() => {
-            if (!isConnected && !isConnecting) {
-              login();
-            }
-          }}
-        >
-          {isConnecting && !isConnected && <Spinner />}
-          {!isConnected && !isConnecting && <span className="font-semibold">Connect Wallet</span>}
-          {isConnected && (
-            <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
-              <span className="text-gray-600 font-bold text-xs text-start">
-                Wallet Connected
-              </span>
-              <div className="flex w-full h-full gap-2 items-center text-xs">
-                <span>
-                  {address?.substring(0, 4) +
-                    "........" +
-                    address?.substring(address.length - 4)}
+        {/* Right side controls */}
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle */}
+          <ThemeToggle />
+          
+          {/* Wallet Connection */}
+          <div
+            className={`text-black hover:text-white h-12 px-4 bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ${
+              isConnected ? "justify-start" : "justify-center"
+            } items-center text-center cursor-pointer flex min-w-[200px]`}
+            onClick={() => {
+              if (!isConnected && !isConnecting) {
+                login();
+              }
+            }}
+          >
+            {isConnecting && !isConnected && <Spinner />}
+            {!isConnected && !isConnecting && <span className="font-semibold">Connect Wallet</span>}
+            {isConnected && (
+              <div className="flex flex-col w-full h-full gap-1 items-start justify-start">
+                <span className="text-gray-600 font-bold text-xs text-start">
+                  Wallet Connected
                 </span>
+                <div className="flex w-full h-full gap-2 items-center text-xs">
+                  <span>
+                    {address?.substring(0, 4) +
+                      "........" +
+                      address?.substring(address.length - 4)}
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -172,7 +179,7 @@ export default function MainContent({ news }: NewsPageProps) {
               onMouseEnter={() => handleLikesDisplay(0)}
               onMouseLeave={() => setShowLikeButton(-1)}
             >
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.01] border border-gray-200">
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.01]">
                 <div className="relative h-96">
                   <Image
                     src={displayNews[0].banner}
@@ -184,7 +191,7 @@ export default function MainContent({ news }: NewsPageProps) {
                   />
                   {showLikeButton === 0 && (
                     <div
-                      className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
+                      className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow-md transition-all duration-300 hover:scale-110"
                       onClick={(e) => handleLikeClick(e)}
                     >
                       <Image
@@ -204,7 +211,7 @@ export default function MainContent({ news }: NewsPageProps) {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h2 className="text-4xl font-bold text-gray-900 mb-4 group-hover:text-green-600 transition-colors">
+                  <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-green-600 transition-colors">
                     {displayNews[0].title}
                   </h2>
                   <div className="flex items-center space-x-3">
@@ -228,7 +235,7 @@ export default function MainContent({ news }: NewsPageProps) {
               <Link
                 href={`/news/${item.id}`}
                 key={item.id}
-                className="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer flex flex-col hover:shadow-lg hover:border-gray-300 transition-all duration-300 group"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden cursor-pointer flex flex-col hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 group"
                 onMouseEnter={() => handleLikesDisplay(id + 1)}
                 onMouseLeave={() => setShowLikeButton(-1)}
               >
@@ -242,7 +249,7 @@ export default function MainContent({ news }: NewsPageProps) {
                   />
                   {showLikeButton === id + 1 && (
                     <div
-                      className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 transition-all duration-300"
+                      className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 rounded-full p-2 shadow-lg hover:scale-110 border border-gray-200 dark:border-gray-600 transition-all duration-300"
                       onClick={(e) => handleLikeClick(e)}
                     >
                       <Image
@@ -262,7 +269,15 @@ export default function MainContent({ news }: NewsPageProps) {
                   </div>
                 </div>
                 <div className="p-4 flex-1 flex flex-col">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-2">
+                  <h3 
+                    className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-green-600 transition-colors"
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}
+                  >
                     {item.title}
                   </h3>
                   <div className="mt-auto">
