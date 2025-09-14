@@ -126,10 +126,22 @@ export default function MainContent({ news }: NewsPageProps) {
                           : "Playbook"}
                       </span>
                     </div>
-                    {/* Like Button - Top Right */}
+                    {/* Author Image - Top Right */}
+                    <div className="absolute top-4 right-4">
+                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white/20 shadow-lg">
+                        <Image
+                          src={featuredNews.editor.avatarUrl}
+                          alt={featuredNews.editor.username}
+                          width={32}
+                          height={32}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    {/* Like Button - Bottom Right */}
                     {showLikeButton === 0 && (
                       <div
-                        className="absolute top-4 right-4 bg-white/90 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
+                        className="absolute bottom-4 right-4 bg-white/90 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
                         onClick={(e) => handleLikeClick(e)}
                       >
                         <Image
@@ -142,23 +154,19 @@ export default function MainContent({ news }: NewsPageProps) {
                     )}
                   </div>
                   <div className="p-6">
-                    <h2 className="text-xl font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors leading-tight">
-                      {featuredNews.title}
-                    </h2>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center space-x-2">
-                        <Avatar
-                          small
-                          image={featuredNews.editor.avatarUrl}
-                          headerText={featuredNews.editor.username}
-                          banner={false}
-                        />
-                        <span className="text-[#a0a0a0]">by {featuredNews.editor.username}</span>
-                      </div>
+                    {/* Date and Author Info */}
+                    <div className="flex items-center justify-between text-sm mb-3">
                       <span className="text-[#666666] text-xs">
                         {new Date(featuredNews.createdAt).toLocaleDateString()}
                       </span>
+                      <span className="text-[#a0a0a0] text-xs font-medium">
+                        {featuredNews.editor.username}
+                      </span>
                     </div>
+                    {/* Headline */}
+                    <h3 className="text-lg font-semibold text-white group-hover:text-[#ff6b35] transition-colors leading-tight">
+                      {featuredNews.title}
+                    </h3>
                   </div>
                 </div>
               </Link>
@@ -210,10 +218,22 @@ export default function MainContent({ news }: NewsPageProps) {
                           : "Playbook"}
                       </span>
                     </div>
-                    {/* Like Button - Top Right */}
+                    {/* Author Image - Top Right */}
+                    <div className="absolute top-3 right-3">
+                      <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-white/20 shadow-lg">
+                        <Image
+                          src={item.editor.avatarUrl}
+                          alt={item.editor.username}
+                          width={24}
+                          height={24}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    {/* Like Button - Bottom Right */}
                     {showLikeButton === id + 1 && (
                       <div
-                        className="absolute top-3 right-3 bg-white/90 rounded-full p-1.5 shadow-lg transition-all duration-300 hover:scale-110"
+                        className="absolute bottom-3 right-3 bg-white/90 rounded-full p-1.5 shadow-lg transition-all duration-300 hover:scale-110"
                         onClick={(e) => handleLikeClick(e)}
                       >
                         <Image
@@ -225,24 +245,20 @@ export default function MainContent({ news }: NewsPageProps) {
                       </div>
                     )}
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-base font-semibold text-white mb-3 group-hover:text-[#ff6b35] transition-colors leading-tight line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center space-x-2">
-                        <Avatar
-                          small
-                          image={item.editor.avatarUrl}
-                          headerText={item.editor.username}
-                          banner={false}
-                        />
-                        <span className="text-[#a0a0a0]">by {item.editor.username}</span>
-                      </div>
+                  <div className="p-4">
+                    {/* Date and Author Info */}
+                    <div className="flex items-center justify-between text-xs mb-2">
                       <span className="text-[#666666]">
                         {new Date(item.createdAt).toLocaleDateString()}
                       </span>
+                      <span className="text-[#a0a0a0] font-medium">
+                        {item.editor.username}
+                      </span>
                     </div>
+                    {/* Headline */}
+                    <h3 className="text-sm font-semibold text-white group-hover:text-[#ff6b35] transition-colors leading-tight line-clamp-3">
+                      {item.title}
+                    </h3>
                   </div>
                 </div>
               </Link>
