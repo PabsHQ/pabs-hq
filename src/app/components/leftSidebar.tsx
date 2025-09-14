@@ -3,6 +3,7 @@
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
+import { useState, useEffect } from "react";
 
 const MENU_ITEMS = [
   {
@@ -31,55 +32,84 @@ const MENU_ITEMS = [
     image: "/images/leftSidebar/forums.png",
   },
   {
-    title: "XP Systems",
-    disabled: true,
-    image: "/images/leftSidebar/xp.png",
-  },
-  {
     title: "Earn",
     disabled: true,
     image: "/images/leftSidebar/earn.png",
   },
+  {
+    title: "XP",
+    disabled: true,
+    image: "/images/leftSidebar/xp.png",
+  },
 ];
 
 export default function LeftSidebar() {
-  const { logout } = useLoginWithAbstract();
-  const { isConnected } = useAccount();
+  const [homepageBanner, setHomepageBanner] = useState<string>("");
+  const { login } = useLoginWithAbstract();
+  const { address, isConnected, isConnecting } = useAccount();
+
+  useEffect(() => {
+    const fetchHomepageBanner = async () => {
+      try {
+        const res = await fetch("/api/uploadHomepageBanner");
+        const data = await res.json();
+        if (data.url) {
+          setHomepageBanner(data.url);
+        }
+      } catch (err) {
+        console.error("❌ Error fetching homepage banner:", err);
+      }
+    };
+
+    fetchHomepageBanner();
+  }, []);
+
+  const logout = () => {
+    // Add logout logic here if needed
+    console.log("Logout clicked");
+  };
+
   return (
-    <div className="flex-[0.2] h-full min-w-[255px]">
+    <div className="flex-[0.2] h-full min-w-[297px]">
       <div className="flex flex-col h-full w-full gap-3">
-        <div className="sidebar-card flex-[1] overflow-y-auto w-full flex flex-col h-full w-full justify-between items-center pl-[8%] py-7 gap-5">
-          <div className="flex flex-col w-full gap-6 justify-start items-center">
-            {MENU_ITEMS.map((item: any, index: number) => {
+        <div className="flex-[0.9] flex flex-col justify-between">
+          <div className="flex flex-col gap-6">
+            {MENU_ITEMS.map((item, index) => {
               return (
                 <div
                   key={index}
-                  className={`sidebar-item flex gap-4 w-full ${
+                  className={`flex gap-6 justify-start items-center cursor-pointer p-4 self-start hover-scale rounded-lg transition-all duration-300 ${
                     item.disabled
-                      ? "cursor-not-allowed opacity-60"
-                      : !item.disabled && item.title === "Pabs News" 
-                      ? "active cursor-pointer"
-                      : "cursor-pointer"
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
                   }`}
                 >
                   <Image
                     src={item.image}
                     height={24}
                     width={24}
-                    alt="news"
-                    style={{ objectFit: "contain" }}
+                    alt={item.title}
                   />
-                  <span
-                    className={`sidebar-item-text text-xl ${
-                      item.disabled ? "text-gray-500 dark:text-gray-400" : "text-gray-300 dark:text-gray-200"
-                    }`}
-                  >
+                  <span className="text-xl text-gray-500 dark:text-gray-400 self-start font-medium">
                     {item.title}
                   </span>
                 </div>
               );
             })}
           </div>
+
+          {/* Homepage Banner */}
+          {homepageBanner && (
+            <div className="mt-6 mb-4">
+              <Image
+                src={homepageBanner}
+                alt="Homepage Banner"
+                width={250}
+                height={150}
+                className="w-full h-auto rounded-lg object-cover"
+              />
+            </div>
+          )}
 
           {isConnected ? (
             <div
