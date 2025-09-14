@@ -48,19 +48,19 @@ export default function LeftSidebar() {
   
   return (
     <nav className="h-full" role="navigation" aria-label="Main navigation">
-      <div className="bg-[#2a2a2a] rounded-2xl shadow-sm border border-[#404040] h-full flex flex-col py-6 px-4">
+      <div className="bg-[#1a1a1a] rounded-2xl shadow-lg border border-[#333333] h-full flex flex-col py-6 px-4">
         {/* Navigation Menu */}
         <div className="flex-1 space-y-2">
           {MENU_ITEMS.map((item: any, index: number) => {
             return (
               <div
                 key={index}
-                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 ${
+                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                   item.disabled
-                    ? "cursor-not-allowed opacity-50 hover:bg-[#404040]"
+                    ? "cursor-not-allowed opacity-50 hover:bg-[#222222]"
                     : item.title === "Pabs News"
-                    ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-pointer shadow-lg shadow-orange-500/25"
-                    : "hover:bg-[#404040] cursor-pointer"
+                    ? "bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white cursor-pointer shadow-lg shadow-orange-500/30"
+                    : "hover:bg-[#222222] cursor-pointer hover:border-[#444444]"
                 }`}
                 role={item.disabled ? "presentation" : "button"}
                 tabIndex={item.disabled ? -1 : 0}
@@ -79,7 +79,7 @@ export default function LeftSidebar() {
                   {item.title}
                 </span>
                 {item.disabled && (
-                  <span className="ml-auto text-xs bg-gray-600 text-gray-400 px-2 py-1 rounded-md text-[10px]">
+                  <span className="ml-auto text-xs bg-[#333333] text-[#a0a0a0] px-2 py-1 rounded-md text-[10px] font-medium">
                     Soon
                   </span>
                 )}
@@ -108,10 +108,10 @@ export default function LeftSidebar() {
 
         {/* Logout Section */}
         {isConnected && (
-          <div className="pt-4 border-t border-[#404040]">
+          <div className="pt-4 border-t border-[#333333]">
             <button
               onClick={logout}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl w-full text-left hover:bg-[#404040] transition-colors duration-200"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl w-full text-left hover:bg-[#222222] transition-colors duration-300"
               aria-label="Disconnect wallet"
             >
               <Image

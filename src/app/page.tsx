@@ -9,7 +9,7 @@ export default async function Home() {
   const news: NewsItem[] = ((await getNews()) as NewsItem[]) || [];
   
   return (
-    <div className="min-h-screen bg-[#1a1a1a]">
+    <div className="min-h-screen bg-[#0f0f0f]">
       {/* Sticky Header */}
       <Header />
       
@@ -23,14 +23,14 @@ export default async function Home() {
           </aside>
 
           {/* Main Content */}
-          <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-4" aria-label="News content">
+          <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-4 border border-[#333333]" aria-label="News content">
             <MainContent news={news} />
           </section>
         </div>
 
         {/* Tablet Layout (768px - 1024px) */}
         <div className="hidden md:flex lg:hidden gap-4">
-          <section className="flex-1 bg-[#1a1a1a] rounded-2xl p-4" aria-label="News content">
+          <section className="flex-1 bg-[#1a1a1a] rounded-2xl p-4 border border-[#333333]" aria-label="News content">
             <MainContent news={news} />
           </section>
         </div>

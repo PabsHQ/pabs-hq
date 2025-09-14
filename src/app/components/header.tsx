@@ -10,7 +10,7 @@ export default function Header() {
   const { address, isConnected, isConnecting } = useAccount();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#1a1a1a]/95 backdrop-blur-sm border-b border-[#404040] shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-[#0f0f0f]/95 backdrop-blur-sm border-b border-[#333333] shadow-lg">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -35,11 +35,11 @@ export default function Header() {
               <input
                 type="text"
                 placeholder="Search articles..."
-                className="w-full px-4 py-2 pl-10 pr-4 bg-[#2a2a2a] border border-[#404040] rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                className="w-full px-4 py-2 pl-10 pr-4 bg-[#1a1a1a] border border-[#333333] rounded-full text-white placeholder-[#a0a0a0] focus:outline-none focus:ring-2 focus:ring-[#ff6b35] focus:border-[#ff6b35] transition-all duration-300"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
-                  className="h-5 w-5 text-gray-400"
+                  className="h-5 w-5 text-[#a0a0a0]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -59,7 +59,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             {isConnected ? (
               <div className="flex items-center space-x-3">
-                <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-lg shadow-sm">
+                <div className="flex items-center space-x-2 bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-4 py-2 rounded-lg shadow-lg">
                   <Image
                     src="/images/abstract.png"
                     height={20}
@@ -80,7 +80,7 @@ export default function Header() {
                   }
                 }}
                 disabled={isConnecting}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#ff6b35] to-[#ff5722] hover:from-[#ff5722] hover:to-[#e64a19] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff6b35] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl"
                 aria-label={isConnecting ? "Connecting wallet..." : "Connect wallet"}
               >
                 {isConnecting ? (
