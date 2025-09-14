@@ -9,6 +9,7 @@ import RichTextEditor from "../components/editor";
 
 export default function Home() {
   const [canView, setCanView] = useState(false);
+  const [editorContent, setEditorContent] = useState<string>("");
   const { address } = useAccount();
 
   useEffect(() => {
@@ -22,6 +23,11 @@ export default function Home() {
   const handleImageChange = (file: File) => {
     console.log("Image selected:", file.name);
     // Add image upload logic here if needed
+  };
+
+  const handleEditorChange = (content: string) => {
+    setEditorContent(content);
+    console.log("Editor content changed");
   };
 
   if (!canView) {
@@ -41,12 +47,21 @@ export default function Home() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <BannerUpload handleImageChange={handleImageChange} />
-          <AvatarUpload />
+          <AvatarUpload 
+            avatarUrl={null}
+            title="Avatar Upload"
+            handleImageChange={handleImageChange}
+            isBanner={false}
+            flexStyle="flex-col"
+          />
         </div>
         
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-2xl font-semibold mb-4">Rich Text Editor</h2>
-          <RichTextEditor />
+          <RichTextEditor 
+            content={editorContent}
+            onChange={handleEditorChange}
+          />
         </div>
       </div>
     </div>
