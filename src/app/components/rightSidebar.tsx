@@ -13,7 +13,7 @@ export default function RightSidebar() {
       <div className="flex flex-col h-full w-full gap-3">
         {/* Connect Wallet Button */}
         <div
-          className={`flex-[0.1] text-black hover:text-white max-h-16 w-full bg-gradient-to-r from-emerald-300 via-green-400 to-emerald-500 rounded-lg p-3 shadow-lg hover-lift transition-all duration-500 ${
+          className={`flex-[0.1] text-black hover:text-white max-h-16 w-full bg-gradient-to-r from-orange-300 via-orange-400 to-orange-500 rounded-lg p-3 shadow-lg hover-lift transition-all duration-500 ${
             isConnected ? "justify-start" : "justify-center"
           } items-center text-center cursor-pointer flex`}
           onClick={() => {

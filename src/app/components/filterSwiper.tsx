@@ -59,7 +59,7 @@ export default function FilterSwiper({
                 <div
                   className={`filter-tab w-full min-w-[190px] h-12 flex justify-center items-center shadow-md ${
                     selectedNewsType === categoryName
-                      ? "active bg-gradient-to-r from-green-400 to-emerald-400 text-white"
+                      ? "active bg-gradient-to-r from-orange-400 to-orange-500 text-white"
                       : "bg-white text-black hover:bg-gray-50"
                   }`}
                 >
