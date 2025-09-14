@@ -17,12 +17,14 @@ export default async function Home() {
         <LeftSidebar />
 
         {/* Main Content (Middle) - Extended to right edge */}
-        <div className="flex-1 mr-0">
+        <div className="flex-1">
           <MainContent banner={homepageBanner} news={news} />
         </div>
 
-        {/* Right Sidebar - Simplified */}
-        <RightSidebar />
+        {/* Right Sidebar - Simplified and smaller */}
+        <div className="w-80 flex-shrink-0">
+          <RightSidebar />
+        </div>
       </div>
 
       {/* Mobile display */}
