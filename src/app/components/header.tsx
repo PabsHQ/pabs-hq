@@ -8,19 +8,9 @@ import Link from "next/link";
 import Spinner from "./spinner";
 import ThemeToggle from "./themeToggle";
 
-interface HeaderProps {
-  categories: string[];
-  selectedNewsType: string;
-  selectNewsType: (type: string) => void;
-  containerWidth: number | null;
-}
+interface HeaderProps {}
 
-const Header = forwardRef<HTMLDivElement, HeaderProps>(({ 
-  categories, 
-  selectedNewsType, 
-  selectNewsType, 
-  containerWidth 
-}, ref) => {
+const Header = forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { login } = useLoginWithAbstract();
   const { address, isConnected, isConnecting } = useAccount();

@@ -5,7 +5,6 @@ import { NewsItem } from "../interfaces/newsDto.model";
 import Header from "./header";
 import LeftSidebar from "./leftSidebar";
 import MainContent from "./mainContent";
-import FilterSwiper from "./filterSwiper";
 
 interface PageWrapperProps {
   news: NewsItem[];
@@ -45,13 +44,7 @@ export default function PageWrapper({ news }: PageWrapperProps) {
   return (
     <div className="min-h-screen w-screen">
       {/* Header */}
-      <Header 
-        categories={categories}
-        selectedNewsType={selectedNewsType}
-        selectNewsType={selectNewsType}
-        containerWidth={containerWidth}
-        ref={headerRef}
-      />
+      <Header ref={headerRef} />
       
       {/* Main Layout */}
       <div className="pt-20 min-h-[calc(100vh-5rem)]">
