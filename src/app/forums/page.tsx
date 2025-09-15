@@ -115,7 +115,7 @@ export default function Forums() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h3 className="text-lg font-medium text-white mb-2">New NFT Collection Launch - Alpha Access</h3>
-                        <p className="text-[#a0a0a0] text-sm mb-3">The team just announced the new collection. Who's planning to mint?</p>
+                        <p className="text-[#a0a0a0] text-sm mb-3">The team just announced the new collection. Who&apos;s planning to mint?</p>
                         <div className="flex items-center space-x-4 text-xs text-[#a0a0a0]">
                           <span>by @nftcollector</span>
                           <span>5 hours ago</span>
