@@ -42,7 +42,7 @@ export default function Forums() {
                     <span>5,678 posts</span>
                   </div>
                   <div className="text-xs text-[#a0a0a0]">
-                    Latest: "Market analysis for Q4" by @trader123
+                    Latest: &quot;Market analysis for Q4&quot; by @trader123
                   </div>
                 </div>
 
@@ -61,7 +61,7 @@ export default function Forums() {
                     <span>3,456 posts</span>
                   </div>
                   <div className="text-xs text-[#a0a0a0]">
-                    Latest: "PABS token analysis" by @analyst99
+                    Latest: &quot;PABS token analysis&quot; by @analyst99
                   </div>
                 </div>
 
@@ -80,7 +80,7 @@ export default function Forums() {
                     <span>1,234 posts</span>
                   </div>
                   <div className="text-xs text-[#a0a0a0]">
-                    Latest: "Wallet connection issue" by @user456
+                    Latest: &quot;Wallet connection issue&quot; by @user456
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function Forums() {
                 <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
                   <h3 className="font-medium text-white mb-2">General Discussion</h3>
                   <p className="text-sm text-[#a0a0a0] mb-2">1,234 topics • 5,678 posts</p>
-                  <p className="text-xs text-[#a0a0a0]">Latest: "Market analysis for Q4"</p>
+                  <p className="text-xs text-[#a0a0a0]">Latest: &quot;Market analysis for Q4&quot;</p>
                 </div>
               </div>
             </div>
