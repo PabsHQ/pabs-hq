@@ -2,41 +2,50 @@
 "use client";
 import { useLoginWithAbstract } from "@abstract-foundation/agw-react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAccount } from "wagmi";
 
 const MENU_ITEMS = [
   {
     title: "Pabs News",
+    href: "/",
     disabled: false,
     image: "/images/leftSidebar/newsSelected.png",
   },
   {
     title: "Portfolio",
-    disabled: true,
+    href: "/portfolio",
+    disabled: false,
     image: "/images/leftSidebar/portfolio.png",
   },
   {
     title: "Alpha Toolkit",
-    disabled: true,
+    href: "/alpha-toolkit",
+    disabled: false,
     image: "/images/leftSidebar/alpha.png",
   },
   {
     title: "Leaderboards",
-    disabled: true,
+    href: "/leaderboards",
+    disabled: false,
     image: "/images/leftSidebar/leaderboards.png",
   },
   {
     title: "Forums",
-    disabled: true,
+    href: "/forums",
+    disabled: false,
     image: "/images/leftSidebar/forums.png",
   },
   {
     title: "XP Systems",
+    href: "/xp-systems",
     disabled: true,
     image: "/images/leftSidebar/xp.png",
   },
   {
     title: "Earn",
+    href: "/earn",
     disabled: true,
     image: "/images/leftSidebar/earn.png",
   },
@@ -45,6 +54,7 @@ const MENU_ITEMS = [
 export default function LeftSidebar() {
   const { logout } = useLoginWithAbstract();
   const { isConnected } = useAccount();
+  const pathname = usePathname();
   
   return (
     <nav className="h-full" role="navigation" aria-label="Main navigation">
@@ -52,19 +62,46 @@ export default function LeftSidebar() {
         {/* Navigation Menu */}
         <div className="flex-1 space-y-2">
           {MENU_ITEMS.map((item: any, index: number) => {
+            const isActive = pathname === item.href;
+            
+            if (item.disabled) {
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 cursor-not-allowed opacity-50 hover:bg-[#222222]"
+                  role="presentation"
+                  tabIndex={-1}
+                  aria-disabled={true}
+                >
+                  <Image
+                    src={item.image}
+                    height={20}
+                    width={20}
+                    alt={`${item.title} icon`}
+                    className="flex-shrink-0"
+                  />
+                  <span className="text-sm font-medium text-gray-400">
+                    {item.title}
+                  </span>
+                  <span className="ml-auto text-xs bg-[#333333] text-[#a0a0a0] px-2 py-1 rounded-md text-[10px] font-medium">
+                    Soon
+                  </span>
+                </div>
+              );
+            }
+
             return (
-              <div
+              <Link
                 key={index}
+                href={item.href}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300 ${
-                  item.disabled
-                    ? "cursor-not-allowed opacity-50 hover:bg-[#222222]"
-                    : item.title === "Pabs News"
+                  isActive
                     ? "bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white cursor-pointer shadow-lg shadow-orange-500/30"
                     : "hover:bg-[#222222] cursor-pointer hover:border-[#444444]"
                 }`}
-                role={item.disabled ? "presentation" : "button"}
-                tabIndex={item.disabled ? -1 : 0}
-                aria-disabled={item.disabled}
+                role="button"
+                tabIndex={0}
+                aria-current={isActive ? "page" : undefined}
               >
                 <Image
                   src={item.image}
@@ -73,17 +110,10 @@ export default function LeftSidebar() {
                   alt={`${item.title} icon`}
                   className="flex-shrink-0"
                 />
-                <span className={`text-sm font-medium ${
-                  item.disabled ? "text-gray-400" : "text-white"
-                }`}>
+                <span className="text-sm font-medium text-white">
                   {item.title}
                 </span>
-                {item.disabled && (
-                  <span className="ml-auto text-xs bg-[#333333] text-[#a0a0a0] px-2 py-1 rounded-md text-[10px] font-medium">
-                    Soon
-                  </span>
-                )}
-              </div>
+              </Link>
             );
           })}
         </div>
