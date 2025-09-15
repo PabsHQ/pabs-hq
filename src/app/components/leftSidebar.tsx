@@ -91,7 +91,7 @@ export default function LeftSidebar() {
         {/* Homepage Banner */}
         <div className="mt-6">
           <div className="text-center space-y-3">
-            <h3 className="text-sm font-bold text-white">
+            <h3 className="text-xs font-bold text-white">
               SKIP NFT&apos;S ARE LIVE!
             </h3>
             <div className="relative rounded-lg overflow-hidden">
