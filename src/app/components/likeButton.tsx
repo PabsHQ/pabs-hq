@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useAccount } from "wagmi";
 
 interface LikeButtonProps {
   articleId: string;
@@ -19,7 +18,6 @@ export default function LikeButton({
   onLike, 
   className = "" 
 }: LikeButtonProps) {
-  const { isConnected } = useAccount();
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likes?.count || 0);
 
@@ -27,12 +25,6 @@ export default function LikeButton({
     e.preventDefault();
     e.stopPropagation();
     
-    if (!isConnected) {
-      console.log("Please connect wallet to like");
-      return;
-    }
-
-    // Simple toggle for now
     const newLiked = !isLiked;
     const newCount = newLiked ? likeCount + 1 : likeCount - 1;
     
@@ -47,13 +39,8 @@ export default function LikeButton({
   return (
     <button
       onClick={handleClick}
-      disabled={!isConnected}
-      className={`flex items-center gap-1 px-2 py-1 rounded-full transition-all duration-200 ${
-        isConnected 
-          ? "hover:bg-white/20 cursor-pointer" 
-          : "opacity-50 cursor-not-allowed"
-      } ${className}`}
-      title={!isConnected ? "Connect wallet to like" : isLiked ? "Unlike" : "Like"}
+      className={`flex items-center gap-1 px-2 py-1 rounded-full transition-all duration-200 hover:bg-white/20 cursor-pointer ${className}`}
+      title={isLiked ? "Unlike" : "Like"}
     >
       <HeartIcon filled={isLiked} />
       <span className="text-xs text-white font-medium">
