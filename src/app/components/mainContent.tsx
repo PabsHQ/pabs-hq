@@ -7,17 +7,22 @@ import { NewsItem } from "../interfaces/newsDto.model";
 import Spinner from "./spinner";
 import FilterSwiper from "./filterSwiper";
 import Link from "next/link";
+import LikeButton from "./likeButton";
+import CommentButton from "./commentButton";
+import { useAccount } from "wagmi";
 
 interface NewsPageProps {
   news: NewsItem[];
 }
 
 export default function MainContent({ news }: NewsPageProps) {
+  const { isConnected } = useAccount();
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [selectedNewsType, setSelectedNewsType] = useState<string>("");
   const [showLikeButton, setShowLikeButton] = useState<number>(-1);
   const [categories, setCategories] = useState<string[]>([]);
+  const [openComments, setOpenComments] = useState<string | null>(null);
 
   useEffect(() => {
     if (!news) return;
@@ -53,6 +58,16 @@ export default function MainContent({ news }: NewsPageProps) {
   const selectNewsType = (text: string) => {
     if (selectedNewsType === text) setSelectedNewsType("");
     else setSelectedNewsType(text);
+  };
+
+  // Simple like handler - just logs for now
+  const handleLike = (articleId: string) => {
+    console.log("Like clicked for article:", articleId);
+    // TODO: Add actual like functionality later
+  };
+
+  const handleToggleComments = (articleId: string) => {
+    setOpenComments(openComments === articleId ? null : articleId);
   };
 
   const displayNews = selectedNewsType === "" ? newsItems : filteredNews;
@@ -142,18 +157,29 @@ export default function MainContent({ news }: NewsPageProps) {
                         />
                       </div>
                     </div>
-                    {/* Like Button - Bottom Right */}
-                    {showLikeButton === 0 && (
-                      <div
-                        className="absolute bottom-4 right-4 bg-white/90 rounded-full p-2 shadow-lg transition-all duration-300 hover:scale-110"
-                        onClick={handleLikeClick}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={18}
-                          height={18}
-                        />
+                    {/* Action Buttons - Bottom Right */}
+                    {(showLikeButton === 0 || isConnected) && (
+                      <div className="absolute bottom-4 right-4 flex gap-2">
+                        <div
+                          onClick={handleLikeClick}
+                          className="bg-black/50 backdrop-blur-sm rounded-lg p-2"
+                        >
+                          <LikeButton
+                            articleId={featuredNews.id}
+                            likes={featuredNews.likes}
+                            onLike={handleLike}
+                          />
+                        </div>
+                        <div
+                          onClick={handleLikeClick}
+                          className="bg-black/50 backdrop-blur-sm rounded-lg p-2"
+                        >
+                          <CommentButton
+                            articleId={featuredNews.id}
+                            comments={featuredNews.comments}
+                            onToggleComments={handleToggleComments}
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -216,18 +242,29 @@ export default function MainContent({ news }: NewsPageProps) {
                         />
                       </div>
                     </div>
-                    {/* Like Button - Bottom Right */}
-                    {showLikeButton === id + 1 && (
-                      <div
-                        className="absolute bottom-3 right-3 bg-white/90 rounded-full p-1.5 shadow-lg transition-all duration-300 hover:scale-110"
-                        onClick={handleLikeClick}
-                      >
-                        <Image
-                          src="/images/heartIcon.png"
-                          alt="Like"
-                          width={14}
-                          height={14}
-                        />
+                    {/* Action Buttons - Bottom Right */}
+                    {(showLikeButton === id + 1 || isConnected) && (
+                      <div className="absolute bottom-3 right-3 flex gap-2">
+                        <div
+                          onClick={handleLikeClick}
+                          className="bg-black/50 backdrop-blur-sm rounded-lg p-1.5"
+                        >
+                          <LikeButton
+                            articleId={item.id}
+                            likes={item.likes}
+                            onLike={handleLike}
+                          />
+                        </div>
+                        <div
+                          onClick={handleLikeClick}
+                          className="bg-black/50 backdrop-blur-sm rounded-lg p-1.5"
+                        >
+                          <CommentButton
+                            articleId={item.id}
+                            comments={item.comments}
+                            onToggleComments={handleToggleComments}
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -249,6 +286,26 @@ export default function MainContent({ news }: NewsPageProps) {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Simple Comment Modal Placeholder */}
+      {openComments && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a1a1a] rounded-2xl border border-[#333333] w-full max-w-md p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold text-white">Comments</h3>
+              <button
+                onClick={() => setOpenComments(null)}
+                className="text-[#a0a0a0] hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-[#a0a0a0] text-center py-8">
+              Comment functionality coming soon!
+            </p>
           </div>
         </div>
       )}
