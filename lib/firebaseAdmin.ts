@@ -7,9 +7,14 @@ if (!admin.apps.length) {
     privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   };
 
+  // Validate required environment variables
+  if (!serviceAccount.projectId || !serviceAccount.clientEmail || !serviceAccount.privateKey) {
+    throw new Error('Missing required Firebase environment variables');
+  }
+
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    storageBucket: `${process.env.FIREBASE_PROJECT_ID}.firebasestorage.app`, // fix typo: .app → .appspot.com
+    storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`, // Fixed: .app → .appspot.com
   });
 }
 
