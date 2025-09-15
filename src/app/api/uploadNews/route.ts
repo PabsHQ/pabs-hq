@@ -27,8 +27,8 @@ export async function POST(req: Request) {
       content: content,
       createdAt: new Date(),
       newsType: newsType,
-      likes: {},
-      comments: {},
+      likes: { count: 0, userLiked: false, likedBy: [] },
+      comments: { count: 0, items: [] },
     });
     // Return the response with the file URL
     return NextResponse.json({

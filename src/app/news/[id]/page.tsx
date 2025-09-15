@@ -55,7 +55,27 @@ export default async function NewsPage({ params }: Props) {
     notFound(); // Automatically renders the 404 page
   }
 
-  const newsItem = { id: doc.id, ...doc.data() } as NewsItem;
+  const data = doc.data();
+  if (!data) {
+    notFound();
+  }
+
+  // Ensure proper data structure with fallbacks
+  const newsItem: NewsItem = {
+    id: doc.id,
+    title: data.title || "Untitled",
+    banner: data.banner || "/images/placeholder1sidebar.png",
+    newsType: data.newsType || "news",
+    editor: {
+      username: data.editor?.username || "Unknown Author",
+      avatarUrl: data.editor?.avatarUrl || "/images/avatarPlaceholder.png",
+      usernameSubtitle: data.editor?.usernameSubtitle || "Contributor"
+    },
+    content: data.content || "",
+    likes: data.likes || { count: 0, userLiked: false, likedBy: [] },
+    comments: data.comments || { count: 0, items: [] },
+    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt || Date.now())
+  };
 
   // Helper function to get category display name
   const getCategoryDisplayName = (newsType: string) => {
