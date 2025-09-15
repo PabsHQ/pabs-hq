@@ -3,7 +3,10 @@ import { useAccount } from "wagmi";
 
 interface CommentButtonProps {
   articleId: string;
-  comments?: any; // Keep flexible for now
+  comments?: {
+    count?: number;
+    items?: unknown[];
+  };
   onToggleComments?: (articleId: string) => void;
   className?: string;
 }
@@ -14,7 +17,6 @@ export default function CommentButton({
   onToggleComments, 
   className = "" 
 }: CommentButtonProps) {
-  const { isConnected } = useAccount();
   const commentCount = comments?.count || 0;
 
   const handleClick = (e: React.MouseEvent) => {

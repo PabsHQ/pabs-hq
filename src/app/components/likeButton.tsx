@@ -4,7 +4,11 @@ import { useAccount } from "wagmi";
 
 interface LikeButtonProps {
   articleId: string;
-  likes?: any; // Keep flexible for now
+  likes?: {
+    count?: number;
+    userLiked?: boolean;
+    likedBy?: string[];
+  };
   onLike?: (articleId: string) => void;
   className?: string;
 }
