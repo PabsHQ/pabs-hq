@@ -148,4 +148,67 @@ export default function Portfolio() {
                       <span className="text-2xl">📊</span>
                     </div>
                     <h3 className="text-lg font-medium text-white mb-2">No Holdings Yet</h3>
-                    <p className="text-[#a0a0a0] mb-
+                    <p className="text-[#a0a0a0] mb-6">Start building your portfolio by acquiring Pabs assets</p>
+                    <button className="bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-6 py-3 rounded-lg font-medium hover:from-[#ff5722] hover:to-[#e64a19] transition-all duration-300 min-h-[44px] touch-manipulation">
+                      Explore Assets
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Mobile Layout - Enhanced */}
+        <div className="lg:hidden px-4 space-y-6">
+          <section className="bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]">
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-2xl font-bold text-white mb-2">Portfolio</h1>
+                <p className="text-[#a0a0a0] text-sm">Track your Pabs ecosystem investments</p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <h3 className="text-xs font-medium text-[#a0a0a0] mb-2">Total Value</h3>
+                  <p className="text-lg font-bold text-white">$0.00</p>
+                  <p className="text-xs text-green-500 mt-1">+0.00% (24h)</p>
+                </div>
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <h3 className="text-xs font-medium text-[#a0a0a0] mb-2">Pabs Tokens</h3>
+                  <p className="text-lg font-bold text-white">0 PABS</p>
+                  <p className="text-xs text-[#a0a0a0] mt-1">$0.00 USD</p>
+                </div>
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <h3 className="text-xs font-medium text-[#a0a0a0] mb-2">NFTs Owned</h3>
+                  <p className="text-lg font-bold text-white">0</p>
+                  <p className="text-xs text-[#a0a0a0] mt-1">Collections</p>
+                </div>
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <h3 className="text-xs font-medium text-[#a0a0a0] mb-2">XP Earned</h3>
+                  <p className="text-lg font-bold text-white">0</p>
+                  <p className="text-xs text-[#a0a0a0] mt-1">Total Points</p>
+                </div>
+              </div>
+              
+              {/* Mobile Holdings Section */}
+              <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                <h3 className="text-sm font-semibold text-white mb-2">Holdings</h3>
+                <div className="text-center py-8">
+                  <div className="w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-lg">📊</span>
+                  </div>
+                  <h4 className="text-sm font-medium text-white mb-1">No Holdings Yet</h4>
+                  <p className="text-xs text-[#a0a0a0] mb-4">Start building your portfolio</p>
+                  <button className="bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-4 py-2 rounded-lg text-sm font-medium min-h-[44px] touch-manipulation">
+                    Explore Assets
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}

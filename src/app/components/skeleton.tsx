@@ -1,3 +1,4 @@
+import React from 'react';
 
 export default function Skeleton({ className = "", ...props }: { className?: string; [key: string]: any }) {
   return (
