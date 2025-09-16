@@ -1,7 +1,67 @@
 import Header from "../components/header";
 import LeftSidebar from "../components/leftSidebar";
+import { CardSkeleton, TableSkeleton, PageHeaderSkeleton } from "../components/skeleton";
+import { useState, useEffect } from "react";
 
 export default function Leaderboards() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#0f0f0f]">
+        <Header />
+        <main className="w-full py-6">
+          <div className="hidden lg:flex gap-6 h-[calc(100vh-120px)] min-h-[600px] px-6">
+            <aside className="w-64 flex-shrink-0">
+              <LeftSidebar />
+            </aside>
+            <section className="flex-1 min-w-0 bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]">
+              <div className="space-y-8">
+                <PageHeaderSkeleton />
+                <div className="flex space-x-2">
+                  <div className="h-10 w-20 bg-[#333333] rounded-lg animate-pulse" />
+                  <div className="h-10 w-24 bg-[#333333] rounded-lg animate-pulse" />
+                  <div className="h-10 w-20 bg-[#333333] rounded-lg animate-pulse" />
+                </div>
+                <TableSkeleton />
+                <CardSkeleton />
+              </div>
+            </section>
+          </div>
+          <div className="lg:hidden px-4 space-y-6">
+            <section className="bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]">
+              <div className="space-y-6">
+                <PageHeaderSkeleton />
+                <div className="space-y-3">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-6 h-6 bg-[#333333] rounded animate-pulse" />
+                          <div className="space-y-1">
+                            <div className="h-4 w-24 bg-[#333333] rounded animate-pulse" />
+                            <div className="h-3 w-16 bg-[#333333] rounded animate-pulse" />
+                          </div>
+                        </div>
+                        <div className="h-4 w-12 bg-[#333333] rounded animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
       {/* Sticky Header */}
@@ -26,14 +86,14 @@ export default function Leaderboards() {
               </div>
 
               {/* Filter Tabs */}
-              <div className="flex space-x-2">
-                <button className="bg-[#ff6b35] text-white px-4 py-2 rounded-lg text-sm font-medium">
+              <div className="flex flex-wrap gap-2">
+                <button className="bg-[#ff6b35] text-white px-4 py-2 rounded-lg text-sm font-medium min-h-[44px] min-w-[44px] touch-manipulation">
                   All Time
                 </button>
-                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors">
+                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors min-h-[44px] min-w-[44px] touch-manipulation">
                   This Month
                 </button>
-                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors">
+                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors min-h-[44px] min-w-[44px] touch-manipulation">
                   This Week
                 </button>
               </div>
@@ -154,7 +214,7 @@ export default function Leaderboards() {
                   </div>
                   <h4 className="text-lg font-medium text-white mb-2">Not Ranked Yet</h4>
                   <p className="text-[#a0a0a0] mb-4">Start trading to appear on the leaderboard</p>
-                  <button className="bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-6 py-3 rounded-lg font-medium hover:from-[#ff5722] hover:to-[#e64a19] transition-all duration-300">
+                  <button className="bg-gradient-to-r from-[#ff6b35] to-[#ff5722] text-white px-6 py-3 rounded-lg font-medium hover:from-[#ff5722] hover:to-[#e64a19] transition-all duration-300 min-h-[44px] touch-manipulation">
                     Start Trading
                   </button>
                 </div>
@@ -163,13 +223,26 @@ export default function Leaderboards() {
           </section>
         </div>
 
-        {/* Mobile Layout */}
+        {/* Mobile Layout - Enhanced */}
         <div className="lg:hidden px-4 space-y-6">
           <section className="bg-[#1a1a1a] rounded-2xl p-6 border border-[#333333]">
             <div className="space-y-6">
               <div>
                 <h1 className="text-2xl font-bold text-white mb-2">Leaderboards</h1>
-                <p className="text-[#a0a0a0]">Top performers in Pabs ecosystem</p>
+                <p className="text-[#a0a0a0] text-sm">Top performers in Pabs ecosystem</p>
+              </div>
+              
+              {/* Mobile Filter Tabs */}
+              <div className="flex space-x-2 overflow-x-auto pb-2">
+                <button className="bg-[#ff6b35] text-white px-4 py-2 rounded-lg text-sm font-medium min-h-[44px] min-w-[44px] touch-manipulation flex-shrink-0">
+                  All Time
+                </button>
+                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors min-h-[44px] min-w-[44px] touch-manipulation flex-shrink-0">
+                  This Month
+                </button>
+                <button className="bg-[#333333] text-[#a0a0a0] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#444444] transition-colors min-h-[44px] min-w-[44px] touch-manipulation flex-shrink-0">
+                  This Week
+                </button>
               </div>
               
               <div className="space-y-3">
@@ -183,6 +256,32 @@ export default function Leaderboards() {
                       </div>
                     </div>
                     <span className="text-sm text-green-500 font-medium">87.5%</span>
+                  </div>
+                </div>
+                
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <span className="text-lg mr-3">🥈</span>
+                      <div>
+                        <div className="font-medium text-white">BetaWhale</div>
+                        <div className="text-sm text-[#a0a0a0]">+$8,920</div>
+                      </div>
+                    </div>
+                    <span className="text-sm text-green-500 font-medium">82.1%</span>
+                  </div>
+                </div>
+                
+                <div className="bg-[#222222] rounded-lg p-4 border border-[#333333]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <span className="text-lg mr-3">🥉</span>
+                      <div>
+                        <div className="font-medium text-white">CryptoKing</div>
+                        <div className="text-sm text-[#a0a0a0]">+$6,780</div>
+                      </div>
+                    </div>
+                    <span className="text-sm text-green-500 font-medium">78.9%</span>
                   </div>
                 </div>
               </div>
